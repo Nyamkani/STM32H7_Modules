@@ -1,0 +1,5 @@
+1678176302871	Rename resource 'main.c'
+1678234978730	Rename resource 'main.c'
+1678235176359	Rename resource 'openAMP_RTOS_M7.c'
+1678258999461	Move 'openAMP_RTOS_M7.c' to 'src'
+1678259009337	Move 'openAMP_RTOS_M7.h' to 'openAMP_RTOS_M7'

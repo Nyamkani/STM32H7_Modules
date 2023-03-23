@@ -1,0 +1,3 @@
+../Core/Module/fatfs_h7/src/fatfs_h7.c:21:13:BSPInit	8	static
+../Core/Module/fatfs_h7/src/fatfs_h7.c:32:6:FatFsInit	24	static
+../Core/Module/fatfs_h7/src/fatfs_h7.c:72:6:FatFsTest	80	static

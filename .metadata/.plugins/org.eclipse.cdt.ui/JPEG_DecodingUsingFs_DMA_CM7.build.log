@@ -1,0 +1,10 @@
+13:07:00 **** Incremental Build of configuration Debug for project JPEG_DecodingUsingFs_DMA_CM7 ****
+make -j4 all 
+arm-none-eabi-size   JPEG_DecodingUsingFs_DMA_CM7.elf 
+   text	   data	    bss	    dec	    hex	filename
+  85196	    252	  20636	 106084	  19e64	JPEG_DecodingUsingFs_DMA_CM7.elf
+Finished building: default.size.stdout
+ 
+
+13:07:02 Build Finished. 0 errors, 0 warnings. (took 1s.647ms)
+

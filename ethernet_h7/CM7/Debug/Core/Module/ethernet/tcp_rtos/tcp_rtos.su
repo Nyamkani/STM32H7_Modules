@@ -1,0 +1,5 @@
+../Core/Module/ethernet/tcp_rtos/tcp_rtos.c:32:13:TCPServerThread	32	static
+../Core/Module/ethernet/tcp_rtos/tcp_rtos.c:110:6:TcpServerInit	16	static
+../Core/Module/ethernet/tcp_rtos/tcp_rtos.c:123:6:tcpsend	32	static
+../Core/Module/ethernet/tcp_rtos/tcp_rtos.c:131:13:TcpClientThread	24	static
+../Core/Module/ethernet/tcp_rtos/tcp_rtos.c:229:6:TcpClientInit	16	static

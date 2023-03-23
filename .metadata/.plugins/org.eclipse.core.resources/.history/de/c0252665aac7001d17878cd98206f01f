@@ -1,0 +1,26 @@
+/*
+ * fatfs.h
+ *
+ *  Created on: Mar 16, 2023
+ *      Author: studio3s
+ */
+
+#ifndef MODULE_FATFS_H7_INCLUDE_FATFS_H7_FATFS_H7_H_
+#define MODULE_FATFS_H7_INCLUDE_FATFS_H7_FATFS_H7_H_
+
+#include "ff.h"
+#include "bsp_driver_sd.h"
+#include "ff_gen_drv.h"
+#include "sd_diskio.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+static void BSPInit();
+
+void FatFsInit();
+
+void FatFsTest(const char *filename);
+
+
+#endif /* MODULE_FATFS_H7_INCLUDE_FATFS_H7_FATFS_H7_H_ */

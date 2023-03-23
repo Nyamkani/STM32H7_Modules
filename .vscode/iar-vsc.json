@@ -1,0 +1,4 @@
+{
+    "ewp": "${workspaceFolder}/STM32CubeH7-master/Drivers/CMSIS/DSP/Projects/IAR/arm_cortexM_math.ewp",
+    "configuration": "cortexM0l"
+}

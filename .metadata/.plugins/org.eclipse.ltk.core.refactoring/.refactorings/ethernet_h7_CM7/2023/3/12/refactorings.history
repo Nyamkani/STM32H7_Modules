@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;ethernet_h7_CM7/Core/Module/ethernet/tcp_rtos/tcp_rtos.cpp&apos; to &apos;tcp_rtos.c&apos;" description="Rename resource &apos;tcp_rtos.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Module/ethernet/tcp_rtos/tcp_rtos.cpp" name="tcp_rtos.c" stamp="1679373542707" updateReferences="true"/>
+</session>

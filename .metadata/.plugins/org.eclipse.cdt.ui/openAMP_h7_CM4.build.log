@@ -1,0 +1,10 @@
+08:59:49 **** Incremental Build of configuration Debug for project openAMP_h7_CM4 ****
+make -j4 all 
+arm-none-eabi-size   openAMP_h7_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  46744	    292	   2848	  49884	   c2dc	openAMP_h7_CM4.elf
+Finished building: default.size.stdout
+ 
+
+08:59:51 Build Finished. 0 errors, 0 warnings. (took 1s.329ms)
+
