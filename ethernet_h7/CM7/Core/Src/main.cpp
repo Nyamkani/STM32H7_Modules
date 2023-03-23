@@ -23,8 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <ethernet/tcp_rtos/tcp_rtos.h>
-#include <ethernet/udp_rtos/udp_rtos.h>
+#include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -324,11 +323,11 @@ void StartDefaultTask(void const * argument)
 	TcpServerInit();
 
 	/* definition and creation of Task1 */
-	osThreadDef(Task1, StartTask1, osPriorityLow, 0, 512);
+	osThreadDef(Task1, StartTask1, osPriorityLow, 0, 1024);
 	Task1Handle = osThreadCreate(osThread(Task1), NULL);
 
 	/* definition and creation of Task2 */
-	osThreadDef(ErrCheckTask, StartErrCheckTask, osPriorityHigh, 0, 512);
+	osThreadDef(ErrCheckTask, StartErrCheckTask, osPriorityHigh, 0, 1024);
 	Task2Handle = osThreadCreate(osThread(ErrCheckTask), NULL);
 
 
@@ -360,7 +359,6 @@ void StartTask1(void const *argument)
 
   for(;;)
   {
-    osDelay(1);
 
 	vTaskDelayUntil(&xLastWakeTime, xTime);
   }

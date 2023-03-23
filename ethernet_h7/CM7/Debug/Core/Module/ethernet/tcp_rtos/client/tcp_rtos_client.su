@@ -1,0 +1,3 @@
+../Core/Module/ethernet/tcp_rtos/client/tcp_rtos_client.c:27:6:TcpClientSend	32	static
+../Core/Module/ethernet/tcp_rtos/client/tcp_rtos_client.c:35:13:TcpClientThread	24	static
+../Core/Module/ethernet/tcp_rtos/client/tcp_rtos_client.c:131:6:TcpClientInit	16	static

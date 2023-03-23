@@ -83,10 +83,10 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h \
  ../LWIP/Target/ethernetif.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/tcp_rtos/tcp_rtos.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/udp_rtos/udp_rtos.h
+ ../../Middlewares/Third_Party/LwIP/src/include/lwip/netif.h
 ../Core/Inc/main.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
@@ -172,7 +172,7 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:
 ../LWIP/Target/ethernetif.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/tcp_rtos/tcp_rtos.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/udp_rtos/udp_rtos.h:
+../../Middlewares/Third_Party/LwIP/src/include/lwip/netif.h:

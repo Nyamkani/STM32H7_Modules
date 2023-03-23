@@ -32,7 +32,8 @@ CPP_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Common/Src \
-Core/Module/ethernet/tcp_rtos \
+Core/Module/ethernet/tcp_rtos/client \
+Core/Module/ethernet/tcp_rtos/server \
 Core/Module/ethernet/udp_rtos \
 Core/Src \
 Core/Startup \

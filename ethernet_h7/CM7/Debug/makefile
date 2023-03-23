@@ -18,7 +18,8 @@ RM := rm -rf
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include Core/Module/ethernet/udp_rtos/subdir.mk
--include Core/Module/ethernet/tcp_rtos/subdir.mk
+-include Core/Module/ethernet/tcp_rtos/server/subdir.mk
+-include Core/Module/ethernet/tcp_rtos/client/subdir.mk
 -include Common/Src/subdir.mk
 -include objects.mk
 
