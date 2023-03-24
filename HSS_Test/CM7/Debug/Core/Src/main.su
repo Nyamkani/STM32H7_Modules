@@ -7,5 +7,5 @@
 ../Core/Src/main.cpp:359:13:void MX_GPIO_Init()	56	static
 ../Core/Src/main.cpp:398:6:void StartInitTask(const void*)	16	static
 ../Core/Src/main.cpp:422:6:void MPU_Config()	24	static
-../Core/Src/main.cpp:480:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-../Core/Src/main.cpp:497:6:void Error_Handler()	4	static,ignoring_inline_asm
+../Core/Src/main.cpp:483:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+../Core/Src/main.cpp:500:6:void Error_Handler()	4	static,ignoring_inline_asm

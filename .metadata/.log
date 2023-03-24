@@ -2245,3 +2245,12 @@ java.lang.NullPointerException
 
 !ENTRY com.st.stm32cube.ide.mcu.debug.swv 1 1 2023-03-24 13:52:19.530
 !MESSAGE SWV configuration; base: 192000000; minDiv: 16; maxDiv: 65535; maxSWO: 12000000; limit: 12000000 => SWO: 12000000; CPU: 400000000; div: 33
+
+!ENTRY org.eclipse.cdt.core 1 0 2023-03-24 14:19:06.252
+!MESSAGE Indexed 'HSS_Test_CM7' (160 sources, 496 headers) in 29.1 sec: 33,061 declarations; 166,423 references; 0 unresolved inclusions; 39 syntax errors; 101 unresolved names (0.051%)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.swv 1 1 2023-03-24 14:19:42.958
+!MESSAGE SWV configuration; base: 192000000; minDiv: 16; maxDiv: 65535; maxSWO: 12000000; limit: 12000000 => SWO: 12000000; CPU: 400000000; div: 33
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.swv 1 1 2023-03-24 14:32:05.654
+!MESSAGE SWV configuration; base: 192000000; minDiv: 16; maxDiv: 65535; maxSWO: 12000000; limit: 12000000 => SWO: 12000000; CPU: 400000000; div: 33

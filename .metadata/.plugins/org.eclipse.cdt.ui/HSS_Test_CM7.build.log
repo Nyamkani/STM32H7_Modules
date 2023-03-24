@@ -1,10 +1,16 @@
-13:52:06 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+14:31:47 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
 make -j4 all 
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
 arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
    text	   data	    bss	    dec	    hex	filename
  148852	    160	 217235	 366247	  596a7	HSS_Test_CM7.elf
 Finished building: default.size.stdout
  
+Finished building: HSS_Test_CM7.list
+ 
 
-13:52:07 Build Finished. 0 errors, 0 warnings. (took 1s.353ms)
+14:31:50 Build Finished. 0 errors, 0 warnings. (took 2s.807ms)
 

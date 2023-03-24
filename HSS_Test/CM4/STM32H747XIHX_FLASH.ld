@@ -44,7 +44,10 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 MEMORY
 {
 FLASH (rx)     : ORIGIN = 0x08100000, LENGTH = 1024K
-RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 288K
+
+/*---Reduce ram size due to ETH from m7---*/
+/*RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 288K*/
+RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 128K
 }
 
 /* Define output sections */

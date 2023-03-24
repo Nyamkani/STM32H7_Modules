@@ -39,15 +39,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_ranges 00002ab0  00000000  00000000  00091438  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_macro  000538c2  00000000  00000000  00093ee8  2**0
+ 18 .debug_macro  000538c8  00000000  00000000  00093ee8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_line   00048f5b  00000000  00000000  000e77aa  2**0
+ 19 .debug_line   00048f5b  00000000  00000000  000e77b0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_str    001d2186  00000000  00000000  00130705  2**0
+ 20 .debug_str    001d2198  00000000  00000000  0013070b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .comment      00000050  00000000  00000000  0030288b  2**0
+ 21 .comment      00000050  00000000  00000000  003028a3  2**0
                   CONTENTS, READONLY
- 22 .debug_frame  0000c33c  00000000  00000000  003028dc  2**2
+ 22 .debug_frame  0000c33c  00000000  00000000  003028f4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2025,6 +2025,7 @@ void MPU_Config(void)
 
   /** Initializes and configures the Region and the memory to be protected
   */
+  /*Disable Speculative access*/
   MPU_InitStruct.Enable = MPU_REGION_ENABLE;
  8000f8e:	2301      	movs	r3, #1
  8000f90:	703b      	strb	r3, [r7, #0]
@@ -2064,6 +2065,7 @@ void MPU_Config(void)
  8000fbc:	4618      	mov	r0, r3
  8000fbe:	f000 fdb5 	bl	8001b2c <HAL_MPU_ConfigRegion>
 
+  /*Set LwIP Heap */
   /** Initializes and configures the Region and the memory to be protected
   */
   MPU_InitStruct.Number = MPU_REGION_NUMBER1;
@@ -2093,6 +2095,7 @@ void MPU_Config(void)
  8000fe0:	4618      	mov	r0, r3
  8000fe2:	f000 fda3 	bl	8001b2c <HAL_MPU_ConfigRegion>
 
+  /*RX & Tx Descriptors*/
   /** Initializes and configures the Region and the memory to be protected
   */
   MPU_InitStruct.Number = MPU_REGION_NUMBER2;
