@@ -1,4 +1,0 @@
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FatFs/src/option/syscall.c:36:5:ff_cre_syncobj	32	static
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FatFs/src/option/syscall.c:77:5:ff_del_syncobj	16	static
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FatFs/src/option/syscall.c:98:5:ff_req_grant	24	static
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FatFs/src/option/syscall.c:135:6:ff_rel_grant	16	static

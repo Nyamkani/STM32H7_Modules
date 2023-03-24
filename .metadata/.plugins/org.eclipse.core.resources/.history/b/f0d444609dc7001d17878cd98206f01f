@@ -1,3 +1,0 @@
-../Core/Module/fatfs_h7/src/fatfs_h7.cpp:21:13:void BSPInit()	8	static
-../Core/Module/fatfs_h7/src/fatfs_h7.cpp:32:6:void FatFsInit()	24	static
-../Core/Module/fatfs_h7/src/fatfs_h7.cpp:72:6:void FatFsTest(const char*)	80	static

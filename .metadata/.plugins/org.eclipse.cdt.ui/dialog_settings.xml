@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item key="LastUsedSourceTemplate" value="Default C++ source template"/>
-	<item key="org.eclipse.cdt.utils.ui.controls.FileListControl" value="${workspace_loc:/sdmmc_h7/CM7/Core/Module}"/>
+	<item key="org.eclipse.cdt.utils.ui.controls.FileListControl" value="${workspace_loc:/${ProjName}/Core/Module}"/>
 	<item key="LastUsedHeaderTemplate" value="Default C++ header template"/>
 	<section name="completion_proposal_size">
 	</section>
@@ -19,5 +19,14 @@
 		<item key="DIALOG_WIDTH" value="514"/>
 		<item key="DIALOG_HEIGHT" value="517"/>
 		<item key="DIALOG_FONT_NAME" value="1|Cantarell|11.0|0|GTK|1|"/>
+	</section>
+	<section name="PDOMSearchPage">
+		<item key="caseSensitive" value="false"/>
+		<item key="searchFlags" value="227191"/>
+		<list key="previousPatterns">
+			<item value="USE_LFN"/>
+			<item value="_write"/>
+			<item value="__write"/>
+		</list>
 	</section>
 </section>

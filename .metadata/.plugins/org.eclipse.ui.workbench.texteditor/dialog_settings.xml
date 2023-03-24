@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="f_gets"/>
+		<item key="selection" value="buff"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="buff"/>
+			<item value="alignedAddr"/>
+			<item value="SDRAM_DEVICE_ADDR"/>
+			<item value="ENABLE_SD_DMA_CACHE_MAINTENANCE"/>
+			<item value="FF_MAX_SS"/>
+			<item value="vq_desc_extra"/>
+			<item value="osSignalSet"/>
+			<item value="osSignal"/>
+			<item value="conn"/>
+			<item value="newconn"/>
+			<item value="addr"/>
+			<item value="dest_port"/>
+			<item value="port"/>
+			<item value="char_ethernet"/>
 			<item value="f_gets"/>
-			<item value="get"/>
-			<item value="FF_USE_MKFS"/>
-			<item value="FF_FS_READONLY"/>
-			<item value="f_mkfs"/>
-			<item value="mkfs"/>
-			<item value="fmt"/>
-			<item value="f_fdisk"/>
-			<item value="_USE_WRITE"/>
-			<item value="_VOLUMES"/>
-			<item value="_VOLUME"/>
-			<item value="FF_VOLUME"/>
-			<item value="BSP_SD_IRQHandler"/>
-			<item value="_sbss"/>
-			<item value=".data : "/>
 		</list>
 		<list key="replacehistory">
 			<item value="FF_VOLUMES"/>
