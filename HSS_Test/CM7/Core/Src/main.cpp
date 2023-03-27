@@ -52,7 +52,7 @@
 
 SD_HandleTypeDef hsd1;
 
-MDMA_HandleTypeDef hmdma_mdma_channel40_sdmmc1_end_data_0;
+MDMA_HandleTypeDef MDMA_SDMMC_Handle;
 osThreadId InitTaskHandle;
 /* USER CODE BEGIN PV */
 
@@ -312,34 +312,45 @@ static void MX_SDMMC1_SD_Init(void)
 static void MX_MDMA_Init(void)
 {
 
-  /* MDMA controller clock enable */
+  /*##-1- Enable the MDMA clock ###############################################*/
   __HAL_RCC_MDMA_CLK_ENABLE();
   /* Local variables */
 
   /* Configure MDMA channel MDMA_Channel0 */
-  /* Configure MDMA request hmdma_mdma_channel40_sdmmc1_end_data_0 on MDMA_Channel0 */
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Instance = MDMA_Channel0;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.Request = MDMA_REQUEST_SDMMC1_END_DATA;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.TransferTriggerMode = MDMA_BUFFER_TRANSFER;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.Priority = MDMA_PRIORITY_LOW;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.SourceInc = MDMA_SRC_INC_BYTE;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.DestinationInc = MDMA_DEST_INC_BYTE;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.SourceDataSize = MDMA_SRC_DATASIZE_BYTE;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.DestDataSize = MDMA_DEST_DATASIZE_BYTE;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.BufferTransferLength = 1;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.SourceBlockAddressOffset = 0;
-  hmdma_mdma_channel40_sdmmc1_end_data_0.Init.DestBlockAddressOffset = 0;
-  if (HAL_MDMA_Init(&hmdma_mdma_channel40_sdmmc1_end_data_0) != HAL_OK)
+  /* Configure MDMA request MDMA_SDMMC_Handle */
+
+  /*##-2- Select the MDMA instance to be used for the transfer : MDMA_Channel0 #*/
+  MDMA_SDMMC_Handle.Instance = MDMA_Channel0;
+
+  HAL_MDMA_DeInit(&MDMA_SDMMC_Handle);
+
+  /*##-3- Initialize the MDMA channel (with liked list node 0 parameters) ####*/
+  MDMA_SDMMC_Handle.Init.Request = MDMA_REQUEST_SDMMC1_END_DATA;
+  MDMA_SDMMC_Handle.Init.TransferTriggerMode = MDMA_BUFFER_TRANSFER;
+  MDMA_SDMMC_Handle.Init.Priority = MDMA_PRIORITY_LOW;
+  MDMA_SDMMC_Handle.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
+
+  MDMA_SDMMC_Handle.Init.SourceInc = MDMA_SRC_INC_BYTE;
+  MDMA_SDMMC_Handle.Init.DestinationInc = MDMA_DEST_INC_BYTE;
+
+  MDMA_SDMMC_Handle.Init.SourceDataSize = MDMA_SRC_DATASIZE_BYTE;
+  MDMA_SDMMC_Handle.Init.DestDataSize = MDMA_DEST_DATASIZE_BYTE;
+  MDMA_SDMMC_Handle.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
+  MDMA_SDMMC_Handle.Init.BufferTransferLength = 1;
+  MDMA_SDMMC_Handle.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
+  MDMA_SDMMC_Handle.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
+
+
+  MDMA_SDMMC_Handle.Init.SourceBlockAddressOffset = 0;
+  MDMA_SDMMC_Handle.Init.DestBlockAddressOffset = 0;
+
+  if (HAL_MDMA_Init(&MDMA_SDMMC_Handle) != HAL_OK)
   {
     Error_Handler();
   }
 
   /* Configure post request address and data masks */
-  if (HAL_MDMA_ConfigPostRequestMask(&hmdma_mdma_channel40_sdmmc1_end_data_0, 0, 0) != HAL_OK)
+  if (HAL_MDMA_ConfigPostRequestMask(&MDMA_SDMMC_Handle, 0, 0) != HAL_OK)
   {
     Error_Handler();
   }
@@ -369,9 +380,15 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
 
   /*Configure GPIO pin : uSD_Detect_Pin */
-  GPIO_InitStruct.Pin = uSD_Detect_Pin;
+/*  GPIO_InitStruct.Pin = uSD_Detect_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(uSD_Detect_GPIO_Port, &GPIO_InitStruct);*/
+
+  GPIO_InitStruct.Pin = uSD_Detect_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(uSD_Detect_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : CEC_CK_MCO1_Pin */
@@ -409,10 +426,11 @@ void StartInitTask(void const * argument)
 
 	  FatFsTest("test.txt");
 
+
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    vTaskDelete(NULL);
   }
   /* USER CODE END 5 */
 }
@@ -467,6 +485,20 @@ void MPU_Config(void)
   MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+  /*SDMMC_Config*/
+  /** Initializes and configures the Region and the memory to be protected
+  */
+/*  MPU_InitStruct.Number = MPU_REGION_NUMBER3;
+  MPU_InitStruct.BaseAddress = 0x24046000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);*/
+
+
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 

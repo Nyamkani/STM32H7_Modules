@@ -49,9 +49,14 @@ _Min_Stack_Size = 0x800; /* required amount of stack */
 MEMORY
 {
   RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH =  512K
-  FLASH   (rx)   : ORIGIN = 0x08000000, LENGTH = 1024K    /* Memory is divided. Actual start is 0x08000000 and actual length is 2048K */
-  DTCMRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K
   
+  /*---SDMMC Config---*/
+  /*SDMMC_RAM (xrw) : ORIGIN = 0x24046000, LENGTH =  32K*/
+  
+  /*---FALSH Config---*/
+  /* Memory is divided. Actual start is 0x08000000 and actual length is 2048K */
+  FLASH   (rx)   : ORIGIN = 0x08000000, LENGTH = 1024K    
+
   /*---ETH Config---*/
   /*  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K  */
   ETH_RAM (xrw)   : ORIGIN = 0x30020000, LENGTH = 160K   
@@ -62,6 +67,7 @@ MEMORY
   OPEN_AMP_SHMEM (xrw) : ORIGIN = 0x38000400, LENGTH = 63K
   
   ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
+  DTCMRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K
 }
 
 /* Sections */

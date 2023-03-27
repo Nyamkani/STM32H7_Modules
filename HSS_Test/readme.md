@@ -25,3 +25,5 @@ following documents are helpful.
 4. UM2411 - disco board user manual
 
 5. AN5200 - h7 sdmmc host controller
+
+6. AN4838 - An Introduction of MPU. (Table. 7 - page 13 (Highly recommend to see))

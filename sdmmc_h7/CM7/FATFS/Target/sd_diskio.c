@@ -260,7 +260,18 @@ DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
   osStatus_t status;
 #endif
 #if (ENABLE_SD_DMA_CACHE_MAINTENANCE == 1)
-  uint32_t alignedAddr;
+  //uint32_t alignedAddr;
+
+  /*---Edited for managing DCache*/
+  uint32_t alignedAddr = (uint32_t)buff & ~0x1F;
+
+  SCB_CleanDCache_by_Addr((uint32_t*)alignedAddr,
+  	   	   count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
+
+  SCB_InvalidateDCache_by_Addr((uint32_t*)alignedAddr,
+  		   	   	   count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
+  /*---Edited for managing DCache*/
+
 #endif
   /*
   * ensure the SDCard is ready for a new operation
@@ -302,14 +313,16 @@ DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
               if (BSP_SD_GetCardState() == SD_TRANSFER_OK)
               {
                 res = RES_OK;
+
 #if (ENABLE_SD_DMA_CACHE_MAINTENANCE == 1)
-                /*
-                the SCB_InvalidateDCache_by_Addr() requires a 32-Byte aligned address,
-                adjust the address and the D-Cache size to invalidate accordingly.
-                */
+
+                /*the SCB_InvalidateDCache_by_Addr() requires a 32-Byte aligned address,
+                adjust the address and the D-Cache size to invalidate accordingly.*/
+
                 alignedAddr = (uint32_t)buff & ~0x1F;
                 SCB_InvalidateDCache_by_Addr((uint32_t*)alignedAddr, count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
 #endif
+
                 break;
               }
             }
