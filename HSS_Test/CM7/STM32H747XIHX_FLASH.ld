@@ -36,8 +36,7 @@
 ENTRY(Reset_Handler)
 
 /* Highest address of the user mode stack */
-/*_estack = ORIGIN(RAM_D1) + LENGTH(RAM_D1); /* end of "RAM_D1" Ram type memory */
-_estack = ORIGIN(DTCMRAM) + LENGTH(DTCMRAM); /* end of "DTCM" Ram type memory */
+_estack = ORIGIN(RAM_D1) + LENGTH(RAM_D1); /* end of "RAM_D1" Ram type memory */
 
 /*---To increase stack size for reading sd card ---*/
 /*_Min_Heap_Size = 0x200;*/ 
@@ -50,10 +49,7 @@ _Min_Stack_Size = 0x800; /* required amount of stack */
 MEMORY
 {
   RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH =  512K
-  
-  /*---SDMMC Config---*/
-  /*SDMMC_RAM (xrw) : ORIGIN = 0x24046000, LENGTH =  32K*/
-  
+    
   /*---FALSH Config---*/
   /* Memory is divided. Actual start is 0x08000000 and actual length is 2048K */
   FLASH   (rx)   : ORIGIN = 0x08000000, LENGTH = 1024K    

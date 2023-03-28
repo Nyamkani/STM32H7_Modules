@@ -8,10 +8,11 @@
 #ifndef MODULE_ETHERNET_TCP_RTOS_TCP_RTOS_H_
 #define MODULE_ETHERNET_TCP_RTOS_TCP_RTOS_H_
 
+#include <string>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 #include "lwip/opt.h"
 #include "lwip/api.h"
@@ -25,10 +26,11 @@ extern "C" {
 void TcpServerInit(void);
 void TcpServerSend(const char *data);
 void TcpServerDelete();
+void TcpServerRecvBuffer(const char *data);
+
 
 #ifdef __cplusplus
 }
 #endif
-
 
 #endif /* MODULE_ETHERNET_TCP_RTOS_TCP_RTOS_H_ */

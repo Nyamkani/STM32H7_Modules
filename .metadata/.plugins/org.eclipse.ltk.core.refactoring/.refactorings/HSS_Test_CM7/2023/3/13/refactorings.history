@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;HSS_Test_CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.c&apos; to &apos;tcp_rtos_server.cpp&apos;" description="Rename resource &apos;tcp_rtos_server.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.c" name="tcp_rtos_server.cpp" stamp="1679978038380" updateReferences="true"/>
+</session>

@@ -126,3 +126,26 @@ void FatFsTest(const char *filename)
   }
 }
 
+int SDCard_Write(const char *filename, const char *msg)
+{
+	const char* msg_ = msg;
+	FRESULT res = FR_OK;
+	uint32_t written_bytes=0;
+	char buf[1024];
+
+	if(f_mount(&SDFatFs, (TCHAR const*)SDPath, 1) != FR_OK) return (int)res;
+
+	res = f_open(&SDFile, (const char*)filename, FA_WRITE | FA_OPEN_APPEND);
+
+	if(res == FR_OK)
+	{
+		sprintf(buf,"Your TCP data was : %s\r\n", msg_);
+		f_write(&SDFile, (const void*)buf, strlen(buf), (unsigned int*)&written_bytes);
+		printf("%s is written, Tick : %ld, %ld bytes written.\r\n", buf, HAL_GetTick(), written_bytes);
+
+	    f_close(&SDFile);
+	}
+
+	return (int)res;
+}
+

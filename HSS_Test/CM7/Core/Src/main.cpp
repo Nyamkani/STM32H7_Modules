@@ -28,6 +28,9 @@
 #include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
 
 #include <fatfs_h7/include/fatfs_h7/fatfs_h7.h>
+
+#include "api_debug/api_debug.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,8 +57,10 @@ SD_HandleTypeDef hsd1;
 
 MDMA_HandleTypeDef MDMA_SDMMC_Handle;
 osThreadId InitTaskHandle;
-/* USER CODE BEGIN PV */
+osThreadId Task1Handle;
+osThreadId Task2Handle;
 
+/* USER CODE BEGIN PV */
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -65,6 +70,8 @@ static void MX_GPIO_Init(void);
 static void MX_MDMA_Init(void);
 static void MX_SDMMC1_SD_Init(void);
 void StartInitTask(void const * argument);
+void StartTask1(void const * argument);
+void StartTask2(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -304,6 +311,7 @@ static void MX_SDMMC1_SD_Init(void)
 
 }
 
+
 /**
   * Enable MDMA controller clock
   * Configure MDMA for global transfers
@@ -379,12 +387,6 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
 
-  /*Configure GPIO pin : uSD_Detect_Pin */
-/*  GPIO_InitStruct.Pin = uSD_Detect_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(uSD_Detect_GPIO_Port, &GPIO_InitStruct);*/
-
   GPIO_InitStruct.Pin = uSD_Detect_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
@@ -414,17 +416,28 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartInitTask */
 void StartInitTask(void const * argument)
 {
-	  /* init code for LWIP */
-	  MX_LWIP_Init();
-	  /* USER CODE BEGIN 5 */
+	/* init code for LWIP */
+	MX_LWIP_Init();
+	/* USER CODE BEGIN 5 */
 
-	  TcpServerInit();
+	//0. check printf alive
+	printf("Hello World!\n");
 
-	  printf("Hello World!\n");
+	//1. TCP server initialize
+	TcpServerInit();
 
-	  FatFsInit();
+	//2. FATfs Initialize
+	FatFsInit();
+	//FatFsTest("test.txt");
 
-	  FatFsTest("test.txt");
+
+	/* definition and creation of Task1 */
+	osThreadDef(Task1, StartTask1, osPriorityLow, 0, 1024);
+	Task1Handle = osThreadCreate(osThread(Task1), NULL);
+
+	/* definition and creation of Task2 */
+	osThreadDef(Task2, StartTask2, osPriorityHigh, 0, 1024);
+	Task2Handle = osThreadCreate(osThread(Task2), NULL);
 
 
   /* Infinite loop */
@@ -434,6 +447,74 @@ void StartInitTask(void const * argument)
   }
   /* USER CODE END 5 */
 }
+
+/* USER CODE BEGIN StartTask1 */
+/**
+* @brief Function implementing the Task1 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Task1 */
+void StartTask1(void const *argument)
+{
+  /* USER CODE BEGIN StartCommonSensorTask */
+
+	const TickType_t xTime = pdMS_TO_TICKS(5);
+
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+
+  /* Infinite loop */
+
+  for(;;)
+  {
+    osDelay(1);
+
+	vTaskDelayUntil(&xLastWakeTime, xTime);
+  }
+  /* USER CODE END StartTask1 */
+}
+
+/* USER CODE BEGIN StartTask2 */
+/**
+* @brief Function implementing the Task2 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END StartTask2 */
+
+void StartTask2(void const *argument)
+{
+  /* USER CODE BEGIN Task2 */
+
+	const TickType_t xTime = pdMS_TO_TICKS(2);
+
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+
+  /* Infinite loop */
+  for(;;)
+  {
+	DebugDrive();
+
+	osDelay(1);
+
+	vTaskDelayUntil(&xLastWakeTime, xTime);
+
+	//vTaskDelay(pdMS_TO_TICKS(80));
+	}
+  /* USER CODE END StartTask2 */
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* MPU Configuration */
 
@@ -485,18 +566,6 @@ void MPU_Config(void)
   MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
-
-  /*SDMMC_Config*/
-  /** Initializes and configures the Region and the memory to be protected
-  */
-/*  MPU_InitStruct.Number = MPU_REGION_NUMBER3;
-  MPU_InitStruct.BaseAddress = 0x24046000;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
-  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-
-  HAL_MPU_ConfigRegion(&MPU_InitStruct);*/
 
 
   /* Enables the MPU */

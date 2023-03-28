@@ -31,10 +31,10 @@ _Min_Stack_Size = 0x800; /* required amount of stack */
 ``` 
 
 ## 3. in sd_diskio.c file  
-	line 72. if you use MDMA.  
-
+	
 ```c
 
+/*line 72. if you use MDMA.*/
 /*make define uncomment*/ 
 "#define ENABLE_SD_DMA_CACHE_MAINTENANCE  1"
 

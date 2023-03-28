@@ -1,0 +1,8 @@
+../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h:147:19:rpmsg_send	32	static
+../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h:286:20:rpmsg_init_ept	24	static
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.c:27:12:rpmsg_recv_callback	24	static
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.c:37:14:receive_message	16	static
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.c:55:8:service_destroy_cb	16	static
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.c:62:6:new_service_cb	32	static
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.c:76:13:StartOpenAMP_Thread	48	static
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.c:169:6:OpenAMPInit_M7	48	static
