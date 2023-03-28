@@ -263,7 +263,7 @@ DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
   //uint32_t alignedAddr;
 
   /*---Edited for managing DCache*/
-  uint32_t alignedAddr = (uint32_t)buff & ~0x1F;
+  uint32_t alignedAddr = (uint32_t)buff	 & ~0x1F;
 
   SCB_CleanDCache_by_Addr((uint32_t*)alignedAddr,
   	   	   count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
