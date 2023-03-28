@@ -1,22 +1,23 @@
-#this project has generated for Ethernet+rtos for stm32h7.
+# this project has generated for Ethernet+rtos for stm32h7.
 
+* standard Flash Memory Area  
 
-* standard Flash Memory Area
-    * CPU1(CM7) 0x00800000
-    * CPU2(CM4) 0x00810000
+    CPU1(CM7) 0x00800000  
+    CPU2(CM4) 0x00810000  
+    
+* standard SRAM area  
+    * CPU1  
+        D1 0x24000000 (512KB)  
+        D2 0x30000000 (288KB)   
+        D3 0x38000000 (64KB)  
 
-* standard sRam area
-    * CPU1 
-        * D1 0x24000000 (512KB) 
-        * D2 0x30000000 (288KB) 
-        * D3 0x38000000 (64KB)
-    * CPU2 (alias)
-        * D1 0x10000000 (KB) 
-        * D2 0x10020000 (KB) 
-        * D3 0x10040000 (KB)
+    * CPU2 (alias)  
+        D1 0x10000000 (-KB)  
+        D2 0x10020000 (-KB)  
+        D3 0x10040000 (-KB)  
+  
 
-
-* 0. Modified this code to linker  "xx_flash.ld"
+## 0. Modified this code to linker  "xx_flash.ld"  
 
 ```c
 
@@ -56,42 +57,39 @@ MEMORY
 
 
 ```
+  
+## 1. Add define for project configuration "xx_flash.ld"  
 
-* 1. Add define for project configuration "xx_flash.ld"
-
-    * 1-1. c/c++ build -> GCC/G++ compiler -> preprocesser - > add "DATA_IN_D2_SRAM"
-
-
-* 2. Changed files are followed below.
-
-    * 2-1. STM32H747XIHX_FLASH.ld -> memory area has been changed. also, lwip ram memory area has beed added.
-
-    * 2-2. ethernetif.c, lwip.c -> ethernet link thread has been deleted -> merging with ethernet_input thread 
-
-    * 2-3. LAN8742.c -> auto nego. time increased 2s->5s
-
-* 3. Added files are followed below.
-
-    * 3-1. udp server, client source files
-
-    * 3-2. tcp server, client source files
-
-* 4. .ioc - ethernet + rtos settings
-
-    * 4-1. Enable rtos -> 512 words, 30720 heap memory, cmsis-v1 recommended
-
-    * 4-2. lwip 
-
-        * 4-2-1). MEM_Size(heap) 0x20000 -> 128KB byte(s) 
-
-        * 4-3-2). main memory pointer is in D2-SRAM3 - 0x30020000 ~ 0x30040000 
-
-
-
-* 5. MPU settings
-
-    * 5-1. enable i/d cache and Protection area in D3(lwip) 0x30040000~(32KB) all enable(permtiable) and buffable is disable
-
+    1-1. c/c++ build -> GCC/G++ compiler -> preprocesser - > add "DATA_IN_D2_SRAM"  
+  
+## 2. Changed files are followed below.  
+  
+    2-1. STM32H747XIHX_FLASH.ld -> memory area has been changed. also, lwip ram memory area has beed added.  
+  
+    2-2. ethernetif.c, lwip.c -> ethernet link thread has been deleted -> merging with ethernet_input thread.  
+  
+    2-3. LAN8742.c -> auto nego. time increased 2s->5s  
+  
+##  3. Added files are followed below.  
+  
+    3-1. udp server, client source files  
+  
+    3-2. tcp server, client source files  
+  
+## 4. .ioc - ethernet + rtos settings  
+  
+    4-1. Enable rtos -> 512 words, 30720 heap memory, cmsis-v1 recommended  
+  
+    4-2. lwip   
+  
+        4-2-1). MEM_Size(heap) 0x20000 -> 128KB byte(s)   
+  
+        4-3-2). main memory pointer is in D2-SRAM3 - 0x30020000 ~ 0x30040000   
+  
+## 5. MPU settings  
+  
+    5-1. enable i/d cache and Protection area in D3(lwip) 0x30040000~(32KB) all enable(permtiable) and buffable is disable  
+  
 ```c
 
 

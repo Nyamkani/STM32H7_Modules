@@ -1,8 +1,4 @@
-#this project has generated for rtos+openAMP for stm32h7.
-
-
-%added this code to linker  "xx_flash.ld"
-
+# this project has generated for rtos+openAMP for stm32h7.
 
 * 0. Modified this code to linker  "xx_flash.ld"
 

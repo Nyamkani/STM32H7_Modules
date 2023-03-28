@@ -3170,3 +3170,9 @@ java.lang.Exception: Resource '/JPEG_DecodingUsingFs_DMA' does not exist.
 
 !ENTRY com.st.stm32cube.ide.mcu.debug.swv 1 1 2023-03-27 18:39:52.357
 !MESSAGE SWV configuration; base: 192000000; minDiv: 16; maxDiv: 65535; maxSWO: 12000000; limit: 12000000 => SWO: 12000000; CPU: 400000000; div: 33
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.swv 1 1 2023-03-28 09:37:33.489
+!MESSAGE SWV configuration; base: 192000000; minDiv: 16; maxDiv: 65535; maxSWO: 12000000; limit: 12000000 => SWO: 12000000; CPU: 400000000; div: 33
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.swv 1 1 2023-03-28 09:39:47.957
+!MESSAGE SWV configuration; base: 192000000; minDiv: 16; maxDiv: 65535; maxSWO: 12000000; limit: 12000000 => SWO: 12000000; CPU: 400000000; div: 33

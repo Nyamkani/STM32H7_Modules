@@ -1,16 +1,22 @@
-#this project has generated for mdma+sdmmc+FATfs+rtos for stm32h7.
-
-* 0. porting fatfs library - > use "R0.15" Highly recommended because lib. generated from cubeide is not working(R0.12)
-    * 0-1. highly recommend to copy fatfs lib. from this project 
-    * 0-2. make generate code using cubeide then paste related "Fatfs" lib.
-
-* 1. .ioc - sdmmc1 + MDMA settings
-    * 1-1. sdmmc1- cortex-m7 enable - sd 4 bits wide bus
-    * 1-2. mdma - add channel - sdmmc1 data end
-    * 1-3. nvic - sdmmc1 global interrupt, mdma global interrupt
-    * 1-4. fatfs(m7) - detect_sdio ->gpio:input - uSD_Detect
+# this project has generated for mdma+sdmmc+FATfs+rtos for stm32h7.
+  
+## 0. porting fatfs library - > use "R0.15" Highly recommended because lib. generated from cubeide is not working(R0.12)  
+  
+    0-1. highly recommend to copy fatfs lib. from this project  
+  
+    0-2. make generate code using cubeide then paste related "Fatfs" lib.  
+  
+## 1. .ioc - sdmmc1 + MDMA settings  
+  
+    1-1. sdmmc1- cortex-m7 enable - sd 4 bits wide bus  
+  
+    1-2. mdma - add channel - sdmmc1 data end  
+  
+    1-3. nvic - sdmmc1 global interrupt, mdma global interrupt  
+  
+    1-4. fatfs(m7) - detect_sdio ->gpio:input - uSD_Detect  
     
-* 2. Modified this code to linker  "xx_flash.ld"
+## 2. Modified this code to linker  "xx_flash.ld"  
 
 ```c
 
@@ -24,20 +30,15 @@ _Min_Stack_Size = 0x800; /* required amount of stack */
 
 ``` 
 
-* 3. in sd_diskio.c file
-	* line 72. if you use MDMA. 
+## 3. in sd_diskio.c file  
+	line 72. if you use MDMA.  
 
 ```c
 
 /*make define uncomment*/ 
 "#define ENABLE_SD_DMA_CACHE_MAINTENANCE  1"
 
-```
-
-    * line 262. if you use MDMA. edit your code 
-    
-```c
-
+/*line 262. if you use MDMA. edit your code */ 
 /*change this*/
 #if (ENABLE_SD_DMA_CACHE_MAINTENANCE == 1)
 //uint32_t alignedAddr;
@@ -52,14 +53,11 @@ _Min_Stack_Size = 0x800; /* required amount of stack */
                     count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
     /*---Edited for managing DCache*/
 
-    #endif
+#endif
 
-```
+...
 
-    *line 317. if you use MDMA. edit your code 
-
-```c
-
+/*line 317. if you use MDMA. edit your code*/ 
 /*change this*/
 #if (ENABLE_SD_DMA_CACHE_MAINTENANCE == 1)
 

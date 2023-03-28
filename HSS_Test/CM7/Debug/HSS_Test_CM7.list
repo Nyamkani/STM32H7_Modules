@@ -3085,7 +3085,7 @@ void *_sbrk(ptrdiff_t incr)
  8001498:	46bd      	mov	sp, r7
  800149a:	f85d 7b04 	ldr.w	r7, [sp], #4
  800149e:	4770      	bx	lr
- 80014a0:	24080000 	.word	0x24080000
+ 80014a0:	20020000 	.word	0x20020000
  80014a4:	00000800 	.word	0x00000800
  80014a8:	24001244 	.word	0x24001244
  80014ac:	2400f9a8 	.word	0x2400f9a8
@@ -3170,7 +3170,7 @@ LoopFillZerobss:
   bx  lr
  80014ea:	4770      	bx	lr
   ldr   sp, =_estack      /* set stack pointer */
- 80014ec:	24080000 	.word	0x24080000
+ 80014ec:	20020000 	.word	0x20020000
   ldr r0, =_sdata
  80014f0:	24000000 	.word	0x24000000
   ldr r1, =_edata
@@ -28297,7 +28297,7 @@ DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
   //uint32_t alignedAddr;
 
   /*---Edited for managing DCache*/
-  uint32_t alignedAddr = (uint32_t)buff & ~0x1F;
+  uint32_t alignedAddr = (uint32_t)buff	 & ~0x1F;
  800a9de:	68bb      	ldr	r3, [r7, #8]
  800a9e0:	f023 031f 	bic.w	r3, r3, #31
  800a9e4:	64bb      	str	r3, [r7, #72]	; 0x48
