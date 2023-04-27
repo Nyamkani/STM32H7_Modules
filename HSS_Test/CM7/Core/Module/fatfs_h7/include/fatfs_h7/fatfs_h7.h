@@ -26,7 +26,9 @@ void FatFsInit();
 
 void FatFsTest(const char *filename);
 
-int SDCard_Write(const char *filename, const char *msg);
+
+int SDCard_Read(const char *filename);
+int SDCard_Write(const char *filename, const char *msg, int msg_leng_);
 
 #ifdef __cplusplus
 }

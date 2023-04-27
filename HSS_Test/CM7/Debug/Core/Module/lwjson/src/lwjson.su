@@ -1,0 +1,14 @@
+../Core/Module/lwjson/src/lwjson.c:52:1:prv_alloc_token	16	static
+../Core/Module/lwjson/src/lwjson.c:66:1:prv_skip_blank	16	static
+../Core/Module/lwjson/src/lwjson.c:107:1:prv_parse_string	40	static
+../Core/Module/lwjson/src/lwjson.c:169:1:prv_parse_property_name	24	static
+../Core/Module/lwjson/src/lwjson.c:200:1:prv_parse_number	112	static
+../Core/Module/lwjson/src/lwjson.c:291:1:prv_create_path_segment	32	static
+../Core/Module/lwjson/src/lwjson.c:342:1:prv_find	64	static
+../Core/Module/lwjson/src/lwjson.c:415:1:prv_check_valid_char_after_open_bracket	24	static
+../Core/Module/lwjson/src/lwjson.c:439:1:lwjson_init	24	static
+../Core/Module/lwjson/src/lwjson.c:457:1:lwjson_parse_ex	56	static
+../Core/Module/lwjson/src/lwjson.c:659:1:lwjson_parse	16	static
+../Core/Module/lwjson/src/lwjson.c:669:1:lwjson_free	16	static
+../Core/Module/lwjson/src/lwjson.c:683:1:lwjson_find	16	static
+../Core/Module/lwjson/src/lwjson.c:702:1:lwjson_find_ex	24	static

@@ -707,28 +707,26 @@ static void StartOpenAMP_Thread(void const *argument)
   while (message < 100)
  80006b0:	e017      	b.n	80006e2 <StartOpenAMP_Thread+0xbe>
   {
-
-   /* Send the massage to the remote CPU */
-	status = OPENAMP_send(&rp_endpoint, &message, sizeof(message));
- 80006b2:	2204      	movs	r2, #4
- 80006b4:	4919      	ldr	r1, [pc, #100]	; (800071c <StartOpenAMP_Thread+0xf8>)
- 80006b6:	4817      	ldr	r0, [pc, #92]	; (8000714 <StartOpenAMP_Thread+0xf0>)
- 80006b8:	f7ff ff08 	bl	80004cc <rpmsg_send>
- 80006bc:	61f8      	str	r0, [r7, #28]
-
    /* Receive the massage from the remote CPU */
     message = receive_message();
- 80006be:	f7ff ff5d 	bl	800057c <receive_message>
- 80006c2:	4603      	mov	r3, r0
- 80006c4:	4a15      	ldr	r2, [pc, #84]	; (800071c <StartOpenAMP_Thread+0xf8>)
- 80006c6:	6013      	str	r3, [r2, #0]
+ 80006b2:	f7ff ff63 	bl	800057c <receive_message>
+ 80006b6:	4603      	mov	r3, r0
+ 80006b8:	4a18      	ldr	r2, [pc, #96]	; (800071c <StartOpenAMP_Thread+0xf8>)
+ 80006ba:	6013      	str	r3, [r2, #0]
     message++;
- 80006c8:	4b14      	ldr	r3, [pc, #80]	; (800071c <StartOpenAMP_Thread+0xf8>)
- 80006ca:	681b      	ldr	r3, [r3, #0]
- 80006cc:	3301      	adds	r3, #1
- 80006ce:	4a13      	ldr	r2, [pc, #76]	; (800071c <StartOpenAMP_Thread+0xf8>)
- 80006d0:	6013      	str	r3, [r2, #0]
+ 80006bc:	4b17      	ldr	r3, [pc, #92]	; (800071c <StartOpenAMP_Thread+0xf8>)
+ 80006be:	681b      	ldr	r3, [r3, #0]
+ 80006c0:	3301      	adds	r3, #1
+ 80006c2:	4a16      	ldr	r2, [pc, #88]	; (800071c <StartOpenAMP_Thread+0xf8>)
+ 80006c4:	6013      	str	r3, [r2, #0]
 
+   /* Send the massage to the remote CPU */
+    status = OPENAMP_send(&rp_endpoint, &message, sizeof(message));
+ 80006c6:	2204      	movs	r2, #4
+ 80006c8:	4914      	ldr	r1, [pc, #80]	; (800071c <StartOpenAMP_Thread+0xf8>)
+ 80006ca:	4812      	ldr	r0, [pc, #72]	; (8000714 <StartOpenAMP_Thread+0xf0>)
+ 80006cc:	f7ff fefe 	bl	80004cc <rpmsg_send>
+ 80006d0:	61f8      	str	r0, [r7, #28]
     osDelay(1);
  80006d2:	2001      	movs	r0, #1
  80006d4:	f004 f99f 	bl	8004a16 <osDelay>

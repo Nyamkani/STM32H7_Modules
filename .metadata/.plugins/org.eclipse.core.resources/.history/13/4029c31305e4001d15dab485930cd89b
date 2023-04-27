@@ -1,0 +1,21 @@
+/*
+ * api_rapidjson.h
+ *
+ *  Created on: Apr 26, 2023
+ *      Author: studio3s
+ */
+
+#ifndef MODULE_RAPIDJSON_INCLUDE_RAPIDJSON_API_RAPIDJSON_H_
+#define MODULE_RAPIDJSON_INCLUDE_RAPIDJSON_API_RAPIDJSON_H_
+
+
+#include "rapidjson/document.h"     // rapidjson's DOM-style API
+#include "rapidjson/prettywriter.h" // for stringify JSON
+
+
+
+
+
+
+
+#endif /* MODULE_RAPIDJSON_INCLUDE_RAPIDJSON_API_RAPIDJSON_H_ */

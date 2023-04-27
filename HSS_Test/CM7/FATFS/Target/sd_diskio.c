@@ -85,7 +85,7 @@ See BSP_SD_ErrorCallback() and BSP_SD_AbortCallback() below
 * transfer data
 */
 /* USER CODE BEGIN enableScratchBuffer */
-//#define ENABLE_SCRATCH_BUFFER
+#define ENABLE_SCRATCH_BUFFER
 /* USER CODE END enableScratchBuffer */
 
 /* Private variables ---------------------------------------------------------*/
@@ -265,11 +265,13 @@ DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
   /*---Edited for managing DCache*/
   uint32_t alignedAddr = (uint32_t)buff	 & ~0x1F;
 
-  SCB_CleanDCache_by_Addr((uint32_t*)alignedAddr,
-  	   	   count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
+/*  SCB_CleanInvalidateDCache_by_Addr((uint32_t*)alignedAddr,
+	   	   	   count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));*/
 
   SCB_InvalidateDCache_by_Addr((uint32_t*)alignedAddr,
-  		   	   	   count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
+  	   	   count*BLOCKSIZE + ((uint32_t)buff - alignedAddr));
+
+
   /*---Edited for managing DCache*/
 
 #endif

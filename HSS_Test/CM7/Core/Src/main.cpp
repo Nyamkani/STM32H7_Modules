@@ -17,25 +17,24 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+#include <main.h>
 #include "cmsis_os.h"
 #include "fatfs.h"
 #include "lwip.h"
-#include "openamp.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
-
 #include <fatfs_h7/include/fatfs_h7/fatfs_h7.h>
-
+#include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
 #include "api_debug/api_debug.h"
+
 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+extern _Message* tcp_recv_msg_;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -56,11 +55,27 @@
 SD_HandleTypeDef hsd1;
 
 MDMA_HandleTypeDef MDMA_SDMMC_Handle;
+//task handle
 osThreadId InitTaskHandle;
 osThreadId Task1Handle;
 osThreadId Task2Handle;
 
+//msg q handle
+osMessageQId myQueue01Handle;
+osMessageQId TCPSendQueueHandle;
+
+//memory pool
+osPoolId Pool_ID ;
+
+
+//eventflag
+//EventGroupHandle_t evtGrpHandle;
+//uint32_t evtFlag = 0x11;
+//uint32_t evtFlag2 = 0x02;
+
 /* USER CODE BEGIN PV */
+
+uint32_t timeout;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -102,6 +117,11 @@ int _write(int file, char *ptr, int len)
 
 /* USER CODE END 0 */
 
+
+
+
+
+
 /**
   * @brief  The application entry point.
   * @retval int
@@ -126,12 +146,14 @@ int main(void)
 
 /* USER CODE BEGIN Boot_Mode_Sequence_1 */
   /* Wait until CPU2 boots and enters in stop mode or timeout*/
-/*  timeout = 0xFFFF;
+
+  timeout = 0xFFFF;
   while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) != RESET) && (timeout-- > 0));
   if ( timeout < 0 )
   {
-  Error_Handler();
-  }*/
+	 Error_Handler();
+  }
+
 /* USER CODE END Boot_Mode_Sequence_1 */
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -144,23 +166,6 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
-/* USER CODE BEGIN Boot_Mode_Sequence_2 */
-/* When system initialization is finished, Cortex-M7 will release Cortex-M4 by means of
-HSEM notification */
-/*HW semaphore Clock enable*/
-__HAL_RCC_HSEM_CLK_ENABLE();
-/*Take HSEM */
-HAL_HSEM_FastTake(HSEM_ID_0);
-/*Release HSEM in order to notify the CPU2(CM4)*/
-HAL_HSEM_Release(HSEM_ID_0,0);
-/* wait until CPU2 wakes up from stop mode */
-/*timeout = 0xFFFF;
-while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) == RESET) && (timeout-- > 0));
-if ( timeout < 0 )
-{
-Error_Handler();
-}*/
-/* USER CODE END Boot_Mode_Sequence_2 */
 
   /* USER CODE BEGIN SysInit */
 
@@ -405,6 +410,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartInitTask */
@@ -430,21 +436,32 @@ void StartInitTask(void const * argument)
 	FatFsInit();
 	//FatFsTest("test.txt");
 
+	//3. openAMP_h7 initialize
+	OpenAMPInit_M7();
+
+	//message pool
+	 osPoolDef (Pool_ID_, sizeof(*tcp_recv_msg_), &tcp_recv_msg_);
+	 Pool_ID = osPoolCreate(osPool(Pool_ID_));
+
+	//send data from tcp data to main queue
+	osMessageQDef(myQueue01, sizeof(*tcp_recv_msg_), &tcp_recv_msg_);
+	myQueue01Handle = osMessageCreate(osMessageQ(myQueue01), NULL);
+
+	//main to tcp sender
+	//osMessageQDef(tcpsendq, 16, _Message);
+	//TCPSendQueueHandle = osMessageCreate(osMessageQ(tcpsendq), NULL);
 
 	/* definition and creation of Task1 */
-	osThreadDef(Task1, StartTask1, osPriorityLow, 0, 1024);
+	osThreadDef(Task1, StartTask1, osPriorityLow, 0, configMINIMAL_STACK_SIZE *2);
 	Task1Handle = osThreadCreate(osThread(Task1), NULL);
 
 	/* definition and creation of Task2 */
-	osThreadDef(Task2, StartTask2, osPriorityHigh, 0, 1024);
+	osThreadDef(Task2, StartTask2, osPriorityHigh, 0, configMINIMAL_STACK_SIZE *6);
 	Task2Handle = osThreadCreate(osThread(Task2), NULL);
 
-
-  /* Infinite loop */
-  for(;;)
-  {
+	/*Delete Itself*/
     vTaskDelete(NULL);
-  }
+
   /* USER CODE END 5 */
 }
 
@@ -467,9 +484,8 @@ void StartTask1(void const *argument)
 
   for(;;)
   {
-    osDelay(1);
-
-	vTaskDelayUntil(&xLastWakeTime, xTime);
+	 osDelay(1);
+	//vTaskDelayUntil(&xLastWakeTime, xTime);
   }
   /* USER CODE END StartTask1 */
 }
@@ -486,18 +502,79 @@ void StartTask2(void const *argument)
 {
   /* USER CODE BEGIN Task2 */
 
-	const TickType_t xTime = pdMS_TO_TICKS(2);
+	//const TickType_t xTime = pdMS_TO_TICKS(2);
 
-	TickType_t xLastWakeTime = xTaskGetTickCount();
+	//TickType_t xLastWakeTime = xTaskGetTickCount();
+
+	_Message* recv_msg = NULL;
+	_Message send_msg;
+	char* send_buf = NULL;
+	//char char_temp_buf[1024*3] = {0,};
+	osEvent retVal;
+
 
   /* Infinite loop */
   for(;;)
   {
-	DebugDrive();
+	  retVal = osMessageGet(myQueue01Handle, osWaitForever); //dequeue
 
-	osDelay(1);
+	  if(retVal.status == osEventMessage)
+	  {
 
-	vTaskDelayUntil(&xLastWakeTime, xTime);
+		  	//message allocation
+			recv_msg  = new _Message;
+
+			//get data
+			memcpy(recv_msg, (_Message*)retVal.value.p, sizeof(*tcp_recv_msg_));
+
+			//get element
+			send_buf = new char[recv_msg->leng_+1];
+			//char send_buf[recv_msg->leng_ + 1];
+
+			send_buf[recv_msg->leng_] = '\0';
+
+			strncpy (send_buf, recv_msg->data_, recv_msg->leng_);   // get the message from the client
+
+			//length check
+
+
+
+			//check data length
+
+			DebugDrive(recv_msg);
+			//xEventGroupSetBits(evtGrpHandle, evtFlag);
+
+			//send_msg.id_ = 0x11;
+			//send_msg.data_ = (char*)recv_msg->data_;
+			//send_msg.leng_ = recv_msg->leng_;
+
+			//osMessagePut(TCPSendQueueHandle, (uint32_t)(&send_msg), 10); //enqueue
+
+
+			if(recv_msg->leng_ != 1000)
+			{
+				printf("the message length has been currupted %d bytes. \r\n", recv_msg->leng_);
+			}
+
+			TcpServerSend(send_buf);
+
+			delete send_buf;
+			send_buf = NULL;
+			delete recv_msg;
+			recv_msg = NULL;
+			//delete msg
+			//delete tcp_recv_msg_->data_;
+
+			//tcp_recv_msg_->data_ = NULL;
+
+			//free msg
+			//osPoolFree(Pool_ID, tcp_recv_msg_);
+
+	  }
+
+	//osDelay(1);
+
+	//vTaskDelayUntil(&xLastWakeTime, xTime);
 
 	//vTaskDelay(pdMS_TO_TICKS(80));
 	}
@@ -566,6 +643,41 @@ void MPU_Config(void)
   MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+
+  /*openAMP Memory*/
+  /** Initializes and configures the Region and the memory to be protected
+  */
+  MPU_InitStruct.Number = MPU_REGION_NUMBER3;
+  MPU_InitStruct.BaseAddress = 0x38000000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
+  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.SubRegionDisable = 0x00;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+  /*rtos memory protection*/
+  /** Initializes and configures the Region and the memory to be protected
+  */
+  MPU_InitStruct.Number = MPU_REGION_NUMBER4;
+  MPU_InitStruct.BaseAddress = 0x24000000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_128KB;
+  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.SubRegionDisable = 0x00;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+
 
 
   /* Enables the MPU */

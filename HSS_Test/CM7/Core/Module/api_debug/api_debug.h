@@ -9,11 +9,14 @@
 #define MODULE_API_DEBUG_API_DEBUG_H_
 
 #include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
+#include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
+
+#include <string>
 
 //use this below functions
 void Debug_Uart_Init();
 void Dprintf(const char *fmt, ...); // custom printf() function
-void DebugDrive();
+void DebugDrive(_Message* msg);
 
 #ifdef __cplusplus
 extern "C" {

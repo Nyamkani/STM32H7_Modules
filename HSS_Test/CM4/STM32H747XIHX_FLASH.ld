@@ -35,19 +35,32 @@
 ENTRY(Reset_Handler)
 
 /* Highest address of the user mode stack */
-_estack = ORIGIN(RAM) + LENGTH(RAM);    /* end of RAM */
+/*_estack = ORIGIN(RAM) + LENGTH(RAM);    /* end of RAM */
+_estack = 0x10048000; /* end of RAM */
+
+__OPENAMP_region_start__ = ORIGIN(OPEN_AMP_SHMEM);
+__OPENAMP_region_end__ = ORIGIN(OPEN_AMP_SHMEM) + LENGTH(OPEN_AMP_SHMEM);
+
+
 /* Generate a link error if heap and stack don't fit into RAM */
+/*_Min_Heap_Size = 0x200;      /* required amount of heap  */
+/*_Min_Stack_Size = 0x400; /* required amount of stack */
+
 _Min_Heap_Size = 0x200;      /* required amount of heap  */
 _Min_Stack_Size = 0x400; /* required amount of stack */
+
 
 /* Specify the memory areas */
 MEMORY
 {
-FLASH (rx)     : ORIGIN = 0x08100000, LENGTH = 1024K
+	FLASH (rx)     : ORIGIN = 0x08100000, LENGTH = 1024K
 
-/*---Reduce ram size due to ETH from m7---*/
-/*RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 288K*/
-RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 128K
+	/*---Reduce ram size due to ETH from m7---*/
+	/*RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 288K*/
+	RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 128K
+	
+	OPEN_AMP_RSC_TAB (xrw)	: ORIGIN = 0x38000000, LENGTH = 1K
+	OPEN_AMP_SHMEM (xrw) : ORIGIN = 0x38000400, LENGTH = 63K
 }
 
 /* Define output sections */
@@ -160,6 +173,11 @@ SECTIONS
     . = ALIGN(8);
   } >RAM
 
+  .openamp_section (NOLOAD) : 
+  {
+    . = ABSOLUTE(0x38000000);
+    *(.resource_table)
+  } > OPEN_AMP_RSC_TAB AT >FLASH
 
 
   /* Remove information from the standard libraries */

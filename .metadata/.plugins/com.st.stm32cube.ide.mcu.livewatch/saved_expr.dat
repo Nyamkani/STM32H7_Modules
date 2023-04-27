@@ -1,3 +1,6 @@
 RCC_ClkInitStruct
 message
 hsd1
+str
+message
+message_received

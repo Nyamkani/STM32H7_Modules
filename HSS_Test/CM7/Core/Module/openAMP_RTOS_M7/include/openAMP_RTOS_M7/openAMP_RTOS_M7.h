@@ -10,21 +10,28 @@
 #define MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_H_
 
 
-#ifdef __cplusplus
- extern "C" {
-#endif
-
 #include "stm32h7xx_hal.h"
 #include "openamp.h"
 #include "cmsis_os.h"
 
+#include <iostream>
+#include <string>
+/* Private macro -------------------------------------------------------------*/
+#define RPMSG_CHAN_NAME               "openamp"
+
 /* Exported constants --------------------------------------------------------*/
 #define appliSTACK_SIZE configMINIMAL_STACK_SIZE *2
 
-/* Private macro -------------------------------------------------------------*/
-#define RPMSG_CHAN_NAME               "openamp_pingpong"
-
+void OpenAMPInit();
+void OpenAMPReadTask(void const *argument);
+void OpenAMPSend(const char* msg, int msg_leng);
 void OpenAMPInit_M7();
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+
 
 #ifdef __cplusplus
 }

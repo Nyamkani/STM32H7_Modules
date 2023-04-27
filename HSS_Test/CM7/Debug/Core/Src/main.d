@@ -94,6 +94,13 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h \
  ../LWIP/Target/ethernetif.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h \
+ ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h \
+ ../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h \
+ ../../Middlewares/Third_Party/LwIP/src/include/lwip/netif.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h \
+ ../FATFS/Target/bsp_driver_sd.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h \
  ../OPENAMP/openamp.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/open_amp.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h \
@@ -116,7 +123,6 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/log.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/sys.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/errno.h \
- ../../Middlewares/Third_Party/LwIP/src/include/lwip/errno.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/./cortexm/sys.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/cpu.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/processor/arm/cpu.h \
@@ -130,12 +136,6 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc_virtio.h \
  ../OPENAMP/openamp_conf.h ../OPENAMP/mbox_hsem.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h \
- ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h \
- ../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h \
- ../../Middlewares/Third_Party/LwIP/src/include/lwip/netif.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h \
- ../FATFS/Target/bsp_driver_sd.h \
  /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h
 ../Core/Inc/main.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
@@ -236,6 +236,13 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:
 ../LWIP/Target/ethernetif.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
+../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:
+../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h:
+../../Middlewares/Third_Party/LwIP/src/include/lwip/netif.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:
+../FATFS/Target/bsp_driver_sd.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:
 ../OPENAMP/openamp.h:
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/open_amp.h:
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h:
@@ -258,7 +265,6 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/log.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/sys.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/errno.h:
-../../Middlewares/Third_Party/LwIP/src/include/lwip/errno.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/./cortexm/sys.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/cpu.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/processor/arm/cpu.h:
@@ -273,10 +279,4 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc_virtio.h:
 ../OPENAMP/openamp_conf.h:
 ../OPENAMP/mbox_hsem.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
-../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:
-../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h:
-../../Middlewares/Third_Party/LwIP/src/include/lwip/netif.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:
-../FATFS/Target/bsp_driver_sd.h:
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h:

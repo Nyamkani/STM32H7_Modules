@@ -5,14 +5,15 @@
  *      Author: kss
  */
 #include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
-
+#include <string>
+#include <main.h>
 static struct netconn *conn, *newconn;
-static struct netbuf *buf;
-static char msg[1024];  //receiving msg buffer
-static char smsg[1024];	//to send temp buffer
+//static struct netbuf *buf;
+//static char msg[1024];  //receiving msg buffer
+//static char smsg[1100];	//to send temp buffer
 
-static ip_addr_t *addr;
-static unsigned short port;
+//static ip_addr_t *addr;
+//static unsigned short port;
 
 /*Rtos thread handle*/
 osThreadId TcpServerHandle;
@@ -24,6 +25,14 @@ extern struct netif gnetif;
 
 
 std::string eth_data_;
+extern osMessageQId myQueue01Handle;
+extern osMessageQId TCPSendQueueHandle;
+
+_Message* tcp_recv_msg_ = NULL;
+
+//memory pool
+extern osPoolId Pool_ID ;
+
 
 /*------------------------------------Server-----------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
@@ -33,6 +42,12 @@ std::string eth_data_;
 static void StartTCPServerTask(void const *arg)
 {
 	err_t err, accept_err;
+	struct netbuf *buf;
+	void* temp_data;
+	uint16_t remain_leng = 0;
+
+	uint16_t repeat_num = 0;
+	uint16_t remain_data = 0;
 
 	/* Create a new connection identifier. */
 	conn = netconn_new(NETCONN_TCP);
@@ -59,53 +74,85 @@ static void StartTCPServerTask(void const *arg)
 					/* receive the data from the client */
 					while (netconn_recv(newconn, &buf) == ERR_OK)
 					{
-						/* Extrct the address and port in case they are required */
-						addr = netbuf_fromaddr(buf);  // get the address of the client
-						port = netbuf_fromport(buf);  // get the Port of the client
-
-						/* If there is some data remaining to be sent, the following process will continue */
 						do
 						{
-							strncpy (msg, (char* )buf->p->payload, buf->p->len);   // get the message from the client
+							//netbuf_data(buf, &temp_data, &leng);
+							remain_leng = buf->p->len;
 
-							//for test debug
-							//strncpy (char_ethernet, (char* )buf->p->payload, buf->p->len);   // get the message from the client
+							//1024 is magic number
+							repeat_num = remain_leng / max_num_buf_;
+							remain_data = remain_leng % max_num_buf_;
+
+							for(int i =1; i<= repeat_num; i++ )
+							{
+								//Dynamic allocate memory
+								tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
+
+								//insert the data to msg_ID
+								tcp_recv_msg_->id_ = 0x10;
+
+								//insert the data to msg_DATA
+								strncpy(tcp_recv_msg_->data_,
+										(char* )((int)(buf->p->payload) + (i-1)*max_num_buf_),
+										max_num_buf_);
+
+								//insert the data to msg_DATA_length
+								tcp_recv_msg_->leng_ = max_num_buf_;
+
+								//send msg
+								osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, osWaitForever); //enqueue
+
+								//free msg
+								osPoolFree(Pool_ID, tcp_recv_msg_);
+							}
+
+							//Dynamic allocate memory
+							tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
+
+							//insert the data to msg
+							tcp_recv_msg_->id_ = 0x10;
+
+							strncpy(tcp_recv_msg_->data_,
+									(char* )((int)buf->p->payload + (repeat_num)*max_num_buf_),
+									remain_data);
+
+							//tcp_recv_msg_->data_ = (char*)temp_data;
+							tcp_recv_msg_->leng_ = remain_data;
 
 
-							TcpServerRecvBuffer(msg);
-							//enter Queue and parsing
-							/*
+							//send msg
+							osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, osWaitForever); //enqueue
+
+							//free msg
+							osPoolFree(Pool_ID, tcp_recv_msg_);
+
+							repeat_num = 0;
+							remain_data = 0;
 
 
-							TcpServerParsingSeq();
-
-							*/
-							// Or modify the message received, so that we can send it back to the client
-							//response
-							int len = sprintf (smsg, "\"%s\" was sent by the Client\n", msg);
-
-							netconn_write(newconn, smsg, len, NETCONN_COPY);  // send the message back to the client
-
-							memset (msg, '\0', sizeof(msg));  // clear the buffer
 						}
-						while (netbuf_next(buf) >0);
+						while (netbuf_next(buf) >=0);
+
+						repeat_num = 0;
+						remain_data = 0;
 
 						netbuf_delete(buf);
 					}
-
 					/* Close connection and discard connection identifier. */
 					netconn_close(newconn);
 					netconn_delete(newconn);
 				}
 			}
 		}
-		else
-		{
-			netconn_delete(conn);
-		}
 	}
-	vTaskDelete(NULL);
+	else
+	{
+		netconn_delete(conn);
+		//vTaskDelete(NULL);
+	}
 }
+
+
 
 void TcpServerDelete()
 {
@@ -126,9 +173,9 @@ void TcpServerDelete()
 
 void TcpServerRecvBuffer(const char *data)
 {
-	std::string sring_buf_(data);
+	std::string string_buf_(data);
 
-	eth_data_ = sring_buf_;
+	eth_data_ = string_buf_;
 
 	return;
 }
@@ -137,13 +184,15 @@ void TcpServerRecvBuffer(const char *data)
 
 void TcpServerSend(const char *data)
 {
-	if(newconn != NULL)
-	{
+	//if(newconn != NULL)
+	//{
+
+
 		// send the data to the connected connection
-		netconn_write(conn, data, strlen(data), NETCONN_COPY);
+		netconn_write(newconn, data, strlen(data), NETCONN_COPY);
 		// relaese the semaphore
 		//sys_sem_signal(&tcpsem);
-	}
+	//}
 	return;
 }
 
@@ -153,7 +202,7 @@ void TcpServerInit(void)
 	if(newconn == NULL)
 	{
 		/* definition and creation of TCPServerTask */
-		osThreadDef(TCPServerTask, StartTCPServerTask, osPriorityNormal, 0, DEFAULT_THREAD_STACKSIZE);
+		osThreadDef(TCPServerTask, StartTCPServerTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
 		TcpServerHandle = osThreadCreate(osThread(TCPServerTask), NULL);
 	}
 }

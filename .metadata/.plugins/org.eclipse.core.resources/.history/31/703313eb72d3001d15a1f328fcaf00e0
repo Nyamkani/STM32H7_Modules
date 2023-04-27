@@ -1,0 +1,82 @@
+/*
+ * openAMP_RTOS_M4.c
+ *
+ *  Created on: Mar 8, 2023
+ *      Author: studio3s
+ */
+
+
+
+#include "openAMP_RTOS_M4/include/openAMP_RTOS_M4/openAMP_RTOS_M4.h"
+
+
+
+/* Private variables ---------------------------------------------------------*/
+static  uint32_t message = 0;
+static  uint32_t message_recv = 0;
+
+static volatile int message_received;
+static volatile unsigned int received_data;
+
+static struct rpmsg_endpoint rp_endpoint;
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
+
+
+static int rpmsg_recv_callback(struct rpmsg_endpoint *ept, void *data,
+               size_t len, uint32_t src, void *priv)
+{
+	  received_data = *((unsigned int *) data);
+	  message_received=1;
+
+  return 0;
+}
+
+unsigned int receive_message(void)
+{
+ //while (message_received == 0)
+  //{
+    OPENAMP_check_for_message();
+  //}
+
+  return received_data;
+}
+
+int OpenAMPInit()
+{
+	int32_t status = 0;
+
+	/* Inilitize the mailbox use notify the other core on new message */
+	MAILBOX_Init();
+
+	/* Inilitize OpenAmp and libmetal libraries */
+	status = MX_OPENAMP_Init(RPMSG_REMOTE, NULL);
+
+	if (status < 0) return status;
+//	Error_Handler();
+
+	/* create a endpoint for rmpsg communication */
+	status = OPENAMP_create_endpoint(&rp_endpoint, RPMSG_SERVICE_NAME, RPMSG_ADDR_ANY,
+									rpmsg_recv_callback, NULL);
+
+	return status;
+}
+
+void OpenAMPDrive()
+{
+
+	message_recv = receive_message();
+	printf("m4 got msg from m7: %ld \r\n", message_recv);
+
+	int32_t status = OPENAMP_send(&rp_endpoint, &message_recv, sizeof(message_recv));
+	if (status < 0)
+	{
+	//  Error_Handler();
+	}
+
+
+	return;
+}
+
+
+

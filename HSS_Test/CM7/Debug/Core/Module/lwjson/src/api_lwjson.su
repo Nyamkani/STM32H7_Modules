@@ -1,0 +1,2 @@
+../Core/Module/lwjson/src/api_lwjson.cpp:19:6:void example_minimal_run()	16	static
+../Core/Module/lwjson/src/api_lwjson.cpp:38:6:void example_traverse_run(const char*, int)	64	dynamic

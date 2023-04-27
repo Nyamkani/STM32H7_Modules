@@ -9,13 +9,16 @@
 
 
 #include "api_debug/api_debug.h"
-
+#include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
+#include "lwjson/include/lwjson/api_lwjson.h"
 
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 
 extern std::string eth_data_;
+
+
 
 static int str = 0;
 //--------------------------------------------------------------test
@@ -25,12 +28,16 @@ static int str = 0;
 /*We will use only USART1 for debugging*/
 
 //for uart1 debug
-void DebugDrive()
+void DebugDrive(_Message* msg)
 {
-	int cmd = 0;
-	int cmd1 = str;
+	_Message recv_msg_= *msg;
 
-	if (cmd1 != 0) cmd = cmd1;
+	if(recv_msg_.id_ != 0x10) return;
+
+	char* data_ = recv_msg_.data_;
+	int length_ = recv_msg_.leng_;
+
+	int cmd = str;
 
 	switch(cmd)
 	{
@@ -38,11 +45,27 @@ void DebugDrive()
 
 		case 2: FatFsTest("test.txt"); break;
 
-		case 3: SDCard_Write("test.txt", eth_data_.c_str());
+		case 3: SDCard_Write("test.txt", data_, length_);
 
-				eth_data_.clear();
+				//eth_data_.clear();
 
 			break;
+
+		case 4: SDCard_Read("test.txt"); break;
+
+		case 5: example_minimal_run(); break;
+
+		case 6: example_traverse_run(data_, length_); break;
+
+
+		case 10: OpenAMPSend(data_, length_);
+
+				//eth_data_.clear();
+
+			break;
+
+		case 11: break;
+
 
 		case 100:
 			  printf("Firmware will be rebooted in 3 senconds.\r\n");
