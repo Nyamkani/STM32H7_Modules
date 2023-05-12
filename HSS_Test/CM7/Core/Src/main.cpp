@@ -28,7 +28,7 @@
 #include <fatfs_h7/include/fatfs_h7/fatfs_h7.h>
 #include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
 #include "api_debug/api_debug.h"
-
+#include "cjson/include/cjson/api_cjson.h"
 
 /* USER CODE END Includes */
 
@@ -516,11 +516,13 @@ void StartTask2(void const *argument)
   /* Infinite loop */
   for(;;)
   {
+	  //0. Get all messages from eth, SDMMC and openAMP
 	  retVal = osMessageGet(myQueue01Handle, osWaitForever); //dequeue
 
+	  //1. When the message is received
 	  if(retVal.status == osEventMessage)
 	  {
-
+		  	//1.-1---------------------- Copy message
 		  	//message allocation
 			recv_msg  = new _Message;
 
@@ -535,13 +537,27 @@ void StartTask2(void const *argument)
 
 			strncpy (send_buf, recv_msg->data_, recv_msg->leng_);   // get the message from the client
 
-			//length check
+		  	//1.-2---------------------- parsing message and save data
+
+			switch(recv_msg->id_)
+			{
+				//When the message is from eth receiver
+				case 0x10: ethernet_data_parser(recv_msg->data_, recv_msg->leng_); break;
+
+				//When the message is from sdmmc receiver
+				case 0x20: break;
+
+				//When the message is from openAMP receiver
+				case 0x30: break;
+
+				default: /*Unknown message type error occur*/ break;
+			}
 
 
 
-			//check data length
 
-			DebugDrive(recv_msg);
+
+			//DebugDrive(recv_msg);
 			//xEventGroupSetBits(evtGrpHandle, evtFlag);
 
 			//send_msg.id_ = 0x11;
@@ -551,10 +567,10 @@ void StartTask2(void const *argument)
 			//osMessagePut(TCPSendQueueHandle, (uint32_t)(&send_msg), 10); //enqueue
 
 
-			if(recv_msg->leng_ != 1000)
-			{
-				printf("the message length has been currupted %d bytes. \r\n", recv_msg->leng_);
-			}
+			//if(recv_msg->leng_ != 1000)
+			//{
+			//	printf("the message length has been currupted %d bytes. \r\n", recv_msg->leng_);
+			//}
 
 			TcpServerSend(send_buf);
 

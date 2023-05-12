@@ -10,12 +10,11 @@
 
 
 /* Private variables ---------------------------------------------------------*/
-static  char* message = 0;
-static  char* message_recv = 0;
+static openamp_type message_recv = {0,};
 
 static volatile int message_received = 0;
 static volatile int service_created;
-static volatile char* received_data;
+static openamp_type received_data;
 static struct rpmsg_endpoint rp_endpoint;
 
 
@@ -31,7 +30,7 @@ osSemaphoreId osSemaphore_MessageReception;
 static int rpmsg_recv_callback(struct rpmsg_endpoint *ept, void *data,
                 size_t len, uint32_t src, void *priv)
 {
-  received_data = ((char *) data);
+  received_data = *((openamp_type*) data);
 
   osSemaphoreRelease(osSemaphore_MessageReception);
 
@@ -40,12 +39,12 @@ static int rpmsg_recv_callback(struct rpmsg_endpoint *ept, void *data,
   return 0;
 }
 
-volatile char* receive_message(void)
+openamp_type receive_message(void)
 {
-	  *received_data = 0xff;
+	  received_data.command_= 0xff;
 	  uint32_t status = 0;
 
-	  while (*received_data == 0xff)
+	  while (received_data.command_ == 0xff)
 	  {
 	    status = osSemaphoreWait(osSemaphore_MessageReception , 0xffff);
 
@@ -126,7 +125,7 @@ void OpenAMPInit()
 
 void OpenAMPReadTask(void const *argument)
 {
-
+	openamp_type test;
 	//osDelay(1);
 	//while(message_received == 0)
 	//{
@@ -136,24 +135,27 @@ void OpenAMPReadTask(void const *argument)
 		OPENAMP_check_for_message();
 
 		/* Receive the massage from the remote CPU */
-		message_recv = (char*)receive_message();
+		message_recv = receive_message();
 
-		if(*message_recv != 0xff)
+		if(message_recv.command_ != 0xff)
 		{
-			int msg_leng = strlen(message_recv);
+			//int msg_leng = message_recv.data17_length_;
 
-			char send_buf[msg_leng + 1];
+			//char send_buf[msg_leng + 1];
 
-			strncpy (send_buf, message_recv, (msg_leng+1));   // get the message from the client
+			//strncpy(send_buf, message_recv.data17_, (msg_leng+1));   // get the message from the client
 
-			send_buf[msg_leng] = '\0';
+			//send_buf[msg_leng] = '\0';
 
-			printf("m7 got msg from m4 %s\r\n", send_buf);
+			//printf("m7 got msg from m4 %s\r\n", send_buf);
+
+			//*send_buf = '\0';
 		}
 		else
 		{
-			printf("m7 got no msg from m4  %d\r\n", &message_recv);
+			printf("m7 got no msg from m4  %d\r\n", &message_recv.command_);
 		}
+
 
 	}
 		//}
@@ -161,22 +163,39 @@ void OpenAMPReadTask(void const *argument)
 	return;
 }
 
+
+
+
 void OpenAMPSend(const char* msg, int msg_leng)
 {
 
-	char send_buf[msg_leng + 1];
+	openamp_type test;
 
-	strncpy (send_buf, msg, sizeof(send_buf));
+	test.data1_ = 1;
+	test.data2_ = 2;
+	test.data3_ = 3;
+	test.data4_ = 4;
+	test.data5_ = 5;
+	test.data6_ = 6;
+	test.data7_ = 7;
+	test.data8_ = 8;
+//	test.data9_ = 9;
 
-	send_buf[msg_leng] = '\0';
+	//strncpy (test.data17_, msg, msg_leng);
+	//memcpy(test.data17_, msg, msg_leng);
+
+	//test.data17_length_ = msg_leng;
+
+	size_t size = sizeof(test);
 
 	/* Send the massage to the remote CPU */
-	int status = OPENAMP_send(&rp_endpoint, &send_buf, sizeof(send_buf));
+	int status = OPENAMP_send(&rp_endpoint, &test, size);
 
 	if (status < 0) Error_Handler();
 
 	return;
 }
+
 
 void OpenAMPChkMsgtask(void const *argument)
 {

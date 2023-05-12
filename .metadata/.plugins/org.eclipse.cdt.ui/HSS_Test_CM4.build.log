@@ -1,10 +1,10 @@
-16:52:03 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+17:29:22 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
 make -j4 all 
 arm-none-eabi-size   HSS_Test_CM4.elf 
    text	   data	    bss	    dec	    hex	filename
-  19576	    292	   1992	  21860	   5564	HSS_Test_CM4.elf
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
 Finished building: default.size.stdout
  
 
-16:52:04 Build Finished. 0 errors, 0 warnings. (took 1s.56ms)
+17:29:24 Build Finished. 0 errors, 0 warnings. (took 1s.349ms)
 

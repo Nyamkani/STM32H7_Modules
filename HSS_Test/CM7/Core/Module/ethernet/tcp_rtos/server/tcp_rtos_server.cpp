@@ -45,9 +45,10 @@ static void StartTCPServerTask(void const *arg)
 	struct netbuf *buf;
 	void* temp_data;
 	uint16_t remain_leng = 0;
-
-	uint16_t repeat_num = 0;
-	uint16_t remain_data = 0;
+	uint16_t stx_data = 0;
+	char length_data[4]= {0,};
+	//uint16_t repeat_num = 0;
+	//uint16_t remain_data = 0;
 
 	/* Create a new connection identifier. */
 	conn = netconn_new(NETCONN_TCP);
@@ -76,49 +77,37 @@ static void StartTCPServerTask(void const *arg)
 					{
 						do
 						{
-							//netbuf_data(buf, &temp_data, &leng);
-							remain_leng = buf->p->len;
+							strncpy(length_data,
+										(char*)((buf->p->payload)), 1);
 
-							//1024 is magic number
-							repeat_num = remain_leng / max_num_buf_;
-							remain_data = remain_leng % max_num_buf_;
+							stx_data = atoi(length_data);
 
-							for(int i =1; i<= repeat_num; i++ )
-							{
-								//Dynamic allocate memory
-								tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
+							//1. check stx 0x02
+							if((stx_data) != 0x02)
+								break; //error occur
 
-								//insert the data to msg_ID
-								tcp_recv_msg_->id_ = 0x10;
+							//2. calculate buf length
+							strncpy(length_data,
+										(char*)((int)(buf->p->payload) + (1)), 4);
 
-								//insert the data to msg_DATA
-								strncpy(tcp_recv_msg_->data_,
-										(char* )((int)(buf->p->payload) + (i-1)*max_num_buf_),
-										max_num_buf_);
+							remain_leng = atoi(length_data);
 
-								//insert the data to msg_DATA_length
-								tcp_recv_msg_->leng_ = max_num_buf_;
+							if(remain_leng != (int)((buf->p->len) - 5))
+								break;
 
-								//send msg
-								osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, osWaitForever); //enqueue
 
-								//free msg
-								osPoolFree(Pool_ID, tcp_recv_msg_);
-							}
-
-							//Dynamic allocate memory
+							//3. Dynamic allocate memory
 							tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
 
-							//insert the data to msg
+							//3.-1 insert the data to msg_ID
 							tcp_recv_msg_->id_ = 0x10;
 
+							//3.-2 insert the data to msg_DATA
 							strncpy(tcp_recv_msg_->data_,
-									(char* )((int)buf->p->payload + (repeat_num)*max_num_buf_),
-									remain_data);
+									(char*)((int)(buf->p->payload) + (5)), remain_leng);
 
-							//tcp_recv_msg_->data_ = (char*)temp_data;
-							tcp_recv_msg_->leng_ = remain_data;
-
+							//insert the data to msg_DATA_length
+							tcp_recv_msg_->leng_ = remain_leng;
 
 							//send msg
 							osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, osWaitForever); //enqueue
@@ -126,16 +115,68 @@ static void StartTCPServerTask(void const *arg)
 							//free msg
 							osPoolFree(Pool_ID, tcp_recv_msg_);
 
-							repeat_num = 0;
-							remain_data = 0;
+
+//							//netbuf_data(buf, &temp_data, &leng);
+//							remain_leng = buf->p->len;
+//
+//							//1024 is magic number
+//							repeat_num = remain_leng / max_num_buf_;
+//							remain_data = remain_leng % max_num_buf_;
+//
+//							for(int i =1; i<= repeat_num; i++ )
+//							{
+//								//Dynamic allocate memory
+//								tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
+//
+//								//insert the data to msg_ID
+//								tcp_recv_msg_->id_ = 0x10;
+//
+//								//insert the data to msg_DATA
+//								strncpy(tcp_recv_msg_->data_,
+//										(char* )((int)(buf->p->payload) + (i-1)*max_num_buf_),
+//										max_num_buf_);
+//
+//								//insert the data to msg_DATA_length
+//								tcp_recv_msg_->leng_ = max_num_buf_;
+//
+//								//send msg
+//								osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, osWaitForever); //enqueue
+//
+//								//free msg
+//								osPoolFree(Pool_ID, tcp_recv_msg_);
+//							}
+//
+//							//Dynamic allocate memory
+//							tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
+//
+//							//insert the data to msg
+//							tcp_recv_msg_->id_ = 0x10;
+//
+//							strncpy(tcp_recv_msg_->data_,
+//									(char* )((int)buf->p->payload + (repeat_num)*max_num_buf_),
+//									remain_data);
+//
+//							//tcp_recv_msg_->data_ = (char*)temp_data;
+//							tcp_recv_msg_->leng_ = remain_data;
+//
+//
+//							//send msg
+//							osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, osWaitForever); //enqueue
+//
+//							//free msg
+//							osPoolFree(Pool_ID, tcp_recv_msg_);
+//
+//							repeat_num = 0;
+//							remain_data = 0;
+
 
 
 						}
 						while (netbuf_next(buf) >=0);
 
-						repeat_num = 0;
-						remain_data = 0;
-
+						//repeat_num = 0;
+						//remain_data = 0;
+						stx_data = 0;
 						netbuf_delete(buf);
 					}
 					/* Close connection and discard connection identifier. */

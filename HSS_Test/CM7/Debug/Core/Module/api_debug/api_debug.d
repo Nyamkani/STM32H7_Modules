@@ -79,11 +79,10 @@ Core/Module/api_debug/api_debug.o: ../Core/Module/api_debug/api_debug.cpp \
  ../../Middlewares/Third_Party/FatFs/src/ff.h \
  ../../Middlewares/Third_Party/FatFs/src/integer.h \
  ../FATFS/Target/sd_diskio.h ../FATFS/Target/bsp_driver_sd.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/api_lwjson.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/lwjson_opts.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/lwjson_opt.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/lwjson.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/lwjson_opt.h
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/api_cjson.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON_Utils.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h:
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:
@@ -168,8 +167,7 @@ Core/Module/api_debug/api_debug.o: ../Core/Module/api_debug/api_debug.cpp \
 ../../Middlewares/Third_Party/FatFs/src/integer.h:
 ../FATFS/Target/sd_diskio.h:
 ../FATFS/Target/bsp_driver_sd.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/api_lwjson.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/lwjson_opts.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/lwjson_opt.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/lwjson.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/lwjson/include/lwjson/lwjson_opt.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/api_cjson.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON_Utils.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h:

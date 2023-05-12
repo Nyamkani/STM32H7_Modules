@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="low_level"/>
+		<item key="selection" value="data_"/>
 		<item key="wrap" value="false"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="data_"/>
+			<item value="monitor"/>
+			<item value="lwjson"/>
 			<item value="low_level"/>
 			<item value="MDMA_REQUEST_SDMMC1_END_DATA"/>
 			<item value="alignedAddr"/>
@@ -20,9 +23,6 @@
 			<item value="nvic"/>
 			<item value="nic"/>
 			<item value="HSEM_ID_0"/>
-			<item value="OPENAMP_check_for_messaOPENAMP_check_for_messagege"/>
-			<item value="OPENAMP_check_for_message"/>
-			<item value="new_service_cb"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

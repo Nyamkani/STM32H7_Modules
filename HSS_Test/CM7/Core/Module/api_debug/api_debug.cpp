@@ -10,7 +10,7 @@
 
 #include "api_debug/api_debug.h"
 #include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
-#include "lwjson/include/lwjson/api_lwjson.h"
+#include "cjson/include/cjson/api_cjson.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -53,10 +53,13 @@ void DebugDrive(_Message* msg)
 
 		case 4: SDCard_Read("test.txt"); break;
 
-		case 5: example_minimal_run(); break;
+		//case 5: example_minimal_run(); break;
 
-		case 6: example_traverse_run(data_, length_); break;
+		//case 6: supports_full_hd(data_, length_); break;
 
+		case 6: ethernet_data_parser(data_, length_); break;
+
+		case 7: TcpServerSend(create_monitor()); break;
 
 		case 10: OpenAMPSend(data_, length_);
 

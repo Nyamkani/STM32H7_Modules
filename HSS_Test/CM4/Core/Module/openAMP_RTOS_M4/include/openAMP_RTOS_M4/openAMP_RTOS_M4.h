@@ -17,9 +17,37 @@
  /* Private macro -------------------------------------------------------------*/
  #define RPMSG_SERVICE_NAME              "openamp"
 
+typedef struct
+{
+	volatile int command_;
+	volatile int data1_;
+	volatile int data2_;
+	volatile int data3_;
+	volatile int data4_;
+	volatile int data5_;
+	volatile int data6_;
+	volatile int data7_;
+	volatile int data8_;
+	volatile int data9_;
+	volatile char data_10;
+	volatile char data_11;
+	volatile char data_12;
+
+//	volatile int data10_;
+//	volatile int data11_;
+//	volatile int data12_;
+//	volatile int data13_;
+//	volatile int data14_;
+//	volatile int data15_;
+//	volatile int data16_;
+//	//char* data17_ = NULL;
+//	volatile int data17_;
+}openamp_type;
+
+
 void OpenAMPDrive();
 int OpenAMPInit();
-volatile char*  receive_message(void);
+openamp_type  receive_message(void);
 
 void OpenAMPInit_M4();
 

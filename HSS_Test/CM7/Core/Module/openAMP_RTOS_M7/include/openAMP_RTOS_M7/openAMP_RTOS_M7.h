@@ -19,6 +19,29 @@
 /* Private macro -------------------------------------------------------------*/
 #define RPMSG_CHAN_NAME               "openamp"
 
+
+typedef struct
+{
+	volatile int command_;
+	volatile int data1_;
+	volatile int data2_;
+	volatile int data3_;
+	volatile int data4_;
+	volatile int data5_;
+	volatile int data6_;
+	volatile int data7_;
+	volatile int data8_;
+	volatile char data_10;
+//	volatile int data10_;
+//	volatile int data11_;
+//	volatile int data12_;
+//	volatile int data13_;
+//	volatile int data14_;
+//	volatile int data15_;
+//	volatile int data16_;
+//	volatile int data17_;
+}openamp_type;
+
 /* Exported constants --------------------------------------------------------*/
 #define appliSTACK_SIZE configMINIMAL_STACK_SIZE *2
 

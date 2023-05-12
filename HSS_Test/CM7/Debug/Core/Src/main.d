@@ -136,7 +136,11 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc_virtio.h \
  ../OPENAMP/openamp_conf.h ../OPENAMP/mbox_hsem.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/api_cjson.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON_Utils.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h
 ../Core/Inc/main.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
@@ -280,3 +284,7 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../OPENAMP/openamp_conf.h:
 ../OPENAMP/mbox_hsem.h:
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/api_cjson.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON_Utils.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h:
