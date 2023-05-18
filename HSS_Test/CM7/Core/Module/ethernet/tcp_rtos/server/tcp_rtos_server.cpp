@@ -5,7 +5,9 @@
  *      Author: kss
  */
 #include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
-#include <string>
+#include "cjson/include/cjson/api_cjson.h"
+#include <cstring>
+#include <vector>
 #include <main.h>
 static struct netconn *conn, *newconn;
 //static struct netbuf *buf;
@@ -39,14 +41,11 @@ extern osPoolId Pool_ID ;
 
 
 /**** Send RESPONSE every time the client sends some data ******/
-static void StartTCPServerTask(void const *arg)
+static void TCPServerRecvTask(void const *arg)
 {
 	err_t err, accept_err;
+
 	struct netbuf *buf;
-	//void* temp_data;
-	//uint16_t remain_leng = 0;
-	//uint16_t buf_leng = 0;
-	uint16_t stx_data = 0;
 
 	std::string recv_buffer;
 
@@ -77,8 +76,10 @@ static void StartTCPServerTask(void const *arg)
 					{
 						do
 						{
+							//0. maximum data occur error
 							if(recv_buffer.length() >= 3000)
 							{
+								recv_buffer.clear();
 
 								break;
 							}
@@ -96,11 +97,10 @@ static void StartTCPServerTask(void const *arg)
 							{
 								recv_buffer.clear();
 
-								break;
+								continue;
 							}
 
 							//3. get buf length
-
 							uint16_t buf_leng = std::stoi(recv_buffer.substr(1,4));
 
 							if((recv_buffer.length()) < buf_leng)
@@ -108,96 +108,46 @@ static void StartTCPServerTask(void const *arg)
 								continue;
 							}
 
-							//recv_buffer.ush_back('\0');
+							//4. get into the json parser and get data
+							//this must do the data move to main data
+							if(ethernet_data_parser(recv_buffer.substr(5, buf_leng + 5), recv_msg->leng_) < 0)
+							{
+								//error occur
+							}
 
-							//3. Dynamic allocate memory
-							tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
+							//5. notify the response 'request' or get 'report'
+							//this must notify the recved data type to the write thread
 
-							//3.-1 insert the data to msg_ID
-							tcp_recv_msg_->id_ = 0x10;
-
-							//3.-2 insert the data to msg_DATA
-							strncpy(tcp_recv_msg_->data_,
-									recv_buffer.substr(5, buf_leng).c_str(), buf_leng);
-
-							recv_buffer.erase(0, buf_leng +5);
-
-							recv_buffer.shrink_to_fit();
-
-							//char* last_word_pointer = (char*)(int)tcp_recv_msg_->data_+buf_leng;
-
-							//last_word_pointer = "\0";
-
-							//strncpy(tcp_recv_msg_->data_, temp_data, remain_leng);
-
-							//insert the data to msg_DATA_length
-							tcp_recv_msg_->leng_ = buf_leng + 1;
-
-							//send msg
-							osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, 10); //enqueue
-
-							//memcpy(temp_data, '\0', buf_leng);
-
-
-							//free msg
-							osPoolFree(Pool_ID, tcp_recv_msg_);
-
-
-
-//							//netbuf_data(buf, &temp_data, &leng);
-//							remain_leng = buf->p->len;
-//
-//							//1024 is magic number
-//							repeat_num = remain_leng / max_num_buf_;
-//							remain_data = remain_leng % max_num_buf_;
-//
-//							for(int i =1; i<= repeat_num; i++ )
-//							{
-//								//Dynamic allocate memory
+//								//5.- 1 Dynamic allocate memory
 //								tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
 //
-//								//insert the data to msg_ID
+//								//3.-1 insert the data to msg_ID
 //								tcp_recv_msg_->id_ = 0x10;
 //
-//								//insert the data to msg_DATA
+//								//3.-2 insert the data to msg_DATA
 //								strncpy(tcp_recv_msg_->data_,
-//										(char* )((int)(buf->p->payload) + (i-1)*max_num_buf_),
-//										max_num_buf_);
+//										recv_buffer.substr(5, buf_leng).c_str(), buf_leng);
+//
+//								recv_buffer.erase(0, buf_leng +5);
+//
+//								recv_buffer.shrink_to_fit();
+//
+//								//char* last_word_pointer = (char*)(int)tcp_recv_msg_->data_+buf_leng;
+//
+//								//last_word_pointer = "\0";
+//
+//								//strncpy(tcp_recv_msg_->data_, temp_data, remain_leng);
 //
 //								//insert the data to msg_DATA_length
-//								tcp_recv_msg_->leng_ = max_num_buf_;
+//								tcp_recv_msg_->leng_ = buf_leng + 1;
 //
 //								//send msg
-//								osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, osWaitForever); //enqueue
+//								osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, 10); //enqueue
+//
+//								//memcpy(temp_data, '\0', buf_leng);
 //
 //								//free msg
 //								osPoolFree(Pool_ID, tcp_recv_msg_);
-//							}
-//
-//							//Dynamic allocate memory
-//							tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
-//
-//							//insert the data to msg
-//							tcp_recv_msg_->id_ = 0x10;
-//
-//							strncpy(tcp_recv_msg_->data_,
-//									(char* )((int)buf->p->payload + (repeat_num)*max_num_buf_),
-//									remain_data);
-//
-//							//tcp_recv_msg_->data_ = (char*)temp_data;
-//							tcp_recv_msg_->leng_ = remain_data;
-//
-//
-//							//send msg
-//							osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, osWaitForever); //enqueue
-//
-//							//free msg
-//							osPoolFree(Pool_ID, tcp_recv_msg_);
-//
-//							repeat_num = 0;
-//							remain_data = 0;
-
-
 
 						}
 						while (netbuf_next(buf) >=0);
@@ -214,8 +164,10 @@ static void StartTCPServerTask(void const *arg)
 	else
 	{
 		netconn_delete(conn);
-		//vTaskDelete(NULL);
+
 	}
+	//for whatever case occur
+	vTaskDelete(NULL);
 }
 
 
@@ -232,33 +184,56 @@ void TcpServerDelete()
 
 	  if(netconn_delete(conn) != ERR_OK) return;
 
-	  vTaskDelete(TcpServerHandle);
+	  vTaskDelete(TCPServerRecvTask);
 
 	  return;
 }
 
-void TcpServerRecvBuffer(const char *data)
+
+typedef struct
 {
-	std::string string_buf_(data);
+	uint16_t type = 0; //report? response
+	uint16_t recv_command_ = 0;
+	uint16_t send_command_ = 0;
+}eth_command_;
 
-	eth_data_ = string_buf_;
-
-	return;
-}
-
-
-
-void TcpServerSend(const char *data)
+static void TCPServerSendTask(void const *arg)
 {
-	//if(newconn != NULL)
-	//{
+	osEvent retVal;
+
+	//1. check the msg
+	std::vector<eth_command_> send_command_data_;
+
+	while(1)
+	{
+		//0. Get all messages from eth (be notified type)
+		retVal = osMessageGet(myQueue01Handle, 100); //dequeue
+
+		//1. if msg queue is available
+		if(retVal.status == osEventMessage)
+		{
+			//this must enqeue command data to vector queue
+
+		}
+		else
+		{
+			//if no msg, do empty the queue
+			if()
+
+				netconn_write(newconn, data, strlen(data), NETCONN_COPY);
+
+		}
+
+	}
+
+	//if data is all set, dequeue the vector qeuue
+	//if(send_command_data_.send_command_ == sre_command_data_.recv_command_ )
+	//send_command_data_.erase(send_command_data_.begin())
 
 
-		// send the data to the connected connection
-		netconn_write(newconn, data, strlen(data), NETCONN_COPY);
-		// relaese the semaphore
-		//sys_sem_signal(&tcpsem);
-	//}
+
+
+
 	return;
 }
 
@@ -268,8 +243,8 @@ void TcpServerInit(void)
 	if(newconn == NULL)
 	{
 		/* definition and creation of TCPServerTask */
-		osThreadDef(TCPServerTask, StartTCPServerTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
-		TcpServerHandle = osThreadCreate(osThread(TCPServerTask), NULL);
+		osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
+		TcpServerHandle = osThreadCreate(osThread(TCPServerRecvTask_), NULL);
 	}
 }
 

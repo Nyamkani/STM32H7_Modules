@@ -1,0 +1,224 @@
+/*
+ * tcprtosserver.cpp
+ *
+ *  Created on: Sep 6, 2022
+ *      Author: kss
+ */
+#include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
+#include "cjson/include/cjson/api_cjson.h"
+#include <string>
+#include <main.h>
+static struct netconn *conn, *newconn;
+//static struct netbuf *buf;
+//static char msg[1024];  //receiving msg buffer
+//static char smsg[1100];	//to send temp buffer
+
+//static ip_addr_t *addr;
+//static unsigned short port;
+
+/*Rtos thread handle*/
+osThreadId TcpServerHandle;
+
+/*netif*/
+extern struct netif gnetif;
+
+#define ServerPort (int) 10
+
+
+std::string eth_data_;
+extern osMessageQId myQueue01Handle;
+extern osMessageQId TCPSendQueueHandle;
+
+_Message* tcp_recv_msg_ = NULL;
+
+//memory pool
+extern osPoolId Pool_ID ;
+
+
+/*------------------------------------Server-----------------------------------------*/
+/*-----------------------------------------------------------------------------------*/
+
+
+/**** Send RESPONSE every time the client sends some data ******/
+static void TCPServerRecvTask(void const *arg)
+{
+	err_t err, accept_err;
+
+	struct netbuf *buf;
+
+	std::string recv_buffer;
+
+	/* Create a new connection identifier. */
+	conn = netconn_new(NETCONN_TCP);
+
+	if (conn!=NULL)
+	{
+		/* Bind connection to the server port. */
+		err = netconn_bind(conn, IP_ADDR_ANY, ServerPort);
+
+		if (err == ERR_OK)
+		{
+			/* Tell connection to go into listening mode. */
+			netconn_listen(conn);
+
+			while (1)
+			{
+				/* Grab new connection. */
+				accept_err = netconn_accept(conn, &newconn);
+
+				/* Process the new connection. */
+				if (accept_err == ERR_OK)
+				{
+
+					/* receive the data from the client */
+					while (netconn_recv(newconn, &buf) == ERR_OK)
+					{
+						do
+						{
+							//0. maximum data occur error
+							if(recv_buffer.length() >= 3000)
+							{
+								recv_buffer.clear();
+
+								break;
+							}
+
+							//1. copy all data
+							char temp_data[1460] = {0,};
+
+							strncpy((char*)(temp_data),
+										(char*)((buf->p->payload)), buf->p->len);
+
+							recv_buffer.append(temp_data);
+
+							//2. check front values is 0x02
+							if(recv_buffer.front() != 0x32)
+							{
+								recv_buffer.clear();
+
+								continue;
+							}
+
+							//3. get buf length
+							uint16_t buf_leng = std::stoi(recv_buffer.substr(1,4));
+
+							if((recv_buffer.length()) < buf_leng)
+							{
+								continue;
+							}
+
+							//4. get into the json parser and get data
+							//this must do the data move to main data
+							if(ethernet_data_parser(recv_buffer.substr(5, buf_leng + 5), recv_msg->leng_) < 0)
+							{
+								//error occur
+							}
+
+							//5. notify the response 'request' or get 'report'
+							//this must notify the recved data type to the write thread
+
+//								//5.- 1 Dynamic allocate memory
+//								tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
+//
+//								//3.-1 insert the data to msg_ID
+//								tcp_recv_msg_->id_ = 0x10;
+//
+//								//3.-2 insert the data to msg_DATA
+//								strncpy(tcp_recv_msg_->data_,
+//										recv_buffer.substr(5, buf_leng).c_str(), buf_leng);
+//
+//								recv_buffer.erase(0, buf_leng +5);
+//
+//								recv_buffer.shrink_to_fit();
+//
+//								//char* last_word_pointer = (char*)(int)tcp_recv_msg_->data_+buf_leng;
+//
+//								//last_word_pointer = "\0";
+//
+//								//strncpy(tcp_recv_msg_->data_, temp_data, remain_leng);
+//
+//								//insert the data to msg_DATA_length
+//								tcp_recv_msg_->leng_ = buf_leng + 1;
+//
+//								//send msg
+//								osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, 10); //enqueue
+//
+//								//memcpy(temp_data, '\0', buf_leng);
+//
+//								//free msg
+//								osPoolFree(Pool_ID, tcp_recv_msg_);
+
+						}
+						while (netbuf_next(buf) >=0);
+
+						netbuf_delete(buf);
+					}
+					/* Close connection and discard connection identifier. */
+					netconn_close(newconn);
+					netconn_delete(newconn);
+				}
+			}
+		}
+	}
+	else
+	{
+		netconn_delete(conn);
+
+	}
+	//for whatever case occur
+	vTaskDelete(NULL);
+}
+
+
+
+void TcpServerDelete()
+{
+	  if((netif_is_link_up(&gnetif))) return;
+
+	  if(newconn == NULL && conn == NULL) return;
+
+	  if(netconn_close(newconn) != ERR_OK) return;
+
+	  if(netconn_delete(newconn) != ERR_OK) return;
+
+	  if(netconn_delete(conn) != ERR_OK) return;
+
+	  vTaskDelete(TcpServerHandle);
+
+	  return;
+}
+
+void TcpServerRecvBuffer(const char *data)
+{
+	std::string string_buf_(data);
+
+	eth_data_ = string_buf_;
+
+	return;
+}
+
+
+
+static void TCPServerSendTask(void const *arg)
+{
+	//1.
+
+
+
+	netconn_write(newconn, data, strlen(data), NETCONN_COPY);
+
+	return;
+}
+
+
+void TcpServerInit(void)
+{
+	if(newconn == NULL)
+	{
+		/* definition and creation of TCPServerTask */
+		osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
+		TcpServerHandle = osThreadCreate(osThread(TCPServerRecvTask_), NULL);
+	}
+}
+
+
