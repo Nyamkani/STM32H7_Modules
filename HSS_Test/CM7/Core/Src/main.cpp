@@ -508,7 +508,9 @@ void StartTask2(void const *argument)
 
 	_Message* recv_msg = NULL;
 	_Message send_msg;
+	char* recv_buf = NULL;
 	char* send_buf = NULL;
+	int send_buf_leng_ = 0;
 	//char char_temp_buf[1024*3] = {0,};
 	osEvent retVal;
 
@@ -530,12 +532,12 @@ void StartTask2(void const *argument)
 			memcpy(recv_msg, (_Message*)retVal.value.p, sizeof(*tcp_recv_msg_));
 
 			//get element
-			send_buf = new char[recv_msg->leng_+1];
+			//recv_buf = new char[recv_msg->leng_+1];
 			//char send_buf[recv_msg->leng_ + 1];
 
-			send_buf[recv_msg->leng_] = '\0';
+			//send_buf[recv_msg->leng_] = '\0';
 
-			strncpy (send_buf, recv_msg->data_, recv_msg->leng_);   // get the message from the client
+			strncpy (recv_buf, recv_msg->data_, recv_msg->leng_);   // get the message from the client
 
 		  	//1.-2---------------------- parsing message and save data
 
@@ -572,10 +574,37 @@ void StartTask2(void const *argument)
 			//	printf("the message length has been currupted %d bytes. \r\n", recv_msg->leng_);
 			//}
 
+			//TcpServerSend(send_buf);
+
+			char send_buf[1024] = {0,};
+
+			send_buf_leng_ = strlen(ethernet_create_message());
+
+			*send_buf = 0x02;
+
+			strncpy ((char*)(int)(send_buf + 1), "0", 1);
+
+			//itoa(0x02, (char*)(int)(send_buf), 10);
+
+			itoa(send_buf_leng_, (char*)(int)(send_buf + 2), 10);
+
+
+
+			strncpy ((char*)(int)(send_buf + 5), ethernet_create_message(), send_buf_leng_);
+
+			strncpy ((char*)(int)(send_buf + send_buf_leng_+ 5), "\0", 1);
+
+
+		    printf("%s\r\n",send_buf);
+
 			TcpServerSend(send_buf);
 
-			delete send_buf;
-			send_buf = NULL;
+
+			//delete[] send_buf;
+			//send_buf = NULL;
+			//send_buf_leng_=  0;
+			delete recv_buf;
+			recv_buf = NULL;
 			delete recv_msg;
 			recv_msg = NULL;
 			//delete msg

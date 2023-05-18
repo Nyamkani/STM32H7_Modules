@@ -15,7 +15,7 @@
 #include <cstdio>
 
 int ethernet_data_parser(const char * const msg, int msg_leng);
-
+const char* ethernet_create_message(void);
 
 int supports_full_hd(const char * const msg, int msg_leng);
 const char* create_monitor();

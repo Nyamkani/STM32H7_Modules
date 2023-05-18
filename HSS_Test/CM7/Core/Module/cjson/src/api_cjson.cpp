@@ -22,16 +22,20 @@ int ethernet_data_parser(const char * const msg, int msg_leng)
 
 	send_buf[msg_leng] = '\0';
 
-	//declare buffers
+	//declare header buffers
     const cJSON *header = NULL;
     const cJSON *transactionid = NULL;
     const cJSON *msgtype = NULL;
     const cJSON *category = NULL;
     const cJSON *timestamp = NULL;
 
+    printf("%s\r\n",send_buf);
+
+
     int status = 0;
 
-    cJSON *msg_json = cJSON_Parse(send_buf);
+    //cJSON *msg_json = cJSON_Parse(send_buf);
+    cJSON *msg_json = cJSON_ParseWithLength(send_buf, msg_leng+1);
 
     //error check
     if (msg_json == NULL)
@@ -84,24 +88,233 @@ int ethernet_data_parser(const char * const msg, int msg_leng)
     }
 
 
-    //data command
+    //switch fucntion for each command type
 
-    if(strcmp(msgtype->valuestring, "request") == 0)
-    {
-       // printf("1\r\n");
-    }
-    else if (strcmp(msgtype->valuestring, "response") == 0)
-    {
-        //printf("2\r\n");
-
-    }
-
+//    if(strcmp(msgtype->valuestring, "request") == 0)
+//    {
+//       // printf("1\r\n");
+//    }
+//    else if (strcmp(msgtype->valuestring, "response") == 0)
+//    {
+//        //printf("2\r\n");
+//
+//    }
+//
 
 
 end:
     cJSON_Delete(msg_json);
     return status;
 }
+
+
+
+const char* ethernet_create_message(void)
+{
+
+    char *string = NULL;
+
+	//declare header buffers
+    cJSON *header = NULL;
+    cJSON *transactionId = NULL;
+    cJSON *msgType = NULL;
+    cJSON *category = NULL;
+    cJSON *timeStamp = NULL;
+
+	//declare body buffers
+    cJSON *body = NULL;
+    cJSON *taskType = NULL;
+    cJSON *JobId = NULL;
+    cJSON *taskId = NULL;
+    cJSON *taskStatus = NULL;
+    cJSON *mode = NULL;
+    cJSON *status = NULL;
+    cJSON *position = NULL;
+    cJSON *destination = NULL;
+    cJSON *speed = NULL;
+    cJSON *forkStroke = NULL;
+    cJSON *forkWidth = NULL;
+    cJSON *forkOnLoad = NULL;
+    cJSON *alarmCode = NULL;
+    cJSON *errorCode = NULL;
+    cJSON *sensorGroup1 = NULL;
+    cJSON *sensorGroup2 = NULL;
+    cJSON *odometer = NULL;
+
+
+    cJSON *sender = cJSON_CreateObject();
+    if (sender == NULL)
+    {
+        goto end;
+    }
+
+    /* after creation was successful, immediately add it to the monitor,
+     * thereby transferring ownership of the pointer to it */
+
+    //-------------------------------------------------------header contents
+
+    header = cJSON_CreateObject();
+    if (header == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(sender, "header", header);
+
+    transactionId = cJSON_CreateString("12");
+    if (transactionId == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(header, "transactionId", transactionId);
+
+    msgType = cJSON_CreateString("response");
+    if (msgType == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(header, "msgType", msgType);
+
+    category = cJSON_CreateString("status");
+    if (category == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(header, "category", category);
+
+    timeStamp = cJSON_CreateString("1680063015500");
+    if (timeStamp == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(header, "timeStamp", timeStamp);
+
+    //-------------------------------------------------------body contents
+    body = cJSON_CreateObject();
+    if (body == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(sender, "body", body);
+
+    taskType = cJSON_CreateString("move");
+    if (taskType == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "taskType", taskType);
+
+    JobId = cJSON_CreateString("abcd123456789");
+    if (JobId == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "JobId", JobId);
+
+    taskId = cJSON_CreateString("1");
+    if (taskId == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "taskId", taskId);
+
+    taskStatus = cJSON_CreateString("2");
+    if (taskStatus == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "taskStatus", taskStatus);
+
+    mode = cJSON_CreateString("2");
+    if (mode == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "mode", mode);
+
+    status = cJSON_CreateString("1");
+    if (status == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "status", status);
+
+    position = cJSON_CreateString("1234");
+    if (position == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "position", position);
+
+    destination = cJSON_CreateString("12345");
+    if (destination == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "destination", destination);
+
+    speed = cJSON_CreateString("4200");
+    if (speed == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "speed", speed);
+
+    forkStroke = cJSON_CreateString("0");
+    if (forkStroke == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "forkStroke", forkStroke);
+
+    forkWidth = cJSON_CreateString("500");
+    if (forkWidth == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "forkWidth", forkWidth);
+
+    forkOnLoad = cJSON_CreateString("3");
+    if (forkOnLoad == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "forkOnLoad", forkOnLoad);
+
+    alarmCode = cJSON_CreateString("0");
+    if (alarmCode == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "alarmCode", alarmCode);
+
+    errorCode = cJSON_CreateString("0");
+    if (errorCode == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "errorCode", errorCode);
+
+    sensorGroup1 = cJSON_CreateString("0");
+    if (sensorGroup1 == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "sensorGroup1", sensorGroup1);
+
+    sensorGroup2 = cJSON_CreateString("0");
+    if (sensorGroup2 == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "sensorGroup2", sensorGroup2);
+
+    odometer = cJSON_CreateString("4294967296");
+    if (odometer == NULL)
+        goto end;
+
+    cJSON_AddItemToObject(body, "odometer", odometer);
+
+
+
+
+
+
+
+
+    string = cJSON_Print(sender);
+    if (string == NULL)
+    {
+        fprintf(stderr, "Failed to print monitor.\n");
+    }
+
+end:
+    cJSON_Delete(sender);
+    return string;
+}
+
+
+
+
+
+
 
 
 

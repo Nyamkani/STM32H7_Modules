@@ -9,10 +9,10 @@
 ../Core/Src/main.cpp:423:6:void StartInitTask(const void*)	112	static
 ../Core/Src/main.cpp:475:6:void StartTask1(const void*)	24	static
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:24:2:_Message::_Message()	16	static
-../Core/Src/main.cpp:501:6:void StartTask2(const void*)	1096	static
-../Core/Src/main.cpp:614:6:void MPU_Config()	24	static
-../Core/Src/main.cpp:712:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-../Core/Src/main.cpp:729:6:void Error_Handler()	4	static,ignoring_inline_asm
-../Core/Src/main.cpp:738:1:void __static_initialization_and_destruction_0(int, int)	16	static
-../Core/Src/main.cpp:738:1:cpp)	8	static
-../Core/Src/main.cpp:738:1:cpp)	8	static
+../Core/Src/main.cpp:501:6:void StartTask2(const void*)	2128	static
+../Core/Src/main.cpp:643:6:void MPU_Config()	24	static
+../Core/Src/main.cpp:741:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+../Core/Src/main.cpp:758:6:void Error_Handler()	4	static,ignoring_inline_asm
+../Core/Src/main.cpp:767:1:void __static_initialization_and_destruction_0(int, int)	16	static
+../Core/Src/main.cpp:767:1:cpp)	8	static
+../Core/Src/main.cpp:767:1:cpp)	8	static

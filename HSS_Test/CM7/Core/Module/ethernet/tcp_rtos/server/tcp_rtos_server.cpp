@@ -43,12 +43,12 @@ static void StartTCPServerTask(void const *arg)
 {
 	err_t err, accept_err;
 	struct netbuf *buf;
-	void* temp_data;
-	uint16_t remain_leng = 0;
+	//void* temp_data;
+	//uint16_t remain_leng = 0;
+	//uint16_t buf_leng = 0;
 	uint16_t stx_data = 0;
-	char length_data[4]= {0,};
-	//uint16_t repeat_num = 0;
-	//uint16_t remain_data = 0;
+
+	std::string recv_buffer;
 
 	/* Create a new connection identifier. */
 	conn = netconn_new(NETCONN_TCP);
@@ -77,24 +77,38 @@ static void StartTCPServerTask(void const *arg)
 					{
 						do
 						{
-							strncpy(length_data,
-										(char*)((buf->p->payload)), 1);
+							if(recv_buffer.length() >= 3000)
+							{
 
-							stx_data = atoi(length_data);
-
-							//1. check stx 0x02
-							if((stx_data) != 0x02)
-								break; //error occur
-
-							//2. calculate buf length
-							strncpy(length_data,
-										(char*)((int)(buf->p->payload) + (1)), 4);
-
-							remain_leng = atoi(length_data);
-
-							if(remain_leng != (int)((buf->p->len) - 5))
 								break;
+							}
 
+							//1. copy all data
+							char temp_data[1460] = {0,};
+
+							strncpy((char*)(temp_data),
+										(char*)((buf->p->payload)), buf->p->len);
+
+							recv_buffer.append(temp_data);
+
+							//2. check front values is 0x02
+							if(recv_buffer.front() != 0x32)
+							{
+								recv_buffer.clear();
+
+								break;
+							}
+
+							//3. get buf length
+
+							uint16_t buf_leng = std::stoi(recv_buffer.substr(1,4));
+
+							if((recv_buffer.length()) < buf_leng)
+							{
+								continue;
+							}
+
+							//recv_buffer.ush_back('\0');
 
 							//3. Dynamic allocate memory
 							tcp_recv_msg_ = (_Message *)osPoolAlloc(Pool_ID);
@@ -104,16 +118,30 @@ static void StartTCPServerTask(void const *arg)
 
 							//3.-2 insert the data to msg_DATA
 							strncpy(tcp_recv_msg_->data_,
-									(char*)((int)(buf->p->payload) + (5)), remain_leng);
+									recv_buffer.substr(5, buf_leng).c_str(), buf_leng);
+
+							recv_buffer.erase(0, buf_leng +5);
+
+							recv_buffer.shrink_to_fit();
+
+							//char* last_word_pointer = (char*)(int)tcp_recv_msg_->data_+buf_leng;
+
+							//last_word_pointer = "\0";
+
+							//strncpy(tcp_recv_msg_->data_, temp_data, remain_leng);
 
 							//insert the data to msg_DATA_length
-							tcp_recv_msg_->leng_ = remain_leng;
+							tcp_recv_msg_->leng_ = buf_leng + 1;
 
 							//send msg
-							osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, osWaitForever); //enqueue
+							osMessagePut(myQueue01Handle, (uint32_t)tcp_recv_msg_, 10); //enqueue
+
+							//memcpy(temp_data, '\0', buf_leng);
+
 
 							//free msg
 							osPoolFree(Pool_ID, tcp_recv_msg_);
+
 
 
 //							//netbuf_data(buf, &temp_data, &leng);
@@ -174,9 +202,6 @@ static void StartTCPServerTask(void const *arg)
 						}
 						while (netbuf_next(buf) >=0);
 
-						//repeat_num = 0;
-						//remain_data = 0;
-						stx_data = 0;
 						netbuf_delete(buf);
 					}
 					/* Close connection and discard connection identifier. */
