@@ -25,6 +25,15 @@ extern struct netif gnetif;
 
 #define ServerPort (int) 10
 
+#define LWIP_MAX_LENGTH 1460
+#define MAX_BUFFER_LENGTH 5000
+
+#define STX 0x02
+#define STX_START_PONINTER 0
+#define LENGTH_DATA_START_POINTER 1
+#define LENGTH_DATA_END_POINTER 4
+#define DATA_START_POINTER 5
+
 
 std::string eth_data_;
 extern osMessageQId myQueue01Handle;
@@ -70,29 +79,28 @@ static void TCPServerRecvTask(void const *arg)
 				/* Process the new connection. */
 				if (accept_err == ERR_OK)
 				{
-
 					/* receive the data from the client */
 					while (netconn_recv(newconn, &buf) == ERR_OK)
 					{
 						do
 						{
 							//0. maximum data occur error
-							if(recv_buffer.length() >= 3000)
+							if(recv_buffer.length() >= MAX_BUFFER_LENGTH)
 							{
 								recv_buffer.clear();
 
-								break;
+								continue;
 							}
 
-							//1. copy all data
-							char temp_data[1460] = {0,};
+							//1. copy all data using data and length
+							char temp_data[LWIP_MAX_LENGTH] = {0,};
 
 							strncpy((char*)(temp_data),
 										(char*)((buf->p->payload)), buf->p->len);
 
 							recv_buffer.append(temp_data);
 
-							//2. check front values is 0x02
+							//2. check front values is 0x02, 0x32 is '2' character value for test
 							if(recv_buffer.front() != 0x32)
 							{
 								recv_buffer.clear();
@@ -101,7 +109,8 @@ static void TCPServerRecvTask(void const *arg)
 							}
 
 							//3. get buf length
-							uint16_t buf_leng = std::stoi(recv_buffer.substr(1,4));
+							uint16_t buf_leng =
+									std::stoi(recv_buffer.substr(LENGTH_DATA_START_POINTER, LENGTH_DATA_END_POINTER));
 
 							if((recv_buffer.length()) < buf_leng)
 							{
@@ -110,10 +119,17 @@ static void TCPServerRecvTask(void const *arg)
 
 							//4. get into the json parser and get data
 							//this must do the data move to main data
-							if(ethernet_data_parser(recv_buffer.substr(5, buf_leng + 5), recv_msg->leng_) < 0)
+							if(ethernet_data_parser(recv_buffer.substr(DATA_START_POINTER,
+									buf_leng + DATA_START_POINTER).c_str(), buf_leng) < 0)
 							{
 								//error occur
+								continue;
 							}
+
+							volatile const char* dd = ethernet_create_message();
+
+							TcpServerSend((const char*)dd);
+
 
 							//5. notify the response 'request' or get 'report'
 							//this must notify the recved data type to the write thread
@@ -128,9 +144,9 @@ static void TCPServerRecvTask(void const *arg)
 //								strncpy(tcp_recv_msg_->data_,
 //										recv_buffer.substr(5, buf_leng).c_str(), buf_leng);
 //
-//								recv_buffer.erase(0, buf_leng +5);
-//
-//								recv_buffer.shrink_to_fit();
+								recv_buffer.erase(0, buf_leng +5);
+
+								recv_buffer.shrink_to_fit();
 //
 //								//char* last_word_pointer = (char*)(int)tcp_recv_msg_->data_+buf_leng;
 //
@@ -184,9 +200,15 @@ void TcpServerDelete()
 
 	  if(netconn_delete(conn) != ERR_OK) return;
 
-	  vTaskDelete(TCPServerRecvTask);
+	  vTaskDelete(TcpServerHandle);
 
 	  return;
+}
+
+void TcpServerSend(const char *data)
+{
+
+	netconn_write(newconn, data, strlen(data), NETCONN_COPY);
 }
 
 

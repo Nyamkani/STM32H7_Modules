@@ -1,0 +1,15 @@
+#this contents are for using m7 database system
+#last edit. 051923 and using 051223 memory map 
+
+
+typedef struct
+{
+	uint16_t name_;
+	uint16_t fw_version_;
+}info_type_;
+
+typedef struct
+{
+	uint16_t name_;
+	uint16_t fw_version_;
+}info_type_;

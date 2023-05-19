@@ -35,7 +35,7 @@ int ethernet_data_parser(const char * const msg, int msg_leng)
     int status = 0;
 
     //cJSON *msg_json = cJSON_Parse(send_buf);
-    cJSON *msg_json = cJSON_ParseWithLength(send_buf, msg_leng+1);
+    cJSON *msg_json = cJSON_ParseWithLength(send_buf, msg_leng);
 
     //error check
     if (msg_json == NULL)
@@ -294,18 +294,15 @@ const char* ethernet_create_message(void)
 
 
 
-
-
-
-
-
     string = cJSON_Print(sender);
     if (string == NULL)
     {
         fprintf(stderr, "Failed to print monitor.\n");
     }
+    free(string);
 
 end:
+
     cJSON_Delete(sender);
     return string;
 }

@@ -1,0 +1,29 @@
+#this contents are for using m7 database system
+#last edit. 051923 and using 051223 memory map 
+
+
+typedef struct
+{
+	uint16_t name_ = 1;
+	uint16_t fw_version_ = 100;
+	
+}robot_info_;
+
+typedef struct
+{
+	uint16_t configIP_ADDR0;
+	uint16_t configIP_ADDR1;
+	uint16_t configIP_ADDR2;
+	uint16_t configIP_ADDR3;
+
+	uint16_t configNET_MASK0;
+	uint16_t configNET_MASK1;
+	uint16_t configNET_MASK2;
+	uint16_t configNET_MASK3;					
+	
+	uint16_t configGW_ADDR0;
+	uint16_t configGW_ADDR1;
+	uint16_t configGW_ADDR2;
+	uint16_t configGW_ADDR3;
+	
+}ipaddress_info_;

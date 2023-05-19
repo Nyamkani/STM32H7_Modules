@@ -1,0 +1,8 @@
+#this contents are for using m7 database  system 
+
+
+typedef struct
+{
+	uint16_t name_;
+	uint16_t fw_version_;
+}info_type_;

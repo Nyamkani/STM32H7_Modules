@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;HSS_Test_CM7/data_struct&apos; to &apos;data_struct.txt&apos;" description="Rename resource &apos;data_struct&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="data_struct" name="data_struct.txt" stamp="1684477404119" updateReferences="true"/>
+</session>

@@ -34,7 +34,11 @@ Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o: \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/memp.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_std.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_priv.h \
- ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/mem_priv.h
+ ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/mem_priv.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/api_cjson.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON_Utils.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h:
@@ -70,3 +74,7 @@ Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o: \
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_std.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_priv.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/mem_priv.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/api_cjson.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON_Utils.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/cjson/include/cjson/cJSON.h:

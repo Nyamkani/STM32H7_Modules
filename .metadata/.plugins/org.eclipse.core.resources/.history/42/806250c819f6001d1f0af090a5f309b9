@@ -1,0 +1,86 @@
+#this contents are for using m7 database system
+#last edit. 051923 and using 051223 memory map 
+
+
+#--------------------------------------------
+
+typedef struct
+{
+	uint16_t name_ = 1;
+	uint16_t fw_version_ = 100;
+	
+}robot_info_;
+
+typedef struct
+{
+	uint16_t configIP_ADDR0 = 192;
+	uint16_t configIP_ADDR1 = 168;
+	uint16_t configIP_ADDR2 = 17;
+	uint16_t configIP_ADDR3 = 11;
+
+	uint16_t configNET_MASK0 = 255;
+	uint16_t configNET_MASK1 = 255;
+	uint16_t configNET_MASK2 = 255;
+	uint16_t configNET_MASK3 = 0;					
+	
+	uint16_t configGW_ADDR0 = 192;
+	uint16_t configGW_ADDR1 = 168;
+	uint16_t configGW_ADDR2 = 17;
+	uint16_t configGW_ADDR3 = 1;
+	
+}ipaddress_info_;
+
+#--------------------------------------------
+
+typedef struct
+{
+	uint16_t mode_ = 0;
+	uint16_t status_ = 0;
+	uint16_t position_ = 0;
+	uint16_t destination_ = 0;
+
+	uint16_t speed_ = 0;
+	uint16_t fork_stroke_ = 0;
+	uint16_t fork_width_ = 0;
+	uint16_t fork_on_load_ = 0;					
+	
+	uint16_t alarm_code_ = 0;
+	uint16_t error_code_ = 0;
+
+}status_page_1_;
+
+typedef struct
+{
+	uint32_t sensor_input_ = 0;
+
+}status_page_2_;
+
+typedef struct
+{
+	task_type_
+	job_id_
+	task_id_
+	task_status_
+	pending_task_no_
+	callback_msg_
+
+	uint32_t sensor_input_ = 0;
+
+}status_page_3_;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
