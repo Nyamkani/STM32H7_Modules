@@ -30,6 +30,14 @@ typedef struct
 	
 }ipaddress_info_;
 
+typedef struct
+{
+	unsigned long timestamp1_ = 0;
+	unsigned long timestamp2_ = 0;
+	
+}timestamp_info_;
+
+
 #--------------------------------------------
 
 typedef struct

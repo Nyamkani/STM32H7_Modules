@@ -17,6 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <api_data_structure/include/api_data_structure/api_data_structure.h>
 #include <main.h>
 #include "cmsis_os.h"
 #include "fatfs.h"
@@ -28,7 +29,6 @@
 #include <fatfs_h7/include/fatfs_h7/fatfs_h7.h>
 #include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
 #include "api_debug/api_debug.h"
-#include "cjson/include/cjson/api_cjson.h"
 
 /* USER CODE END Includes */
 
@@ -65,7 +65,7 @@ osMessageQId myQueue01Handle;
 osMessageQId TCPSendQueueHandle;
 
 //memory pool
-osPoolId Pool_ID ;
+
 
 
 //eventflag

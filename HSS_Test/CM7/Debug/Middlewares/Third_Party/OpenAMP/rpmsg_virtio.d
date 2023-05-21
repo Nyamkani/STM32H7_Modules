@@ -1,5 +1,5 @@
 Middlewares/Third_Party/OpenAMP/rpmsg_virtio.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_virtio.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_virtio.c \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/alloc.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/alloc.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/cache.h \
@@ -76,7 +76,7 @@ Middlewares/Third_Party/OpenAMP/rpmsg_virtio.o: \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/virtqueue.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/virtio_ring.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/spinlock.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_internal.h
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_internal.h
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/alloc.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/alloc.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/cache.h:
@@ -154,4 +154,4 @@ Middlewares/Third_Party/OpenAMP/rpmsg_virtio.o: \
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/virtqueue.h:
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/virtio_ring.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/spinlock.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_internal.h:
+/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_internal.h:

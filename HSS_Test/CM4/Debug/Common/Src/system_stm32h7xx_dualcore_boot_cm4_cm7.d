@@ -1,5 +1,5 @@
 Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.c \
  ../../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h \
  ../../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h747xx.h \
  ../../Drivers/CMSIS/Include/core_cm4.h \

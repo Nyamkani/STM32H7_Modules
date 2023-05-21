@@ -14,6 +14,7 @@ C_SRCS :=
 CPP_SRCS := 
 S_UPPER_SRCS := 
 O_SRCS := 
+CYCLO_FILES := 
 OBJDUMP_LIST := 
 C_UPPER_DEPS := 
 S_DEPS := 
@@ -32,8 +33,8 @@ CPP_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Common/Src \
+Core/Module/api_data_structure/src \
 Core/Module/api_debug \
-Core/Module/cjson/src \
 Core/Module/ethernet/tcp_rtos/client \
 Core/Module/ethernet/tcp_rtos/server \
 Core/Module/ethernet/udp_rtos \

@@ -1,5 +1,5 @@
 Middlewares/Third_Party/OpenAMP/generic_init.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/libmetal/lib/system/generic/generic_init.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/libmetal/lib/system/generic/generic_init.c \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/sys.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/log.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/log.h \

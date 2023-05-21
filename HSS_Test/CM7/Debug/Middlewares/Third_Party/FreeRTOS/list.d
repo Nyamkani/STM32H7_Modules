@@ -1,5 +1,5 @@
 Middlewares/Third_Party/FreeRTOS/list.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/FreeRTOS/Source/list.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/FreeRTOS/Source/list.c \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \

@@ -1,5 +1,5 @@
 Middlewares/Third_Party/OpenAMP/virtqueue.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/virtio/virtqueue.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/virtio/virtqueue.c \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/virtqueue.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/virtio_ring.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/alloc.h \

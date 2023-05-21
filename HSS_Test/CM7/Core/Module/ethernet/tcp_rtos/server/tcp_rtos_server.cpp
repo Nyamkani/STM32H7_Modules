@@ -4,21 +4,22 @@
  *  Created on: Sep 6, 2022
  *      Author: kss
  */
+#include <api_data_structure/include/api_data_structure/api_data_structure.h>
 #include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
-#include "cjson/include/cjson/api_cjson.h"
 #include <cstring>
 #include <vector>
 #include <main.h>
+
+//main socket
 static struct netconn *conn, *newconn;
-//static struct netbuf *buf;
-//static char msg[1024];  //receiving msg buffer
-//static char smsg[1100];	//to send temp buffer
 
 //static ip_addr_t *addr;
 //static unsigned short port;
 
 /*Rtos thread handle*/
-osThreadId TcpServerHandle;
+osThreadId TcpServerRecvHandle;
+osThreadId TcpServerSendHandle;
+
 
 /*netif*/
 extern struct netif gnetif;
@@ -26,7 +27,7 @@ extern struct netif gnetif;
 #define ServerPort (int) 10
 
 #define LWIP_MAX_LENGTH 1460
-#define MAX_BUFFER_LENGTH 5000
+#define MAX_BUFFER_LENGTH 4000
 
 #define STX 0x02
 #define STX_START_PONINTER 0
@@ -42,7 +43,7 @@ extern osMessageQId TCPSendQueueHandle;
 _Message* tcp_recv_msg_ = NULL;
 
 //memory pool
-extern osPoolId Pool_ID ;
+//extern osPoolId Pool_ID ;
 
 
 /*------------------------------------Server-----------------------------------------*/
@@ -84,13 +85,10 @@ static void TCPServerRecvTask(void const *arg)
 					{
 						do
 						{
+							//----------------------------------------------check the buffer length for protect memory and copy to buffer length
 							//0. maximum data occur error
 							if(recv_buffer.length() >= MAX_BUFFER_LENGTH)
-							{
 								recv_buffer.clear();
-
-								continue;
-							}
 
 							//1. copy all data using data and length
 							char temp_data[LWIP_MAX_LENGTH] = {0,};
@@ -99,6 +97,9 @@ static void TCPServerRecvTask(void const *arg)
 										(char*)((buf->p->payload)), buf->p->len);
 
 							recv_buffer.append(temp_data);
+
+
+
 
 							//2. check front values is 0x02, 0x32 is '2' character value for test
 							if(recv_buffer.front() != 0x32)
@@ -117,6 +118,9 @@ static void TCPServerRecvTask(void const *arg)
 								continue;
 							}
 
+
+
+
 							//4. get into the json parser and get data
 							//this must do the data move to main data
 							if(ethernet_data_parser(recv_buffer.substr(DATA_START_POINTER,
@@ -126,12 +130,11 @@ static void TCPServerRecvTask(void const *arg)
 								continue;
 							}
 
-							volatile const char* dd = ethernet_create_message();
-
-							TcpServerSend((const char*)dd);
+							//5. access main data structure and save data
 
 
-							//5. notify the response 'request' or get 'report'
+							//6. send message to each task
+							//notify the response 'request' or get 'report'
 							//this must notify the recved data type to the write thread
 
 //								//5.- 1 Dynamic allocate memory
@@ -144,9 +147,12 @@ static void TCPServerRecvTask(void const *arg)
 //								strncpy(tcp_recv_msg_->data_,
 //										recv_buffer.substr(5, buf_leng).c_str(), buf_leng);
 //
-								recv_buffer.erase(0, buf_leng +5);
 
-								recv_buffer.shrink_to_fit();
+
+							//7. buffer init
+							recv_buffer.erase(0, buf_leng +5);
+
+							recv_buffer.shrink_to_fit();
 //
 //								//char* last_word_pointer = (char*)(int)tcp_recv_msg_->data_+buf_leng;
 //
@@ -200,7 +206,9 @@ void TcpServerDelete()
 
 	  if(netconn_delete(conn) != ERR_OK) return;
 
-	  vTaskDelete(TcpServerHandle);
+	  vTaskDelete(TcpServerRecvHandle);
+
+	  vTaskDelete(TcpServerSendHandle);
 
 	  return;
 }
@@ -229,7 +237,7 @@ static void TCPServerSendTask(void const *arg)
 	while(1)
 	{
 		//0. Get all messages from eth (be notified type)
-		retVal = osMessageGet(myQueue01Handle, 100); //dequeue
+		retVal = osMessageGet(myQueue01Handle, osWaitForever); //dequeue
 
 		//1. if msg queue is available
 		if(retVal.status == osEventMessage)
@@ -237,12 +245,25 @@ static void TCPServerSendTask(void const *arg)
 			//this must enqeue command data to vector queue
 
 		}
-		else
-		{
-			//if no msg, do empty the queue
-			if()
 
-				netconn_write(newconn, data, strlen(data), NETCONN_COPY);
+		//if no msg, do empty the queue
+		if(!(send_command_data_.empty()))
+		{
+			//0. copy the front data
+			const eth_command_ send_json_data_ = send_command_data_.front();
+
+			//1. get data from main data structure
+
+			//2. then, move to the buffer
+			char send_data_[1024] = {0,};
+
+			//3. send msg
+			netconn_write(newconn, send_data_, strlen(send_data_), NETCONN_COPY);
+
+			//4. Check msg type. when recved data first -> delete first queue immediately
+			//						when send data first (this)-> wait until recved meg
+
+			send_command_data_.erase(send_command_data_.begin());
 
 		}
 
@@ -266,7 +287,12 @@ void TcpServerInit(void)
 	{
 		/* definition and creation of TCPServerTask */
 		osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
-		TcpServerHandle = osThreadCreate(osThread(TCPServerRecvTask_), NULL);
+		TcpServerRecvHandle = osThreadCreate(osThread(TCPServerRecvTask_), NULL);
+
+		/* definition and creation of TCPServerTask */
+		osThreadDef(TCPServerSendTask_, TCPServerSendTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *4);
+		TcpServerSendHandle = osThreadCreate(osThread(TCPServerSendTask_), NULL);
+
 	}
 }
 

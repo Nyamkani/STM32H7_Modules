@@ -1,5 +1,5 @@
 Middlewares/Third_Party/LwIP/netdb.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/api/netdb.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/api/netdb.c \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/netdb.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h ../Core/Inc/main.h \
