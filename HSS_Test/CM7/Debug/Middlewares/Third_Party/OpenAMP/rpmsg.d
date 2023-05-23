@@ -1,5 +1,5 @@
 Middlewares/Third_Party/OpenAMP/rpmsg.o: \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg.c \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg.c \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/compiler.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/mutex.h \
@@ -12,7 +12,7 @@ Middlewares/Third_Party/OpenAMP/rpmsg.o: \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/assert.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/alloc.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/alloc.h \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_internal.h
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_internal.h
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h:
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/compiler.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/mutex.h:
@@ -25,4 +25,4 @@ Middlewares/Third_Party/OpenAMP/rpmsg.o: \
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/assert.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/alloc.h:
 ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/system/generic/alloc.h:
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_internal.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/rpmsg_internal.h:

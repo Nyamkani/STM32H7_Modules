@@ -7,19 +7,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         000045fc  081002a0  081002a0  000102a0  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000334  0810489c  0810489c  0001489c  2**2
+  2 .rodata       00000338  0810489c  0810489c  0001489c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .init_array   00000004  08104bd0  08104bd0  00014bd0  2**2
+  3 .init_array   00000004  08104bd4  08104bd4  00014bd4  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  4 .fini_array   00000004  08104bd4  08104bd4  00014bd4  2**2
+  4 .fini_array   00000004  08104bd8  08104bd8  00014bd8  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  5 .data         0000011c  10000000  08104bd8  00020000  2**2
+  5 .data         0000011c  10000000  08104bdc  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .bss          00000188  1000011c  08104cf4  0002011c  2**2
+  6 .bss          00000188  1000011c  08104cf8  0002011c  2**2
                   ALLOC
-  7 ._user_heap_stack 00000604  100002a4  08104cf4  000202a4  2**0
+  7 ._user_heap_stack 00000604  100002a4  08104cf8  000202a4  2**0
                   ALLOC
-  8 .openamp_section 0000008c  38000000  08104cf4  00030000  2**2
+  8 .openamp_section 0000008c  38000000  08104cf8  00030000  2**2
                   ALLOC
   9 .ARM.attributes 00000030  00000000  00000000  0002011c  2**0
                   CONTENTS, READONLY
@@ -33,13 +33,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  14 .debug_macro  000481da  00000000  00000000  000452d0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_line   00018da8  00000000  00000000  0008d4aa  2**0
+ 15 .debug_line   000163a7  00000000  00000000  0008d4aa  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_str    001af059  00000000  00000000  000a6252  2**0
+ 16 .debug_str    001af065  00000000  00000000  000a3851  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .comment      00000050  00000000  00000000  002552ab  2**0
+ 17 .comment      00000050  00000000  00000000  002528b6  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  0000423c  00000000  00000000  002552fc  2**2
+ 18 .debug_frame  0000423c  00000000  00000000  00252908  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1265,7 +1265,7 @@ LoopFillZerobss:
   ldr r1, =_edata
  8100908:	1000011c 	.word	0x1000011c
   ldr r2, =_sidata
- 810090c:	08104bd8 	.word	0x08104bd8
+ 810090c:	08104bdc 	.word	0x08104bdc
   ldr r2, =_sbss
  8100910:	1000011c 	.word	0x1000011c
   ldr r4, =_ebss
@@ -1399,7 +1399,7 @@ uint32_t common_system_clock;
  81009c2:	bd80      	pop	{r7, pc}
  81009c4:	58024400 	.word	0x58024400
  81009c8:	40024400 	.word	0x40024400
- 81009cc:	08104a98 	.word	0x08104a98
+ 81009cc:	08104a9c 	.word	0x08104a9c
  81009d0:	10000004 	.word	0x10000004
  81009d4:	10000000 	.word	0x10000000
 
@@ -4331,7 +4331,7 @@ metal_io_read(struct metal_io_region *io, unsigned long offset,
  8101b40:	46bd      	mov	sp, r7
  8101b42:	bdb0      	pop	{r4, r5, r7, pc}
  8101b44:	0810496c 	.word	0x0810496c
- 8101b48:	08104aec 	.word	0x08104aec
+ 8101b48:	08104af0 	.word	0x08104af0
  8101b4c:	08104970 	.word	0x08104970
 
 08101b50 <metal_allocate_memory>:
@@ -4480,7 +4480,7 @@ static void rproc_virtio_virtqueue_notify(struct virtqueue *vq)
  8101c08:	bd80      	pop	{r7, pc}
  8101c0a:	bf00      	nop
  8101c0c:	081049b8 	.word	0x081049b8
- 8101c10:	08104acc 	.word	0x08104acc
+ 8101c10:	08104ad0 	.word	0x08104ad0
  8101c14:	081049d4 	.word	0x081049d4
 
 08101c18 <rproc_virtio_get_status>:
@@ -4870,7 +4870,7 @@ err0:
  8101e26:	3738      	adds	r7, #56	; 0x38
  8101e28:	46bd      	mov	sp, r7
  8101e2a:	bd80      	pop	{r7, pc}
- 8101e2c:	08104aa8 	.word	0x08104aa8
+ 8101e2c:	08104aac 	.word	0x08104aac
 
 08101e30 <rproc_virtio_init_vring>:
 
@@ -7677,12 +7677,12 @@ int rpmsg_init_vdev(struct rpmsg_virtio_device *rvdev,
  8102da8:	bd80      	pop	{r7, pc}
  8102daa:	bf00      	nop
  8102dac:	0810295d 	.word	0x0810295d
- 8102db0:	08104a64 	.word	0x08104a64
- 8102db4:	08104a6c 	.word	0x08104a6c
+ 8102db0:	08104a68 	.word	0x08104a68
+ 8102db4:	08104a70 	.word	0x08104a70
  8102db8:	08102aad 	.word	0x08102aad
  8102dbc:	08102ac1 	.word	0x08102ac1
  8102dc0:	08102bab 	.word	0x08102bab
- 8102dc4:	08104a74 	.word	0x08104a74
+ 8102dc4:	08104a78 	.word	0x08104a78
 
 08102dc8 <metal_machine_cache_flush>:
 {
@@ -9198,10 +9198,10 @@ static int OPENAMP_shmem_init(int RPMsgRole)
  81035ca:	3724      	adds	r7, #36	; 0x24
  81035cc:	46bd      	mov	sp, r7
  81035ce:	bd90      	pop	{r4, r7, pc}
- 81035d0:	08104a8c 	.word	0x08104a8c
+ 81035d0:	08104a90 	.word	0x08104a90
  81035d4:	1000003c 	.word	0x1000003c
- 81035d8:	08104a78 	.word	0x08104a78
- 81035dc:	08104a84 	.word	0x08104a84
+ 81035d8:	08104a7c 	.word	0x08104a7c
+ 81035dc:	08104a88 	.word	0x08104a88
  81035e0:	38000400 	.word	0x38000400
  81035e4:	10000290 	.word	0x10000290
  81035e8:	38010000 	.word	0x38010000
@@ -9552,9 +9552,9 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  81037d8:	e7f3      	b.n	81037c2 <__assert_func+0x12>
  81037da:	bf00      	nop
  81037dc:	100000b8 	.word	0x100000b8
- 81037e0:	08104afa 	.word	0x08104afa
- 81037e4:	08104b07 	.word	0x08104b07
- 81037e8:	08104b35 	.word	0x08104b35
+ 81037e0:	08104afe 	.word	0x08104afe
+ 81037e4:	08104b0b 	.word	0x08104b0b
+ 81037e8:	08104b39 	.word	0x08104b39
 
 081037ec <__errno>:
  81037ec:	4b01      	ldr	r3, [pc, #4]	; (81037f4 <__errno+0x8>)
@@ -9605,10 +9605,10 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  810384e:	4798      	blx	r3
  8103850:	3601      	adds	r6, #1
  8103852:	e7f2      	b.n	810383a <__libc_init_array+0x1e>
- 8103854:	08104bd0 	.word	0x08104bd0
- 8103858:	08104bd0 	.word	0x08104bd0
- 810385c:	08104bd0 	.word	0x08104bd0
- 8103860:	08104bd4 	.word	0x08104bd4
+ 8103854:	08104bd4 	.word	0x08104bd4
+ 8103858:	08104bd4 	.word	0x08104bd4
+ 810385c:	08104bd4 	.word	0x08104bd4
+ 8103860:	08104bd8 	.word	0x08104bd8
 
 08103864 <malloc>:
  8103864:	4b02      	ldr	r3, [pc, #8]	; (8103870 <malloc+0xc>)
@@ -10133,14 +10133,14 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  8103cfc:	f000 f880 	bl	8103e00 <_printf_i>
  8103d00:	e7e4      	b.n	8103ccc <_vfiprintf_r+0x208>
  8103d02:	bf00      	nop
- 8103d04:	08104b90 	.word	0x08104b90
- 8103d08:	08104bb0 	.word	0x08104bb0
- 8103d0c:	08104b70 	.word	0x08104b70
- 8103d10:	08104b3c 	.word	0x08104b3c
- 8103d14:	08104b46 	.word	0x08104b46
+ 8103d04:	08104b94 	.word	0x08104b94
+ 8103d08:	08104bb4 	.word	0x08104bb4
+ 8103d0c:	08104b74 	.word	0x08104b74
+ 8103d10:	08104b40 	.word	0x08104b40
+ 8103d14:	08104b4a 	.word	0x08104b4a
  8103d18:	00000000 	.word	0x00000000
  8103d1c:	08103a9f 	.word	0x08103a9f
- 8103d20:	08104b42 	.word	0x08104b42
+ 8103d20:	08104b46 	.word	0x08104b46
 
 08103d24 <_printf_common>:
  8103d24:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -10476,8 +10476,8 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  810403c:	f104 0619 	add.w	r6, r4, #25
  8104040:	e7f5      	b.n	810402e <_printf_i+0x22e>
  8104042:	bf00      	nop
- 8104044:	08104b4d 	.word	0x08104b4d
- 8104048:	08104b5e 	.word	0x08104b5e
+ 8104044:	08104b51 	.word	0x08104b51
+ 8104048:	08104b62 	.word	0x08104b62
 
 0810404c <_sbrk_r>:
  810404c:	b538      	push	{r3, r4, r5, lr}
@@ -10606,9 +10606,9 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  810414c:	f04f 37ff 	mov.w	r7, #4294967295	; 0xffffffff
  8104150:	e7ea      	b.n	8104128 <__swbuf_r+0x6c>
  8104152:	bf00      	nop
- 8104154:	08104b90 	.word	0x08104b90
- 8104158:	08104bb0 	.word	0x08104bb0
- 810415c:	08104b70 	.word	0x08104b70
+ 8104154:	08104b94 	.word	0x08104b94
+ 8104158:	08104bb4 	.word	0x08104bb4
+ 810415c:	08104b74 	.word	0x08104b74
 
 08104160 <__swsetup_r>:
  8104160:	4b32      	ldr	r3, [pc, #200]	; (810422c <__swsetup_r+0xcc>)
@@ -10700,9 +10700,9 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  8104228:	e7f7      	b.n	810421a <__swsetup_r+0xba>
  810422a:	bf00      	nop
  810422c:	100000b8 	.word	0x100000b8
- 8104230:	08104b90 	.word	0x08104b90
- 8104234:	08104bb0 	.word	0x08104bb0
- 8104238:	08104b70 	.word	0x08104b70
+ 8104230:	08104b94 	.word	0x08104b94
+ 8104234:	08104bb4 	.word	0x08104bb4
+ 8104238:	08104b74 	.word	0x08104b74
 
 0810423c <abort>:
  810423c:	b508      	push	{r3, lr}
@@ -10886,9 +10886,9 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  81043be:	bf08      	it	eq
  81043c0:	68ec      	ldreq	r4, [r5, #12]
  81043c2:	e7da      	b.n	810437a <_fflush_r+0x22>
- 81043c4:	08104b90 	.word	0x08104b90
- 81043c8:	08104bb0 	.word	0x08104bb0
- 81043cc:	08104b70 	.word	0x08104b70
+ 81043c4:	08104b94 	.word	0x08104b94
+ 81043c8:	08104bb4 	.word	0x08104bb4
+ 81043cc:	08104b74 	.word	0x08104b74
 
 081043d0 <std>:
  81043d0:	2300      	movs	r3, #0
@@ -11013,7 +11013,7 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  81044e2:	61a3      	str	r3, [r4, #24]
  81044e4:	e7d2      	b.n	810448c <__sinit+0xc>
  81044e6:	bf00      	nop
- 81044e8:	08104b38 	.word	0x08104b38
+ 81044e8:	08104b3c 	.word	0x08104b3c
  81044ec:	08104419 	.word	0x08104419
 
 081044f0 <__sfp>:
@@ -11068,7 +11068,7 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  810456e:	603b      	str	r3, [r7, #0]
  8104570:	e7ee      	b.n	8104550 <__sfp+0x60>
  8104572:	bf00      	nop
- 8104574:	08104b38 	.word	0x08104b38
+ 8104574:	08104b3c 	.word	0x08104b3c
  8104578:	ffff0001 	.word	0xffff0001
 
 0810457c <_fwalk_reent>:

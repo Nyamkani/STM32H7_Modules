@@ -13,17 +13,14 @@
 //main socket
 static struct netconn *conn, *newconn;
 
-//static ip_addr_t *addr;
-//static unsigned short port;
-
 /*Rtos thread handle*/
 osThreadId TcpServerRecvHandle;
 osThreadId TcpServerSendHandle;
 
-
 /*netif*/
 extern struct netif gnetif;
 
+/*Defines*/
 #define ServerPort (int) 10
 
 #define LWIP_MAX_LENGTH 1460
@@ -35,51 +32,25 @@ extern struct netif gnetif;
 #define LENGTH_DATA_END_POINTER 4
 #define DATA_START_POINTER 5
 
-
-std::string eth_data_;
-extern osMessageQId myQueue01Handle;
-extern osMessageQId TCPSendQueueHandle;
-
-_Message* tcp_recv_msg_ = NULL;
-
-//memory pool
-//extern osPoolId Pool_ID ;
-
-
 /*------------------------------------Server-----------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
 
 
 /**** Send RESPONSE every time the client sends some data ******/
-static void TCPServerRecvTask(void const *arg)
+static void TCPServerRecvTask(void const *argument)
 {
+	data_structure* st = (data_structure*)argument;
+
 	err_t err, accept_err;
 
 	struct netbuf *buf;
 
+	struct netconn *conn, *newconn;
+
+	st->conn = conn;
+
 	std::string recv_buffer;
 
-	/* Create a new connection identifier. */
-	conn = netconn_new(NETCONN_TCP);
-
-	if (conn!=NULL)
-	{
-		/* Bind connection to the server port. */
-		err = netconn_bind(conn, IP_ADDR_ANY, ServerPort);
-
-		if (err == ERR_OK)
-		{
-			/* Tell connection to go into listening mode. */
-			netconn_listen(conn);
-
-			while (1)
-			{
-				/* Grab new connection. */
-				accept_err = netconn_accept(conn, &newconn);
-
-				/* Process the new connection. */
-				if (accept_err == ERR_OK)
-				{
 					/* receive the data from the client */
 					while (netconn_recv(newconn, &buf) == ERR_OK)
 					{
@@ -123,12 +94,14 @@ static void TCPServerRecvTask(void const *arg)
 
 							//4. get into the json parser and get data
 							//this must do the data move to main data
-							if(ethernet_data_parser(recv_buffer.substr(DATA_START_POINTER,
+							if(GetDataFromEthernet(recv_buffer.substr(DATA_START_POINTER,
 									buf_leng + DATA_START_POINTER).c_str(), buf_leng) < 0)
 							{
 								//error occur
 								continue;
 							}
+
+
 
 							//5. access main data structure and save data
 
@@ -183,11 +156,7 @@ static void TCPServerRecvTask(void const *arg)
 			}
 		}
 	}
-	else
-	{
-		netconn_delete(conn);
 
-	}
 	//for whatever case occur
 	vTaskDelete(NULL);
 }
@@ -213,23 +182,9 @@ void TcpServerDelete()
 	  return;
 }
 
-void TcpServerSend(const char *data)
+static void TCPServerSendTask(void const *argument)
 {
-
-	netconn_write(newconn, data, strlen(data), NETCONN_COPY);
-}
-
-
-typedef struct
-{
-	uint16_t type = 0; //report? response
-	uint16_t recv_command_ = 0;
-	uint16_t send_command_ = 0;
-}eth_command_;
-
-static void TCPServerSendTask(void const *arg)
-{
-	osEvent retVal;
+	data_structure* st = (data_structure*)argument;
 
 	//1. check the msg
 	std::vector<eth_command_> send_command_data_;
@@ -237,34 +192,37 @@ static void TCPServerSendTask(void const *arg)
 	while(1)
 	{
 		//0. Get all messages from eth (be notified type)
-		retVal = osMessageGet(myQueue01Handle, osWaitForever); //dequeue
-
-		//1. if msg queue is available
-		if(retVal.status == osEventMessage)
-		{
-			//this must enqeue command data to vector queue
-
-		}
-
 		//if no msg, do empty the queue
 		if(!(send_command_data_.empty()))
 		{
 			//0. copy the front data
 			const eth_command_ send_json_data_ = send_command_data_.front();
+			char send_data_[1024] = {0,};
 
 			//1. get data from main data structure
 
-			//2. then, move to the buffer
-			char send_data_[1024] = {0,};
+			if(send_json_data_.type == 0x11)
+			{
+				if(send_json_data_.send_command_ == 2)
+				{
+					//2. then, move to the buffer
+					//strncpy(send_data_ , ethernet_create_message(), strlen(ethernet_create_message()));
+					netconn_write(newconn, ethernet_create_message(), strlen(ethernet_create_message()), NETCONN_COPY);
+				}
+
+			}
+
+
+
+
 
 			//3. send msg
-			netconn_write(newconn, send_data_, strlen(send_data_), NETCONN_COPY);
+			//netconn_write(newconn, send_data_, strlen(send_data_), NETCONN_COPY);
 
 			//4. Check msg type. when recved data first -> delete first queue immediately
 			//						when send data first (this)-> wait until recved meg
 
 			send_command_data_.erase(send_command_data_.begin());
-
 		}
 
 	}
@@ -281,19 +239,54 @@ static void TCPServerSendTask(void const *arg)
 }
 
 
-void TcpServerInit(void)
+int TcpServerInit(void)
 {
-	if(newconn == NULL)
+	int status = -1;
+
+	// 1. Create a new connection identifier.
+	conn = netconn_new(NETCONN_TCP);
+
+	if (conn == NULL)
 	{
-		/* definition and creation of TCPServerTask */
-		osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
-		TcpServerRecvHandle = osThreadCreate(osThread(TCPServerRecvTask_), NULL);
+		netconn_delete(conn);
 
-		/* definition and creation of TCPServerTask */
-		osThreadDef(TCPServerSendTask_, TCPServerSendTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *4);
-		TcpServerSendHandle = osThreadCreate(osThread(TCPServerSendTask_), NULL);
-
+		return -1;
 	}
+
+	//2. Bind connection to the server port
+	err = netconn_bind(conn, IP_ADDR_ANY, ServerPort);
+
+	if (err != ERR_OK)
+	{
+		netconn_delete(conn);
+
+		return (int)err;
+	}
+
+	//3. Tell connection to go into listening mode.
+	netconn_listen(conn);
+
+	while (1)
+	{
+		//4. Grab new connection.
+		accept_err = netconn_accept(conn, &newconn);
+
+		/* Process the new connection. */
+		if (accept_err == ERR_OK)
+		{
+			/* definition and creation of TCPServerRecvTask */
+			osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
+			TcpServerRecvHandle = osThreadCreate(osThread(TCPServerRecvTask_), NULL);
+
+			/* definition and creation of TCPServerSendTask */
+			osThreadDef(TCPServerSendTask_, TCPServerSendTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *4);
+			TcpServerSendHandle = osThreadCreate(osThread(TCPServerSendTask_), NULL);
+
+			break;
+		}
+	}
+
+	return ERR_OK;
 }
 
 

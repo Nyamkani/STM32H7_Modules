@@ -1,5 +1,5 @@
 Middlewares/Third_Party/LwIP/mqtt.o: \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/apps/mqtt_opts.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \

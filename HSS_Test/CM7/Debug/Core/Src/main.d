@@ -1,8 +1,10 @@
 Core/Src/main.o: ../Core/Src/main.cpp \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/cJSON.h \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/cJSON_Utils.h \
- ../Core/Inc/main.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/cJSON.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/cJSON_Utils.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h \
+ ../../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/ffconf.h \
+ ../FATFS/Target/bsp_driver_sd.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Core/Inc/stm32h7xx_hal_conf.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \
@@ -39,6 +41,13 @@ Core/Src/main.o: ../Core/Src/main.cpp \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sd_ex.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
+ ../FATFS/Target/fatfs_platform.h \
+ ../../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
+ ../../Middlewares/Third_Party/FatFs/src/diskio.h \
+ ../../Middlewares/Third_Party/FatFs/src/ff.h \
+ ../../Middlewares/Third_Party/FatFs/src/integer.h \
+ ../FATFS/Target/sd_diskio.h ../FATFS/Target/bsp_driver_sd.h \
+ ../Core/Inc/main.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
@@ -56,14 +65,7 @@ Core/Src/main.o: ../Core/Src/main.cpp \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- ../FATFS/App/fatfs.h ../../Middlewares/Third_Party/FatFs/src/ff.h \
- ../FATFS/Target/ffconf.h \
- ../../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
- ../../Middlewares/Third_Party/FatFs/src/diskio.h \
- ../../Middlewares/Third_Party/FatFs/src/ff.h \
- ../../Middlewares/Third_Party/FatFs/src/integer.h \
- ../FATFS/Target/sd_diskio.h ../FATFS/Target/bsp_driver_sd.h \
- ../FATFS/Target/fatfs_platform.h ../LWIP/App/lwip.h \
+ ../FATFS/App/fatfs.h ../LWIP/App/lwip.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/debug.h \
@@ -98,13 +100,11 @@ Core/Src/main.o: ../Core/Src/main.cpp \
  ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h \
  ../LWIP/Target/ethernetif.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/netif.h \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h \
- ../FATFS/Target/bsp_driver_sd.h \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h \
  ../OPENAMP/openamp.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/open_amp.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h \
@@ -140,11 +140,14 @@ Core/Src/main.o: ../Core/Src/main.cpp \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc_virtio.h \
  ../OPENAMP/openamp_conf.h ../OPENAMP/mbox_hsem.h \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/cJSON.h:
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/cJSON_Utils.h:
-../Core/Inc/main.h:
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/cJSON.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/cJSON_Utils.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:
+../../Middlewares/Third_Party/FatFs/src/ff.h:
+../FATFS/Target/ffconf.h:
+../FATFS/Target/bsp_driver_sd.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h:
@@ -181,6 +184,14 @@ Core/Src/main.o: ../Core/Src/main.cpp \
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_sd_ex.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h:
+../FATFS/Target/fatfs_platform.h:
+../../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h:
+../../Middlewares/Third_Party/FatFs/src/diskio.h:
+../../Middlewares/Third_Party/FatFs/src/ff.h:
+../../Middlewares/Third_Party/FatFs/src/integer.h:
+../FATFS/Target/sd_diskio.h:
+../FATFS/Target/bsp_driver_sd.h:
+../Core/Inc/main.h:
 ../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
@@ -199,15 +210,6 @@ Core/Src/main.o: ../Core/Src/main.cpp \
 ../../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
 ../../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
 ../FATFS/App/fatfs.h:
-../../Middlewares/Third_Party/FatFs/src/ff.h:
-../FATFS/Target/ffconf.h:
-../../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h:
-../../Middlewares/Third_Party/FatFs/src/diskio.h:
-../../Middlewares/Third_Party/FatFs/src/ff.h:
-../../Middlewares/Third_Party/FatFs/src/integer.h:
-../FATFS/Target/sd_diskio.h:
-../FATFS/Target/bsp_driver_sd.h:
-../FATFS/Target/fatfs_platform.h:
 ../LWIP/App/lwip.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
 ../LWIP/Target/lwipopts.h:
@@ -243,13 +245,11 @@ Core/Src/main.o: ../Core/Src/main.cpp \
 ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:
 ../LWIP/Target/ethernetif.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h:
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/netif.h:
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:
-../FATFS/Target/bsp_driver_sd.h:
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:
 ../OPENAMP/openamp.h:
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/open_amp.h:
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h:
@@ -286,4 +286,4 @@ Core/Src/main.o: ../Core/Src/main.cpp \
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc_virtio.h:
 ../OPENAMP/openamp_conf.h:
 ../OPENAMP/mbox_hsem.h:
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h:

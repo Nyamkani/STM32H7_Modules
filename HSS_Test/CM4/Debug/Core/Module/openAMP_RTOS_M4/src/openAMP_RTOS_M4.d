@@ -1,6 +1,6 @@
 Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.o: \
  ../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.cpp \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM4/Core/Module/openAMP_RTOS_M4/include/openAMP_RTOS_M4/openAMP_RTOS_M4.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM4/Core/Module/openAMP_RTOS_M4/include/openAMP_RTOS_M4/openAMP_RTOS_M4.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Core/Inc/stm32h7xx_hal_conf.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \
@@ -68,7 +68,7 @@ Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.o: \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc_virtio.h \
  ../OPENAMP/openamp_conf.h ../OPENAMP/mbox_hsem.h
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/CM4/Core/Module/openAMP_RTOS_M4/include/openAMP_RTOS_M4/openAMP_RTOS_M4.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM4/Core/Module/openAMP_RTOS_M4/include/openAMP_RTOS_M4/openAMP_RTOS_M4.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h:

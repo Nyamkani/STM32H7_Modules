@@ -12,33 +12,309 @@
 #include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
 
 #include <main.h>
+#include <map>
 
+data_structure main_data_structure_;
 
-static main_data* main_data_;
+osMessageQId TCPSendQueueHandle;
 
-osPoolId MainData_PoolID ;
+//osPoolId Pool_ID ;
+//static main_data*s main_data_;
 
-
-int InitializeDataStructure()
+int InitializeDataStructure(data_structure* st)
 {
 	int status = -1;
 
-	//0. Dyanamic allocation memory for rtos
-	main_data_ = (main_data *)osPoolAlloc(MainData_PoolID);
+	//0. insert the data to main data structure
+
+	//robot_info
+	st->main_data_.insert(std::pair<int, int>(robot_name_, 1));
+	st->main_data_.insert(std::pair<int, int>(fw_version_, 1));
+
+	//ipaddress_info
+	st->main_data_.insert(std::pair<int, int>(configIP_ADDR0, 192));
+	st->main_data_.insert(std::pair<int, int>(configIP_ADDR1, 168));
+	st->main_data_.insert(std::pair<int, int>(configIP_ADDR2, 17));
+	st->main_data_.insert(std::pair<int, int>(configIP_ADDR3, 11));
+
+	st->main_data_.insert(std::pair<int, int>(configNET_MASK0, 255));
+	st->main_data_.insert(std::pair<int, int>(configNET_MASK1, 255));
+	st->main_data_.insert(std::pair<int, int>(configNET_MASK2, 255));
+	st->main_data_.insert(std::pair<int, int>(configNET_MASK3, 0));
+
+	st->main_data_.insert(std::pair<int, int>(configGW_ADDR0, 192));
+	st->main_data_.insert(std::pair<int, int>(configGW_ADDR1, 168));
+	st->main_data_.insert(std::pair<int, int>(configGW_ADDR2, 17));
+	st->main_data_.insert(std::pair<int, int>(configGW_ADDR3, 1));
+
+	//status_page_1;
+	st->main_data_.insert(std::pair<int, int>(mode_, 0));
+	st->main_data_.insert(std::pair<int, int>(status_, 0));
+	st->main_data_.insert(std::pair<int, int>(position_, 0));
+	st->main_data_.insert(std::pair<int, int>(destination_, 0));
+
+	st->main_data_.insert(std::pair<int, int>(speed_, 0));
+	st->main_data_.insert(std::pair<int, int>(fork_stroke_, 0));
+	st->main_data_.insert(std::pair<int, int>(fork_width_, 0));
+	st->main_data_.insert(std::pair<int, int>(fork_on_load_, 0));
+
+	st->main_data_.insert(std::pair<int, int>(alarm_code_, 0));
+	st->main_data_.insert(std::pair<int, int>(error_code_, 0));
+
+	//status_page_2
+	st->main_data_.insert(std::pair<int, int>(sensor_input_, 0));
+
+	//status_page_3
+	st->main_data_.insert(std::pair<int, int>(task_type_, 0));
+	st->main_data_.insert(std::pair<int, int>(job_id_, 0));
+	st->main_data_.insert(std::pair<int, int>(task_id_, 0));
+	st->main_data_.insert(std::pair<int, int>(task_status_, 0));
+
+	st->main_data_.insert(std::pair<int, int>(pending_task_no_, 0));
+	st->main_data_.insert(std::pair<int, int>(callback_msg_, 0));
+
+	//vehicle_config_page_1
+	st->main_data_.insert(std::pair<int, int>(move_limit_min_, 0));
+	st->main_data_.insert(std::pair<int, int>(move_limit_max_, 0));
+	st->main_data_.insert(std::pair<int, int>(elevator_entry_pos_, 0));
+	st->main_data_.insert(std::pair<int, int>(elevator_board_pos_, 0));
+
+	st->main_data_.insert(std::pair<int, int>(elevator_exit_pos_, 0));
+	st->main_data_.insert(std::pair<int, int>(fwd_stop_calibration_, 0));
+	st->main_data_.insert(std::pair<int, int>(bwd_stop_calibration_, 0));
+	st->main_data_.insert(std::pair<int, int>(position_correction_constant_, 0));
+
+	//vehicle_config_page_2
+	st->main_data_.insert(std::pair<int, int>(move_speed1_, 0));
+	st->main_data_.insert(std::pair<int, int>(move_acc1_, 0));
+	st->main_data_.insert(std::pair<int, int>(move_speed2_, 0));
+	st->main_data_.insert(std::pair<int, int>(move_acc2_, 0));
+
+	//attach_config
+	st->main_data_.insert(std::pair<int, int>(stroke_speed1_, 0));
+	st->main_data_.insert(std::pair<int, int>(stroke_acc1_, 0));
+	st->main_data_.insert(std::pair<int, int>(stroke_speed2_, 0));
+	st->main_data_.insert(std::pair<int, int>(stroke_acc2_, 0));
+	st->main_data_.insert(std::pair<int, int>(width_speed1_, 0));
+	st->main_data_.insert(std::pair<int, int>(width_acc1_, 0));
+	st->main_data_.insert(std::pair<int, int>(width_speed2_, 0));
+	st->main_data_.insert(std::pair<int, int>(width_acc2_, 0));
+
 
 	//1. success the allocate
-	if(main_data_)
+//	if(main_data_)
 		status = 1;
 
 	return status;
 }
 
-int WriteData()
+
+
+//-------------------------------------------------------------write data to main data
+int WriteDataToMainData(int key, int value)
 {
 	int status = -1;
 
+	const int key_ = key, value_ = value;
+
+	//if key is available
+	if (main_data_.find(key_) != main_data_.end())
+	{
+		main_data_.at(key_) = value_;
+
+		return status = 1;
+	}
+
 	return status;
 }
+
+
+//json parsing and get command or write thing
+int GetDataFromEthernet(const char * const msg, int msg_leng)
+{
+	int status = -1;
+	_Message* send_msg = NULL;
+
+	//memory copy
+	char recv_buf[msg_leng + 1] = {0,};
+
+	strncpy (recv_buf, msg, msg_leng);
+
+	//declare header buffers
+    const cJSON *header = NULL;
+    const cJSON *transactionid = NULL;
+    const cJSON *msgtype = NULL;
+    const cJSON *category = NULL;
+    const cJSON *timestamp = NULL;
+
+
+
+	//-----------------------------------------------------------
+	  //cJSON *msg_json = cJSON_Parse(send_buf);
+	cJSON *msg_json = cJSON_ParseWithLength(recv_buf, msg_leng+1);
+
+	//error check
+	if (msg_json == NULL)
+	{
+		const char *error_ptr = cJSON_GetErrorPtr();
+		if (error_ptr != NULL)
+		{
+			//fprintf(stderr, "Error before: %s\n", error_ptr);
+			//parsing error
+		}
+		status = -1;
+		goto end;
+	}
+
+	//Get header object pointer
+	header = cJSON_GetObjectItemCaseSensitive(msg_json, "header");
+
+	if (header == NULL)
+	{
+		status = -1;
+		goto end;
+	}
+
+
+	transactionid = cJSON_GetObjectItemCaseSensitive(header, "transactionId");
+
+	if (cJSON_IsString(transactionid) && (transactionid->valuestring != NULL))
+	{
+		printf("transactionid is: \"%s\"\n", transactionid->valuestring);
+	}
+
+	msgtype = cJSON_GetObjectItemCaseSensitive(header, "msgType");
+
+	if (cJSON_IsString(msgtype) && (msgtype->valuestring != NULL))
+	{
+		printf("msgtype is: \"%s\"\n", msgtype->valuestring);
+	}
+
+	category = cJSON_GetObjectItemCaseSensitive(header, "category");
+
+	if (cJSON_IsString(category) && (category->valuestring != NULL))
+	{
+		printf("category is: \"%s\"\n", category->valuestring);
+	}
+
+	timestamp = cJSON_GetObjectItemCaseSensitive(header, "timeStamp");
+
+	if (cJSON_IsString(msgtype) && (timestamp->valuestring != NULL))
+	{
+		printf("timestamp is: \"%s\"\n", timestamp->valuestring);
+	}
+
+
+
+
+	//switch fucntion for each command type
+
+	if(strcmp(msgtype->valuestring, "request") == 0)
+	{
+	   // printf("1\r\n");
+
+		if(strcmp(category->valuestring, "info") == 0)
+		{
+			//send 'robot_info' data
+
+
+			send_msg->id_ = 0x11;
+			send_msg->cmd_ = 1;
+
+			osMessagePut(TCPSendQueueHandle, (uint32_t)(&send_msg), 100); //enqueue
+
+		}
+		else if(strcmp(category->valuestring, "status") == 0)
+		{
+			//send 'task_status and status_page_1,2,3' data
+			send_msg = (_Message *)osPoolAlloc (Pool_ID);
+
+
+			send_msg->id_ = 0x11;
+			send_msg->cmd_ = 2;
+
+			osMessagePut(TCPSendQueueHandle, (uint32_t)(send_msg), 10); //enqueue
+			//osMessagePut(TCPSendQueueHandle, (uint32_t)(&send_msg), 100); //enqueue
+
+		}
+		else if(strcmp(category->valuestring, "taskCancel") == 0)
+		{
+			//send 'result' data
+		}
+
+
+
+	       osPoolFree(Pool_ID, send_msg);
+
+
+	}
+	else if (strcmp(msgtype->valuestring, "ack") == 0)
+	{
+		//printf("2\r\n");
+
+	}
+	else if (strcmp(msgtype->valuestring, "approve") == 0)
+	{
+		//printf("3\r\n");
+
+	}
+	else if (strcmp(msgtype->valuestring, "heartbeatresponse") == 0)
+	{
+		//printf("3\r\n");
+
+	}
+	else
+	{
+		//unknown recv data error
+
+	}
+
+
+end:
+	cJSON_Delete(msg_json);
+	return status;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int ReadDataFromMainData(int key)
+{
+	const int key_ = key;
+
+	//if key is available
+	if (main_data_.find(key_) != main_data_.end())
+	{
+		return main_data_.at(key_);
+	}
+	return -1;
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -164,7 +440,7 @@ end:
 const char* ethernet_create_message(void)
 {
 
-    char *string = NULL;
+    char string[1024] ={0,};
 
 	//declare header buffers
     cJSON *header = NULL;
@@ -351,7 +627,7 @@ const char* ethernet_create_message(void)
     {
         fprintf(stderr, "Failed to print monitor.\n");
     }
-    free(string);
+    cJSON_free (string);
 
 end:
 

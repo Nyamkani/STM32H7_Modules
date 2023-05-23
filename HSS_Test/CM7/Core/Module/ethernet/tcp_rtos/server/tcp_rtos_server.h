@@ -14,18 +14,6 @@
 #define max_num_buf_             1024
 
 
-//tcp messages
-typedef struct
-{
-	int id_;
-	char data_[max_num_buf_] = {0,};
-	int leng_;
-
-}_Message;
-
-
-
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,7 +28,7 @@ extern "C" {
 #include "netif.h"
 
 
-void TcpServerInit(void);
+int TcpServerInit(void);
 void TcpServerSend(const char *data);
 void TcpServerDelete();
 void TcpServerRecvBuffer(const char *data);

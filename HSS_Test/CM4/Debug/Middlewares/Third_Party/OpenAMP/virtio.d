@@ -1,5 +1,5 @@
 Middlewares/Third_Party/OpenAMP/virtio.o: \
- /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/virtio/virtio.c \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/OpenAMP/open-amp/lib/virtio/virtio.c \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/virtio.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/virtqueue.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/virtio_ring.h \

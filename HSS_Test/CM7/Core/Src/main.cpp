@@ -62,7 +62,7 @@ osThreadId Task2Handle;
 
 //msg q handle
 osMessageQId myQueue01Handle;
-osMessageQId TCPSendQueueHandle;
+
 
 //memory pool
 
@@ -176,7 +176,16 @@ int main(void)
   MX_MDMA_Init();
   MX_SDMMC1_SD_Init();
   MX_FATFS_Init();
+
   /* USER CODE BEGIN 2 */
+
+  //-----------------------------------------------------main data structure init;
+  data_structure* main_data_ = NULL;
+
+  main_data_ = new data_structure;
+
+  InitializeDataStructure(main_data_);
+
 
   /* USER CODE END 2 */
 
@@ -198,8 +207,8 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of InitTask */
-  osThreadDef(InitTask, StartInitTask, osPriorityNormal, 0, 512);
-  InitTaskHandle = osThreadCreate(osThread(InitTask), NULL);
+  osThreadDef(InitTask, StartInitTask, osPriorityNormal,0,  512);
+  InitTaskHandle = osThreadCreate(osThread(InitTask), (void*)main_data_);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -422,6 +431,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartInitTask */
 void StartInitTask(void const * argument)
 {
+	data_structure* st = (data_structure*)argument;
+
 	/* init code for LWIP */
 	MX_LWIP_Init();
 	/* USER CODE BEGIN 5 */
@@ -440,24 +451,20 @@ void StartInitTask(void const * argument)
 	OpenAMPInit_M7();
 
 	//message pool
-	 osPoolDef (Pool_ID_, sizeof(*tcp_recv_msg_), &tcp_recv_msg_);
-	 Pool_ID = osPoolCreate(osPool(Pool_ID_));
-
-	//send data from tcp data to main queue
-	osMessageQDef(myQueue01, sizeof(*tcp_recv_msg_), &tcp_recv_msg_);
-	myQueue01Handle = osMessageCreate(osMessageQ(myQueue01), NULL);
+	 //osPoolDef (Pool_ID_, sizeof(*tcp_recv_msg_), &tcp_recv_msg_);
+	 //Pool_ID = osPoolCreate(osPool(Pool_ID_));
 
 	//main to tcp sender
 	//osMessageQDef(tcpsendq, 16, _Message);
 	//TCPSendQueueHandle = osMessageCreate(osMessageQ(tcpsendq), NULL);
 
 	/* definition and creation of Task1 */
-	osThreadDef(Task1, StartTask1, osPriorityLow, 0, configMINIMAL_STACK_SIZE *2);
-	Task1Handle = osThreadCreate(osThread(Task1), NULL);
+//	osThreadDef(Task1, StartTask1, osPriorityLow, 0, configMINIMAL_STACK_SIZE *2);
+//	Task1Handle = osThreadCreate(osThread(Task1), NULL);
 
 	/* definition and creation of Task2 */
-	osThreadDef(Task2, StartTask2, osPriorityHigh, 0, configMINIMAL_STACK_SIZE *6);
-	Task2Handle = osThreadCreate(osThread(Task2), NULL);
+//	osThreadDef(Task2, StartTask2, osPriorityHigh, 0, configMINIMAL_STACK_SIZE *6);
+//	Task2Handle = osThreadCreate(osThread(Task2), NULL);
 
 	/*Delete Itself*/
     vTaskDelete(NULL);
