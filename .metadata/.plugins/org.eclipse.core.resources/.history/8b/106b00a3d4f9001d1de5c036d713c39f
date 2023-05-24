@@ -1,0 +1,22 @@
+/*
+ * initialize_peripheral.h
+ *
+ *  Created on: May 24, 2023
+ *      Author: studio3s
+ */
+
+#ifndef MODULE_INITIALIZE_PERIPHERAL_INCLUDE_INITIALIZE_PERIPHERAL_H_
+#define MODULE_INITIALIZE_PERIPHERAL_INCLUDE_INITIALIZE_PERIPHERAL_H_
+
+
+
+void SystemClock_Config(void);
+static void MPU_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_MDMA_Init(void);
+static void MX_SDMMC1_SD_Init(void);
+
+int initialize_peripheral();
+
+
+#endif /* MODULE_INITIALIZE_PERIPHERAL_INCLUDE_INITIALIZE_PERIPHERAL_H_ */

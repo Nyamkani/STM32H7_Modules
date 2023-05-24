@@ -9,6 +9,10 @@
 
 #include <fatfs_h7/include/fatfs_h7/fatfs_h7.h>
 /* Private variables ---------------------------------------------------------*/
+	//FATFS data
+	FATFS SDFatFs;  /* File system object for SD card logical drive */
+	FIL SDFile;
+	char SDPath[4]; /* SD card logical drive path */
 
 
 

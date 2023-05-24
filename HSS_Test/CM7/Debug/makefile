@@ -23,6 +23,7 @@ RM := rm -rf
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include Core/Module/openAMP_RTOS_M7/src/subdir.mk
+-include Core/Module/initialize_peripheral/src/subdir.mk
 -include Core/Module/fatfs_h7/src/subdir.mk
 -include Core/Module/ethernet/udp_rtos/subdir.mk
 -include Core/Module/ethernet/tcp_rtos/server/subdir.mk

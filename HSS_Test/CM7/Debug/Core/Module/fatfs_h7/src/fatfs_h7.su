@@ -1,0 +1,5 @@
+../Core/Module/fatfs_h7/src/fatfs_h7.c:22:13:BSPInit	8	static
+../Core/Module/fatfs_h7/src/fatfs_h7.c:33:6:FatFsInit	16	static
+../Core/Module/fatfs_h7/src/fatfs_h7.c:61:6:FatFsTest	288	static
+../Core/Module/fatfs_h7/src/fatfs_h7.c:132:5:SDCard_Write	72	dynamic
+../Core/Module/fatfs_h7/src/fatfs_h7.c:160:5:SDCard_Read	272	static

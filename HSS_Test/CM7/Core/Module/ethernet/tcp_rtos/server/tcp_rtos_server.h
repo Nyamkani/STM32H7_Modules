@@ -28,7 +28,7 @@ extern "C" {
 #include "netif.h"
 
 
-int TcpServerInit(void);
+void TcpServerInit(void const * argument);
 void TcpServerSend(const char *data);
 void TcpServerDelete();
 void TcpServerRecvBuffer(const char *data);

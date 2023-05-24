@@ -12,6 +12,13 @@
 #include <api_data_structure/include/api_data_structure/cJSON_Utils.h>
 #include <fatfs_h7/include/fatfs_h7/fatfs_h7.h>
 
+
+#include "lwip/opt.h"
+#include "lwip/api.h"
+#include "lwip/sys.h"
+
+#include "netif.h"
+
 #include <cstring>
 #include <cstdio>
 #include <vector>
@@ -141,8 +148,22 @@ typedef struct
 
 }main_data;
 
+typedef struct
+{
+	struct netconn *conn = nullptr;
+	struct netconn *newconn = nullptr;
+	err_t err;
+	err_t accept_err;
 
+}netconn_data;
 
+typedef struct
+{
+	FATFS SDFatFs;  /* File system object for SD card logical drive */
+	FIL SDFile;
+	char SDPath[4]; /* SD card logical drive path */
+
+}fatfs_data;
 
 
 
@@ -158,12 +179,10 @@ typedef struct
 	std::vector<int> sdcard_write_queue_;
 
 	//netconn(socket) data
-	struct netconn *conn;
+	netconn_data netconn_data_;
 
 	//FATFS data
-	FATFS SDFatFs;  /* File system object for SD card logical drive */
-	FIL SDFile;
-	char SDPath[4]; /* SD card logical drive path */
+	fatfs_data fatfs_data_;
 
 
 
@@ -265,8 +284,12 @@ typedef struct
 
 
 
+int InitializeDataStructure(data_structure* Dst);
 
-int InitializeDataStructure(data_structure* st);
+int WriteDataToMainData(int key, int value);
+
+const int ReadDataFromMainData(int key);
+
 
 int GetDataFromEthernet(const char * const msg, int msg_leng);
 int ethernet_data_parser(const char * const msg, int msg_leng);

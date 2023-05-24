@@ -38,6 +38,7 @@ Core/Module/ethernet/tcp_rtos/client \
 Core/Module/ethernet/tcp_rtos/server \
 Core/Module/ethernet/udp_rtos \
 Core/Module/fatfs_h7/src \
+Core/Module/initialize_peripheral/src \
 Core/Module/openAMP_RTOS_M7/src \
 Core/Src \
 Core/Startup \

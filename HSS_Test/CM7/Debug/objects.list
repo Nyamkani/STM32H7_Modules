@@ -7,6 +7,7 @@
 "./Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o"
 "./Core/Module/ethernet/udp_rtos/udp_rtos.o"
 "./Core/Module/fatfs_h7/src/fatfs_h7.o"
+"./Core/Module/initialize_peripheral/src/initialize_peripheral.o"
 "./Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o"
 "./Core/Src/freertos.o"
 "./Core/Src/main.o"

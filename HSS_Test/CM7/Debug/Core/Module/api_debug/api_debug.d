@@ -47,8 +47,12 @@ Core/Module/api_debug/api_debug.o: ../Core/Module/api_debug/api_debug.cpp \
  ../../Middlewares/Third_Party/FatFs/src/ff.h \
  ../../Middlewares/Third_Party/FatFs/src/integer.h \
  ../FATFS/Target/sd_diskio.h ../FATFS/Target/bsp_driver_sd.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h \
+ ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
+ ../LWIP/Target/lwipopts.h ../Core/Inc/main.h \
+ ../../Middlewares/Third_Party/LwIP/src/include/lwip/debug.h \
+ ../../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h \
+ ../../Middlewares/Third_Party/LwIP/system/arch/cc.h \
+ ../../Middlewares/Third_Party/LwIP/system/arch/cpu.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/pbuf.h \
@@ -57,6 +61,7 @@ Core/Module/api_debug/api_debug.o: ../Core/Module/api_debug/api_debug.cpp \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/def.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/ip4_addr.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/ip6_addr.h \
+ ../../Middlewares/Third_Party/LwIP/src/include/lwip/def.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/sys.h \
  ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
@@ -83,6 +88,8 @@ Core/Module/api_debug/api_debug.o: ../Core/Module/api_debug/api_debug.cpp \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_std.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_priv.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/mem_priv.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h \
+ /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h \
  /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h \
  ../OPENAMP/openamp.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/open_amp.h \
@@ -169,8 +176,13 @@ Core/Module/api_debug/api_debug.o: ../Core/Module/api_debug/api_debug.cpp \
 ../../Middlewares/Third_Party/FatFs/src/integer.h:
 ../FATFS/Target/sd_diskio.h:
 ../FATFS/Target/bsp_driver_sd.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
+../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
+../LWIP/Target/lwipopts.h:
+../Core/Inc/main.h:
+../../Middlewares/Third_Party/LwIP/src/include/lwip/debug.h:
+../../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h:
+../../Middlewares/Third_Party/LwIP/system/arch/cc.h:
+../../Middlewares/Third_Party/LwIP/system/arch/cpu.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/netbuf.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/pbuf.h:
@@ -179,6 +191,7 @@ Core/Module/api_debug/api_debug.o: ../Core/Module/api_debug/api_debug.cpp \
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/def.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/ip4_addr.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/ip6_addr.h:
+../../Middlewares/Third_Party/LwIP/src/include/lwip/def.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/sys.h:
 ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:
 ../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
@@ -205,6 +218,8 @@ Core/Module/api_debug/api_debug.o: ../Core/Module/api_debug/api_debug.cpp \
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_std.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_priv.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/mem_priv.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_debug/api_debug.h:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:
 ../OPENAMP/openamp.h:
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/open_amp.h:

@@ -1,112 +1,43 @@
-15:57:42 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+16:44:02 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
 make -j4 all 
-arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc "../Core/Module/fatfs_h7/src/fatfs_h7.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Module/fatfs_h7/src/fatfs_h7.d" -MT"Core/Module/fatfs_h7/src/fatfs_h7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/fatfs_h7/src/fatfs_h7.o"
 arm-none-eabi-g++ "../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.d" -MT"Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o"
-arm-none-eabi-g++ "../Core/Module/api_debug/api_debug.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/api_debug/api_debug.d" -MT"Core/Module/api_debug/api_debug.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/api_debug/api_debug.o"
-../Core/Module/fatfs_h7/src/fatfs_h7.c: In function 'FatFsInit':
-../Core/Module/fatfs_h7/src/fatfs_h7.c:32:34: error: 'SDPath' undeclared (first use in this function)
-   32 |  if(FATFS_LinkDriver(&SD_Driver, SDPath) == 0)
-      |                                  ^~~~~~
-../Core/Module/fatfs_h7/src/fatfs_h7.c:32:34: note: each undeclared identifier is reported only once for each function it appears in
-../Core/Module/fatfs_h7/src/fatfs_h7.c:44:16: error: 'SDFatFs' undeclared (first use in this function)
-   44 |    if(f_mount(&SDFatFs, (TCHAR const*)SDPath, 1) != FR_OK) return;
-      |                ^~~~~~~
-../Core/Module/fatfs_h7/src/fatfs_h7.c: In function 'FatFsTest':
-../Core/Module/fatfs_h7/src/fatfs_h7.c:67:17: error: 'SDFile' undeclared (first use in this function)
-   67 |   res = f_open(&SDFile, (const char*)filename, FA_CREATE_ALWAYS | FA_WRITE);
-      |                 ^~~~~~
-../Core/Module/fatfs_h7/src/fatfs_h7.c: In function 'SDCard_Write':
-../Core/Module/fatfs_h7/src/fatfs_h7.c:141:16: error: 'SDFile' undeclared (first use in this function)
-  141 |  res = f_open(&SDFile, (const char*)filename, FA_WRITE | FA_OPEN_APPEND);
-      |                ^~~~~~
-../Core/Module/fatfs_h7/src/fatfs_h7.c: In function 'SDCard_Read':
-../Core/Module/fatfs_h7/src/fatfs_h7.c:161:16: error: 'SDFile' undeclared (first use in this function)
-  161 |  res = f_open(&SDFile, (const char*)filename, FA_READ);
-      |                ^~~~~~
-make: *** [Core/Module/fatfs_h7/src/subdir.mk:19: Core/Module/fatfs_h7/src/fatfs_h7.o] Error 1
-make: *** Waiting for unfinished jobs....
+../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp: In function 'void TCPServerRecvTask(void*)':
+../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:68:20: error: 'void*' is not a pointer-to-object type
+   68 |  (struct netconn* )argument->netconn_data.conn = conn;
+      |                    ^~~~~~~~
+../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:45:18: warning: unused variable 'pData' [-Wunused-variable]
+   45 |  data_structure* pData = (data_structure*)argument;
+      |                  ^~~~~
 ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp: In function 'void TCPServerSendTask(const void*)':
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:228:14: error: 'eth_command_' was not declared in this scope
-  228 |  std::vector<eth_command_> send_command_data_;
-      |              ^~~~~~~~~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:228:26: error: template argument 1 is invalid
-  228 |  std::vector<eth_command_> send_command_data_;
-      |                          ^
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:228:26: error: template argument 2 is invalid
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:234:27: error: request for member 'empty' in 'send_command_data_', which is of non-class type 'int'
-  234 |   if(!(send_command_data_.empty()))
-      |                           ^~~~~
-In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:13,
-                 from ../Core/Module/api_debug/api_debug.cpp:11:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
-   23 | static void BSPInit();
-      |             ^~~~~~~
-In file included from ../Core/Module/api_debug/api_debug.cpp:11:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:254:2: warning: 'define_main_data_' defined but not used [-Wunused-variable]
-  254 | }define_main_data_;
-      |  ^~~~~~~~~~~~~~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:237:10: error: 'eth_command_' does not name a type
-  237 |    const eth_command_ send_json_data_ = send_command_data_.front();
-      |          ^~~~~~~~~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:242:7: error: 'send_json_data_' was not declared in this scope; did you mean 'send_data_'?
-  242 |    if(send_json_data_.type == 0x11)
-      |       ^~~~~~~~~~~~~~~
-      |       send_data_
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:263:23: error: request for member 'erase' in 'send_command_data_', which is of non-class type 'int'
-  263 |    send_command_data_.erase(send_command_data_.begin());
-      |                       ^~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:263:48: error: request for member 'begin' in 'send_command_data_', which is of non-class type 'int'
-  263 |    send_command_data_.erase(send_command_data_.begin());
-      |                                                ^~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:238:9: warning: unused variable 'send_data_' [-Wunused-variable]
-  238 |    char send_data_[1024] = {0,};
+../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:224:9: warning: unused variable 'send_data_' [-Wunused-variable]
+  224 |    char send_data_[1024] = {0,};
       |         ^~~~~~~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:225:18: warning: unused variable 'st' [-Wunused-variable]
-  225 |  data_structure* st = (data_structure*)argument;
-      |                  ^~
-../Core/Src/main.cpp: In function 'void StartInitTask(const void*)':
-../Core/Src/main.cpp:434:18: warning: unused variable 'st' [-Wunused-variable]
-  434 |  data_structure* st = (data_structure*)argument;
-      |                  ^~
+../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:185:10: warning: unused variable 'retVal' [-Wunused-variable]
+  185 |  osEvent retVal;
+      |          ^~~~~~
+In file included from ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:41,
+                 from ../../Middlewares/Third_Party/LwIP/src/include/lwip/sys.h:95,
+                 from ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:48,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:17,
+                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
+../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp: In function 'void TcpServerInit(const void*)':
+../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:276:35: error: invalid conversion from 'void (*)(void*)' to 'os_pthread' {aka 'void (*)(const void*)'} [-fpermissive]
+  276 |   osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
+../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:416:11: note: in definition of macro 'osThreadDef'
+  416 | { #name, (thread), (priority), (instances), (stacksz), NULL, NULL }
+      |           ^~~~~~
 In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:13,
                  from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
    23 | static void BSPInit();
       |             ^~~~~~~
-../Core/Src/main.cpp: In function 'void StartTask1(const void*)':
-../Core/Src/main.cpp:486:19: warning: unused variable 'xTime' [-Wunused-variable]
-  486 |  const TickType_t xTime = pdMS_TO_TICKS(5);
-      |                   ^~~~~
-../Core/Src/main.cpp:488:13: warning: unused variable 'xLastWakeTime' [-Wunused-variable]
-  488 |  TickType_t xLastWakeTime = xTaskGetTickCount();
-      |             ^~~~~~~~~~~~~
-../Core/Src/main.cpp: In function 'void StartTask2(const void*)':
-../Core/Src/main.cpp:519:8: warning: unused variable 'send_buf' [-Wunused-variable]
-  519 |  char* send_buf = NULL;
-      |        ^~~~~~~~
 In file included from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:254:2: warning: 'define_main_data_' defined but not used [-Wunused-variable]
-  254 | }define_main_data_;
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:273:2: warning: 'define_main_data_' defined but not used [-Wunused-variable]
+  273 | }define_main_data_;
       |  ^~~~~~~~~~~~~~~~~
 make: *** [Core/Module/ethernet/tcp_rtos/server/subdir.mk:19: Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o] Error 1
-In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:13,
-                 from ../Core/Src/main.cpp:20:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
-   23 | static void BSPInit();
-      |             ^~~~~~~
-../Core/Src/main.cpp: In function 'void StartTask2(const void*)':
-../Core/Src/main.cpp:592:12: warning: 'char* strncpy(char*, const char*, size_t)' output truncated before terminating nul copying 1 byte from a string of the same length [-Wstringop-truncation]
-  592 |    strncpy ((char*)(int)(send_buf + 1), "0", 1);
-      |    ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from ../Core/Src/main.cpp:20:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h: At global scope:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:254:2: warning: 'define_main_data_' defined but not used [-Wunused-variable]
-  254 | }define_main_data_;
-      |  ^~~~~~~~~~~~~~~~~
 "make -j4 all" terminated with exit code 2. Build might be incomplete.
 
-15:57:45 Build Failed. 16 errors, 13 warnings. (took 3s.784ms)
+16:44:04 Build Failed. 3 errors, 5 warnings. (took 2s.15ms)
 
