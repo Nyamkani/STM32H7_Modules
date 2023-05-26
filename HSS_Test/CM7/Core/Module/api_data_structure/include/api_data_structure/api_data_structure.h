@@ -150,8 +150,9 @@ typedef struct
 
 typedef struct
 {
-	struct netconn *conn = nullptr;
-	struct netconn *newconn = nullptr;
+	struct netconn* conn_ = nullptr;
+	struct netconn* buf_conn_ = nullptr;
+	struct netconn* accept_conn_ = nullptr;
 	err_t err;
 	err_t accept_err;
 

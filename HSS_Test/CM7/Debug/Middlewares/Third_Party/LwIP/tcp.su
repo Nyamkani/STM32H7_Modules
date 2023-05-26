@@ -4,6 +4,8 @@
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/core/tcp.c:234:1:tcp_tmr	8	static
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/core/tcp.c:251:1:tcp_remove_listener	24	static
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/core/tcp.c:269:1:tcp_listen_closed	24	static
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/core/tcp.c:294:1:tcp_backlog_delayed	16	static
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/core/tcp.c:317:1:tcp_backlog_accepted	16	static
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/core/tcp.c:348:1:tcp_close_shutdown	48	static
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/core/tcp.c:409:1:tcp_close_shutdown_fin	24	static
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/Middlewares/Third_Party/LwIP/src/core/tcp.c:484:1:tcp_close	16	static

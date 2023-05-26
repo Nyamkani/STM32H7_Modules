@@ -575,6 +575,8 @@ netconn_accept(struct netconn *conn, struct netconn **new_conn)
  *         ERR_WOULDBLOCK if the netconn is nonblocking but would block to wait for data
  *         ERR_TIMEOUT if the netconn has a receive timeout and no data was received
  */
+
+
 static err_t
 netconn_recv_data(struct netconn *conn, void **new_buf, u8_t apiflags)
 {
@@ -611,14 +613,20 @@ netconn_recv_data(struct netconn *conn, void **new_buf, u8_t apiflags)
       return ERR_WOULDBLOCK;
     }
   } else {
-#if LWIP_SO_RCVTIMEO
-    if (sys_arch_mbox_fetch(&conn->recvmbox, &buf, conn->recv_timeout) == SYS_ARCH_TIMEOUT) {
+//#if LWIP_SO_RCVTIMEO
+//    if (sys_arch_mbox_fetch(&conn->recvmbox, &buf, conn->recv_timeout) == SYS_ARCH_TIMEOUT) {
+//      NETCONN_MBOX_WAITING_DEC(conn);
+//      return ERR_TIMEOUT;
+//    }
+//#else
+//    sys_arch_mbox_fetch(&conn->recvmbox, &buf, 0);
+//  	  }
+//#endif /* LWIP_SO_RCVTIMEO*/
+    if (sys_arch_mbox_fetch(&conn->recvmbox, &buf, 2000UL) == SYS_ARCH_TIMEOUT) {
       NETCONN_MBOX_WAITING_DEC(conn);
       return ERR_TIMEOUT;
     }
-#else
-    sys_arch_mbox_fetch(&conn->recvmbox, &buf, 0);
-#endif /* LWIP_SO_RCVTIMEO*/
+
   }
   NETCONN_MBOX_WAITING_DEC(conn);
 #if LWIP_NETCONN_FULLDUPLEX

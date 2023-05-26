@@ -10,10 +10,9 @@
 #include <vector>
 #include <main.h>
 
-//main socket
-static struct netconn *conn, *newconn;
 
 /*Rtos thread handle*/
+osThreadId TcpAcceptConnHandle;
 osThreadId TcpServerRecvHandle;
 osThreadId TcpServerSendHandle;
 
@@ -33,6 +32,80 @@ extern struct netif gnetif;
 #define LENGTH_DATA_END_POINTER 4
 #define DATA_START_POINTER 5
 
+static void TCPServerRecvTask(void const *argument);
+static void TCPServerSendTask(void const* argument);
+
+/*------------------------------------accept connection -----------------------------------------*/
+/*-----------------------------------------------------------------------------------*/
+
+
+
+static void TCPAcceptConnTask(void const *argument)
+{
+	data_structure* Dst_ = (data_structure*)argument;
+
+	std::vector<netconn* > buf_conn_list_;
+
+	bool test_flag1_ = false;
+	bool test_flag2_ = false;
+
+	while (1)
+	{
+
+		struct netconn* buf_conn_ = nullptr;
+
+		netconn_listen(Dst_->netconn_data_.conn_);
+
+		/* Grab new connection. */
+		while (netconn_accept(Dst_->netconn_data_.conn_, &(buf_conn_)) != ERR_OK );
+
+		/*When the zombie socket available, delete them*/
+		if(!(buf_conn_list_.empty()))
+		{
+			for(auto range : buf_conn_list_)
+			{
+				netconn_close(range);
+				netconn_delete(range);
+			}
+			buf_conn_list_.clear();
+
+		}
+
+		/*When the conn is not nullptr, delete ptr*/
+		if(Dst_->netconn_data_.accept_conn_)
+			Dst_->netconn_data_.accept_conn_= nullptr;
+
+		/*matching new ptr*/
+		Dst_->netconn_data_.accept_conn_ = buf_conn_;
+
+		/*enqueue the ptr*/
+		buf_conn_list_.push_back(buf_conn_);
+
+
+		/*make thread only once*/
+		if(!test_flag1_)
+		{
+			/* definition and creation of TCPServerTask */
+			osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
+			TcpServerRecvHandle = osThreadCreate(osThread(TCPServerRecvTask_), (void*)Dst_);
+
+			test_flag1_ = true;
+		}
+
+		if(!test_flag2_)
+		{
+			/* definition and creation of TCPServerTask */
+			osThreadDef(TCPServerSendTask_, TCPServerSendTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *4);
+					TcpServerSendHandle = osThreadCreate(osThread(TCPServerSendTask_), (void*)Dst_);
+
+			test_flag2_ = true;
+		}
+
+	}
+
+	vTaskDelete(NULL);
+}
+
 
 
 /*------------------------------------Server-----------------------------------------*/
@@ -42,130 +115,81 @@ extern struct netif gnetif;
 /**** Send RESPONSE every time the client sends some data ******/
 static void TCPServerRecvTask(void const *argument)
 {
-	data_structure* pData = (data_structure*)argument;
-	struct netconn *conn = nullptr, *newconn = nullptr;
+	data_structure* Dst_ = (data_structure*)argument;
 
 	struct netbuf *buf;
-	err_t err = -20, accept_err = -20;
+
 	std::string recv_buffer;
 
-	/* Create a new connection identifier. */
-	conn = netconn_new(NETCONN_TCP);
+	//netconn_set_recvtimeout(Dst_->netconn_data_.accept_conn_, 2000UL);
 
-	if (!(conn))
-		goto err;
-
-	/* Bind connection to the server port. */
-	err = netconn_bind(conn, IP_ADDR_ANY, ServerPort);
-
-	if (err != ERR_OK)
-		goto err;
-
-	/* Tell connection to go into listening mode. */
-	netconn_listen(conn);
-
-	while (accept_err != ERR_OK)
+	while(1)
 	{
-		/* Grab new connection. */
-		accept_err = netconn_accept(conn, &newconn);
+		/*wait for recv*/
+		/*notice : When socket is alive, Didnt get recv in 5 seconds, break socket*/
 
-		//add timeout error
-	}
-
-	/* receive the data from the client */
-	while (netconn_recv(newconn, &buf) == ERR_OK)
-	{
-		do
+		if(netconn_recv(Dst_->netconn_data_.accept_conn_, &buf) == ERR_OK)
 		{
-			//0. maximum data occur error
-			if(recv_buffer.length() >= MAX_BUFFER_LENGTH)
-				recv_buffer.clear();
-
-			//1. copy all data using data and length
-			char temp_data[LWIP_MAX_LENGTH] = {0,};
-
-			strncpy((char*)(temp_data),
-						(char*)((buf->p->payload)), buf->p->len);
-
-			recv_buffer.append(temp_data);
-
-
-			//2. check front values is 0x02, 0x32 is '2' character value for test
-			if(recv_buffer.front() != 0x32)
+			while(1)
 			{
-				recv_buffer.clear();
+				do
+				{
+					//0. maximum data occur error
+					if(recv_buffer.length() >= MAX_BUFFER_LENGTH)
+						recv_buffer.clear();
 
-				continue;
+					//1. copy all data using data and length
+					char temp_data[LWIP_MAX_LENGTH] = {0,};
+
+					strncpy((char*)(temp_data),
+								(char*)((buf->p->payload)), buf->p->len);
+
+					recv_buffer.append(temp_data);
+
+
+					//2. check front values is 0x02, 0x32 is '2' character value for test
+					if(recv_buffer.front() != 0x32)
+					{
+						recv_buffer.clear();
+
+						continue;
+					}
+
+					//3. get buf length
+					uint16_t buf_leng =
+							std::stoi(recv_buffer.substr(LENGTH_DATA_START_POINTER, LENGTH_DATA_END_POINTER));
+
+					if((recv_buffer.length()) < buf_leng)
+					{
+						continue;
+					}
+
+					//4. get into the json parser and get data
+					// and enqueue the next command
+					//this must do the data move to main data
+					if(GetDataFromEthernet(recv_buffer.substr(DATA_START_POINTER,
+							buf_leng + DATA_START_POINTER).c_str(), buf_leng) < 0)
+					{
+						//error occur
+						continue;
+					}
+
+					//7. buffer init
+					recv_buffer.erase(0, buf_leng +5);
+
+					recv_buffer.shrink_to_fit();
+
+				}
+				while (netbuf_next(buf) >=0);
+
+				netbuf_delete(buf);
+				break;
+
 			}
-
-			//3. get buf length
-			uint16_t buf_leng =
-					std::stoi(recv_buffer.substr(LENGTH_DATA_START_POINTER, LENGTH_DATA_END_POINTER));
-
-			if((recv_buffer.length()) < buf_leng)
-			{
-				continue;
-			}
-
-			//4. get into the json parser and get data
-			// and enqueue the next command
-			//this must do the data move to main data
-			if(GetDataFromEthernet(recv_buffer.substr(DATA_START_POINTER,
-					buf_leng + DATA_START_POINTER).c_str(), buf_leng) < 0)
-			{
-				//error occur
-				continue;
-			}
-
-			//7. buffer init
-			recv_buffer.erase(0, buf_leng +5);
-
-			recv_buffer.shrink_to_fit();
-
 		}
-		while (netbuf_next(buf) >=0);
-
-		netbuf_delete(buf);
 	}
-
-	err:
-		/* Close connection and discard connection identifier. */
-
-	//for whatever case occur
-	netconn_close(newconn);
-	netconn_delete(newconn);
-	netconn_delete(conn);
-
 	vTaskDelete(NULL);
 }
-
-
-
-void TcpServerDelete()
-{
-	  if((netif_is_link_up(&gnetif))) return;
-
-	  if(newconn == NULL && conn == NULL) return;
-
-	  if(netconn_close(newconn) != ERR_OK) return;
-
-	  if(netconn_delete(newconn) != ERR_OK) return;
-
-	  if(netconn_delete(conn) != ERR_OK) return;
-
-	  vTaskDelete(TcpServerRecvHandle);
-
-	  vTaskDelete(TcpServerSendHandle);
-
-	  return;
-}
-
-void TcpServerSend(const char *data)
-{
-
-	netconn_write(newconn, data, strlen(data), NETCONN_COPY);
-}
-
 
 typedef struct
 {
@@ -177,9 +201,9 @@ typedef struct
 _Message* recv_msg = NULL;
 
 
-static void TCPServerSendTask(void const *arg)
+static void TCPServerSendTask(void const* argument)
 {
-	osEvent retVal;
+	data_structure* Dst_ = (data_structure*)argument;
 
 	//1. check the msg
 	std::vector<eth_command_> send_command_data_;
@@ -228,7 +252,7 @@ static void TCPServerSendTask(void const *arg)
 				{
 					//2. then, move to the buffer
 					//strncpy(send_data_ , ethernet_create_message(), strlen(ethernet_create_message()));
-					netconn_write(newconn, ethernet_create_message(), strlen(ethernet_create_message()), NETCONN_COPY);
+					netconn_write(Dst_->netconn_data_.accept_conn_, ethernet_create_message(), strlen(ethernet_create_message()), NETCONN_COPY);
 				}
 
 			}
@@ -259,23 +283,31 @@ static void TCPServerSendTask(void const *arg)
 	return;
 }
 
-
 void TcpServerInit(void const* argument)
 {
-	data_structure* st = (data_structure*)argument;
+	data_structure* Dst_ = (data_structure*)argument;
+
+	/* Create a new connection identifier. */
+	Dst_->netconn_data_.conn_  = netconn_new(NETCONN_TCP);
+
+	/*failed init error check */
+	if (!(Dst_->netconn_data_.conn_))
+		Dst_->netconn_data_.err = -20; //error occur
+
+	/* Bind connection to the server port. */
+	Dst_->netconn_data_.err  = netconn_bind(Dst_->netconn_data_.conn_, IP_ADDR_ANY, ServerPort);
+
+	/*bind failed error check*/
+	if (Dst_->netconn_data_.err != ERR_OK)
+	{
+		printf("error\r\n");
+	}
 
 	//must add the ip params
 	//MX_LWIP_Init();
 
-	if(newconn == NULL)
-	{
 		/* definition and creation of TCPServerTask */
-		osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
-		TcpServerRecvHandle = osThreadCreate(osThread(TCPServerRecvTask_), (void*)st);
+		osThreadDef(TCPAcceptConnTask_, TCPAcceptConnTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
+		TcpAcceptConnHandle = osThreadCreate(osThread(TCPAcceptConnTask_), (void*)Dst_);
 
-		/* definition and creation of TCPServerTask */
-		osThreadDef(TCPServerSendTask_, TCPServerSendTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *4);
-		TcpServerSendHandle = osThreadCreate(osThread(TCPServerSendTask_), (void*)st);
-	}
 }
-

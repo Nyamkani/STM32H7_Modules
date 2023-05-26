@@ -1,31 +1,10 @@
-16:44:02 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+14:35:28 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
 make -j4 all 
 arm-none-eabi-g++ "../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.d" -MT"Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o"
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp: In function 'void TCPServerRecvTask(void*)':
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:68:20: error: 'void*' is not a pointer-to-object type
-   68 |  (struct netconn* )argument->netconn_data.conn = conn;
-      |                    ^~~~~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:45:18: warning: unused variable 'pData' [-Wunused-variable]
-   45 |  data_structure* pData = (data_structure*)argument;
-      |                  ^~~~~
 ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp: In function 'void TCPServerSendTask(const void*)':
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:224:9: warning: unused variable 'send_data_' [-Wunused-variable]
-  224 |    char send_data_[1024] = {0,};
+../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:245:9: warning: unused variable 'send_data_' [-Wunused-variable]
+  245 |    char send_data_[1024] = {0,};
       |         ^~~~~~~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:185:10: warning: unused variable 'retVal' [-Wunused-variable]
-  185 |  osEvent retVal;
-      |          ^~~~~~
-In file included from ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:41,
-                 from ../../Middlewares/Third_Party/LwIP/src/include/lwip/sys.h:95,
-                 from ../../Middlewares/Third_Party/LwIP/src/include/lwip/api.h:48,
-                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:17,
-                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp: In function 'void TcpServerInit(const void*)':
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:276:35: error: invalid conversion from 'void (*)(void*)' to 'os_pthread' {aka 'void (*)(const void*)'} [-fpermissive]
-  276 |   osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
-../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:416:11: note: in definition of macro 'osThreadDef'
-  416 | { #name, (thread), (priority), (instances), (stacksz), NULL, NULL }
-      |           ^~~~~~
 In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:13,
                  from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
@@ -33,11 +12,20 @@ In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modul
    23 | static void BSPInit();
       |             ^~~~~~~
 In file included from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:273:2: warning: 'define_main_data_' defined but not used [-Wunused-variable]
-  273 | }define_main_data_;
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:274:2: warning: 'define_main_data_' defined but not used [-Wunused-variable]
+  274 | }define_main_data_;
       |  ^~~~~~~~~~~~~~~~~
-make: *** [Core/Module/ethernet/tcp_rtos/server/subdir.mk:19: Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o] Error 1
-"make -j4 all" terminated with exit code 2. Build might be incomplete.
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 332824	   1008	 332751	 666583	  a2bd7	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
 
-16:44:04 Build Failed. 3 errors, 5 warnings. (took 2s.15ms)
+14:35:34 Build Finished. 0 errors, 3 warnings. (took 5s.464ms)
 
