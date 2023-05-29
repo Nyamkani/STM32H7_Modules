@@ -10302,3 +10302,6 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64
 
 !ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-05-30 00:43:30.390
 !MESSAGE Log4j2 initialized with config file /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/.metadata/.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-05-30 00:45:21.698
+!MESSAGE Started RMI Server, listening on port 41337
