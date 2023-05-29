@@ -1,0 +1,6 @@
+virtio_ring.h:109:19:vring_size	1
+io.h:141:1:metal_io_virt_to_offset	2
+virtio.c:39:13:virtio_dev_name	3
+virtio.c:51:20:virtio_feature_name	5
+virtio.c:72:6:virtio_describe	1
+virtio.c:83:5:virtio_create_virtqueues	5

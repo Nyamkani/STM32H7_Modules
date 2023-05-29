@@ -1,0 +1,4 @@
+rpmsg.h:147:19:rpmsg_send	2
+openAMP_RTOS_M4.c:25:12:rpmsg_recv_callback	1
+openAMP_RTOS_M4.c:34:14:receive_message	2
+openAMP_RTOS_M4.c:45:6:OpenAMPInit_M4	5

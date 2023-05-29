@@ -1,5 +1,5 @@
 Middlewares/Third_Party/LwIP/lowpan6.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/Middlewares/Third_Party/LwIP/src/netif/lowpan6.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/ethernet_h7/Middlewares/Third_Party/LwIP/src/netif/lowpan6.c \
  ../../Middlewares/Third_Party/LwIP/src/include/netif/lowpan6.h \
  ../../Middlewares/Third_Party/LwIP/src/include/netif/lowpan6_opts.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \

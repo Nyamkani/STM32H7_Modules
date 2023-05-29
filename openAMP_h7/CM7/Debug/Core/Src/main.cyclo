@@ -1,0 +1,8 @@
+main.cpp:74:5:int main()	13
+main.cpp:188:6:void SystemClock_Config()	4
+main.cpp:252:6:void PeriphCommonClock_Config()	2
+main.cpp:280:13:void MX_GPIO_Init()	1
+main.cpp:311:6:void StartDefaultTask(const void*)	1
+main.cpp:330:6:void MPU_Config()	1
+main.cpp:405:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	2
+main.cpp:422:6:void Error_Handler()	1

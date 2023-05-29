@@ -1,5 +1,5 @@
 Middlewares/Third_Party/LwIP/api_msg.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/Middlewares/Third_Party/LwIP/src/api/api_msg.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/ethernet_h7/Middlewares/Third_Party/LwIP/src/api/api_msg.c \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h ../Core/Inc/main.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \

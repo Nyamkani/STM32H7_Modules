@@ -7,25 +7,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         0000ad7c  080002a0  080002a0  000102a0  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       000003b4  0800b01c  0800b01c  0001b01c  2**2
+  2 .rodata       000003b0  0800b01c  0800b01c  0001b01c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  0800b3d0  0800b3d0  00020120  2**0
+  3 .ARM.extab    00000000  0800b3cc  0800b3cc  00020120  2**0
                   CONTENTS
-  4 .ARM          00000000  0800b3d0  0800b3d0  00020120  2**0
+  4 .ARM          00000000  0800b3cc  0800b3cc  00020120  2**0
                   CONTENTS
-  5 .preinit_array 00000000  0800b3d0  0800b3d0  00020120  2**0
+  5 .preinit_array 00000000  0800b3cc  0800b3cc  00020120  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  0800b3d0  0800b3d0  0001b3d0  2**2
+  6 .init_array   00000004  0800b3cc  0800b3cc  0001b3cc  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  0800b3d4  0800b3d4  0001b3d4  2**2
+  7 .fini_array   00000004  0800b3d0  0800b3d0  0001b3d0  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         00000120  24000000  0800b3d8  00020000  2**2
+  8 .data         00000120  24000000  0800b3d4  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00008450  24000120  0800b4f8  00020120  2**2
+  9 .bss          00008450  24000120  0800b4f4  00020120  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  24008570  0800b4f8  00028570  2**0
+ 10 ._user_heap_stack 00000600  24008570  0800b4f4  00028570  2**0
                   ALLOC
- 11 .openamp_section 0000008c  38000000  0800b4f8  00030000  2**2
+ 11 .openamp_section 0000008c  38000000  0800b4f4  00030000  2**2
                   ALLOC
  12 .ARM.attributes 0000002e  00000000  00000000  00020120  2**0
                   CONTENTS, READONLY
@@ -37,13 +37,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_ranges 00001b98  00000000  00000000  00055a00  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00019e8f  00000000  00000000  00057598  2**0
+ 17 .debug_line   0001bcb2  00000000  00000000  00057598  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0000c4c0  00000000  00000000  00071427  2**0
+ 18 .debug_str    0000c493  00000000  00000000  0007324a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  0007d8e7  2**0
+ 19 .comment      00000050  00000000  00000000  0007f6dd  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000084b4  00000000  00000000  0007d938  2**2
+ 20 .debug_frame  000084b4  00000000  00000000  0007f730  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2593,7 +2593,7 @@ LoopFillZerobss:
   ldr r1, =_edata
  800104c:	24000120 	.word	0x24000120
   ldr r2, =_sidata
- 8001050:	0800b3d8 	.word	0x0800b3d8
+ 8001050:	0800b3d4 	.word	0x0800b3d4
   ldr r2, =_sbss
  8001054:	24000120 	.word	0x24000120
   ldr r4, =_ebss
@@ -2695,7 +2695,7 @@ HAL_StatusTypeDef HAL_Init(void)
  80010c4:	46bd      	mov	sp, r7
  80010c6:	bd80      	pop	{r7, pc}
  80010c8:	58024400 	.word	0x58024400
- 80010cc:	0800b288 	.word	0x0800b288
+ 80010cc:	0800b284 	.word	0x0800b284
  80010d0:	24000004 	.word	0x24000004
  80010d4:	24000000 	.word	0x24000000
 
@@ -6623,7 +6623,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
  8002780:	bd80      	pop	{r7, pc}
  8002782:	bf00      	nop
  8002784:	58024400 	.word	0x58024400
- 8002788:	0800b288 	.word	0x0800b288
+ 8002788:	0800b284 	.word	0x0800b284
  800278c:	24000004 	.word	0x24000004
  8002790:	24000000 	.word	0x24000000
  8002794:	24000008 	.word	0x24000008
@@ -7025,7 +7025,7 @@ uint32_t HAL_RCC_GetHCLKFreq(void)
  8002ad8:	46bd      	mov	sp, r7
  8002ada:	bd80      	pop	{r7, pc}
  8002adc:	58024400 	.word	0x58024400
- 8002ae0:	0800b288 	.word	0x0800b288
+ 8002ae0:	0800b284 	.word	0x0800b284
  8002ae4:	24000004 	.word	0x24000004
  8002ae8:	24000000 	.word	0x24000000
 
@@ -7059,7 +7059,7 @@ uint32_t HAL_RCC_GetPCLK1Freq(void)
  8002b0c:	4618      	mov	r0, r3
  8002b0e:	bd80      	pop	{r7, pc}
  8002b10:	58024400 	.word	0x58024400
- 8002b14:	0800b288 	.word	0x0800b288
+ 8002b14:	0800b284 	.word	0x0800b284
 
 08002b18 <HAL_RCC_GetClockConfig>:
   * will be configured.
@@ -16820,9 +16820,9 @@ BaseType_t xReturn;
  80062ea:	3720      	adds	r7, #32
  80062ec:	46bd      	mov	sp, r7
  80062ee:	bd80      	pop	{r7, pc}
- 80062f0:	0800b358 	.word	0x0800b358
- 80062f4:	0800b378 	.word	0x0800b378
- 80062f8:	0800b338 	.word	0x0800b338
+ 80062f0:	0800b354 	.word	0x0800b354
+ 80062f4:	0800b374 	.word	0x0800b374
+ 80062f8:	0800b334 	.word	0x0800b334
 
 080062fc <prvAddNewTaskToReadyList>:
 /*-----------------------------------------------------------*/
@@ -21302,9 +21302,9 @@ metal_io_read(struct metal_io_region *io, unsigned long offset,
  8007be2:	3730      	adds	r7, #48	; 0x30
  8007be4:	46bd      	mov	sp, r7
  8007be6:	bdb0      	pop	{r4, r5, r7, pc}
- 8007be8:	0800b158 	.word	0x0800b158
- 8007bec:	0800b2dc 	.word	0x0800b2dc
- 8007bf0:	0800b15c 	.word	0x0800b15c
+ 8007be8:	0800b154 	.word	0x0800b154
+ 8007bec:	0800b2d8 	.word	0x0800b2d8
+ 8007bf0:	0800b158 	.word	0x0800b158
 
 08007bf4 <metal_io_write>:
  *			to inline cleanly.
@@ -21430,9 +21430,9 @@ metal_io_write(struct metal_io_region *io, unsigned long offset,
  8007cce:	3734      	adds	r7, #52	; 0x34
  8007cd0:	46bd      	mov	sp, r7
  8007cd2:	bd90      	pop	{r4, r7, pc}
- 8007cd4:	0800b158 	.word	0x0800b158
- 8007cd8:	0800b2ec 	.word	0x0800b2ec
- 8007cdc:	0800b15c 	.word	0x0800b15c
+ 8007cd4:	0800b154 	.word	0x0800b154
+ 8007cd8:	0800b2e8 	.word	0x0800b2e8
+ 8007cdc:	0800b158 	.word	0x0800b158
 
 08007ce0 <metal_allocate_memory>:
 #ifdef __cplusplus
@@ -21579,9 +21579,9 @@ static void rproc_virtio_virtqueue_notify(struct virtqueue *vq)
  8007d96:	46bd      	mov	sp, r7
  8007d98:	bd80      	pop	{r7, pc}
  8007d9a:	bf00      	nop
- 8007d9c:	0800b1a4 	.word	0x0800b1a4
- 8007da0:	0800b2bc 	.word	0x0800b2bc
- 8007da4:	0800b1c0 	.word	0x0800b1c0
+ 8007d9c:	0800b1a0 	.word	0x0800b1a0
+ 8007da0:	0800b2b8 	.word	0x0800b2b8
+ 8007da4:	0800b1bc 	.word	0x0800b1bc
 
 08007da8 <rproc_virtio_get_status>:
 
@@ -22143,7 +22143,7 @@ err0:
  80080aa:	3738      	adds	r7, #56	; 0x38
  80080ac:	46bd      	mov	sp, r7
  80080ae:	bd80      	pop	{r7, pc}
- 80080b0:	0800b298 	.word	0x0800b298
+ 80080b0:	0800b294 	.word	0x0800b294
 
 080080b4 <rproc_virtio_init_vring>:
 
@@ -25172,12 +25172,12 @@ int rpmsg_init_vdev(struct rpmsg_virtio_device *rvdev,
  8009194:	08008cb1 	.word	0x08008cb1
  8009198:	fffff82d 	.word	0xfffff82d
  800919c:	fffff82e 	.word	0xfffff82e
- 80091a0:	0800b254 	.word	0x0800b254
- 80091a4:	0800b25c 	.word	0x0800b25c
+ 80091a0:	0800b250 	.word	0x0800b250
+ 80091a4:	0800b258 	.word	0x0800b258
  80091a8:	08008e15 	.word	0x08008e15
  80091ac:	08008e01 	.word	0x08008e01
  80091b0:	08008eff 	.word	0x08008eff
- 80091b4:	0800b264 	.word	0x0800b264
+ 80091b4:	0800b260 	.word	0x0800b260
 
 080091b8 <rpmsg_deinit_vdev>:
 
@@ -27102,10 +27102,10 @@ static int OPENAMP_shmem_init(int RPMsgRole)
  8009bde:	3724      	adds	r7, #36	; 0x24
  8009be0:	46bd      	mov	sp, r7
  8009be2:	bd90      	pop	{r4, r7, pc}
- 8009be4:	0800b27c 	.word	0x0800b27c
+ 8009be4:	0800b278 	.word	0x0800b278
  8009be8:	24000040 	.word	0x24000040
- 8009bec:	0800b268 	.word	0x0800b268
- 8009bf0:	0800b274 	.word	0x0800b274
+ 8009bec:	0800b264 	.word	0x0800b264
+ 8009bf0:	0800b270 	.word	0x0800b270
  8009bf4:	38000400 	.word	0x38000400
  8009bf8:	2400855c 	.word	0x2400855c
  8009bfc:	38010000 	.word	0x38010000
@@ -27588,9 +27588,9 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  8009e90:	e7f3      	b.n	8009e7a <__assert_func+0x12>
  8009e92:	bf00      	nop
  8009e94:	240000bc 	.word	0x240000bc
- 8009e98:	0800b2fb 	.word	0x0800b2fb
- 8009e9c:	0800b308 	.word	0x0800b308
- 8009ea0:	0800b336 	.word	0x0800b336
+ 8009e98:	0800b2f7 	.word	0x0800b2f7
+ 8009e9c:	0800b304 	.word	0x0800b304
+ 8009ea0:	0800b332 	.word	0x0800b332
 
 08009ea4 <std>:
  8009ea4:	2300      	movs	r3, #0
@@ -27715,7 +27715,7 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  8009fb6:	61a3      	str	r3, [r4, #24]
  8009fb8:	e7d2      	b.n	8009f60 <__sinit+0xc>
  8009fba:	bf00      	nop
- 8009fbc:	0800b398 	.word	0x0800b398
+ 8009fbc:	0800b394 	.word	0x0800b394
  8009fc0:	08009eed 	.word	0x08009eed
 
 08009fc4 <__sfp>:
@@ -27770,7 +27770,7 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  800a042:	603b      	str	r3, [r7, #0]
  800a044:	e7ee      	b.n	800a024 <__sfp+0x60>
  800a046:	bf00      	nop
- 800a048:	0800b398 	.word	0x0800b398
+ 800a048:	0800b394 	.word	0x0800b394
  800a04c:	ffff0001 	.word	0xffff0001
 
 0800a050 <fiprintf>:
@@ -27843,10 +27843,10 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  800a0e6:	4798      	blx	r3
  800a0e8:	3601      	adds	r6, #1
  800a0ea:	e7f2      	b.n	800a0d2 <__libc_init_array+0x1e>
- 800a0ec:	0800b3d0 	.word	0x0800b3d0
- 800a0f0:	0800b3d0 	.word	0x0800b3d0
- 800a0f4:	0800b3d0 	.word	0x0800b3d0
- 800a0f8:	0800b3d4 	.word	0x0800b3d4
+ 800a0ec:	0800b3cc 	.word	0x0800b3cc
+ 800a0f0:	0800b3cc 	.word	0x0800b3cc
+ 800a0f4:	0800b3cc 	.word	0x0800b3cc
+ 800a0f8:	0800b3d0 	.word	0x0800b3d0
 
 0800a0fc <__retarget_lock_init_recursive>:
  800a0fc:	4770      	bx	lr
@@ -28381,14 +28381,14 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  800a59c:	f000 f880 	bl	800a6a0 <_printf_i>
  800a5a0:	e7e4      	b.n	800a56c <_vfiprintf_r+0x208>
  800a5a2:	bf00      	nop
- 800a5a4:	0800b358 	.word	0x0800b358
- 800a5a8:	0800b378 	.word	0x0800b378
- 800a5ac:	0800b338 	.word	0x0800b338
- 800a5b0:	0800b39c 	.word	0x0800b39c
- 800a5b4:	0800b3a6 	.word	0x0800b3a6
+ 800a5a4:	0800b354 	.word	0x0800b354
+ 800a5a8:	0800b374 	.word	0x0800b374
+ 800a5ac:	0800b334 	.word	0x0800b334
+ 800a5b0:	0800b398 	.word	0x0800b398
+ 800a5b4:	0800b3a2 	.word	0x0800b3a2
  800a5b8:	00000000 	.word	0x00000000
  800a5bc:	0800a33f 	.word	0x0800a33f
- 800a5c0:	0800b3a2 	.word	0x0800b3a2
+ 800a5c0:	0800b39e 	.word	0x0800b39e
 
 0800a5c4 <_printf_common>:
  800a5c4:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -28724,8 +28724,8 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  800a8dc:	f104 0619 	add.w	r6, r4, #25
  800a8e0:	e7f5      	b.n	800a8ce <_printf_i+0x22e>
  800a8e2:	bf00      	nop
- 800a8e4:	0800b3ad 	.word	0x0800b3ad
- 800a8e8:	0800b3be 	.word	0x0800b3be
+ 800a8e4:	0800b3a9 	.word	0x0800b3a9
+ 800a8e8:	0800b3ba 	.word	0x0800b3ba
 
 0800a8ec <cleanup_glue>:
  800a8ec:	b538      	push	{r3, r4, r5, lr}
@@ -29005,9 +29005,9 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  800ab44:	f04f 37ff 	mov.w	r7, #4294967295	; 0xffffffff
  800ab48:	e7ea      	b.n	800ab20 <__swbuf_r+0x6c>
  800ab4a:	bf00      	nop
- 800ab4c:	0800b358 	.word	0x0800b358
- 800ab50:	0800b378 	.word	0x0800b378
- 800ab54:	0800b338 	.word	0x0800b338
+ 800ab4c:	0800b354 	.word	0x0800b354
+ 800ab50:	0800b374 	.word	0x0800b374
+ 800ab54:	0800b334 	.word	0x0800b334
 
 0800ab58 <_write_r>:
  800ab58:	b538      	push	{r3, r4, r5, lr}
@@ -29117,9 +29117,9 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  800ac44:	e7f7      	b.n	800ac36 <__swsetup_r+0xba>
  800ac46:	bf00      	nop
  800ac48:	240000bc 	.word	0x240000bc
- 800ac4c:	0800b358 	.word	0x0800b358
- 800ac50:	0800b378 	.word	0x0800b378
- 800ac54:	0800b338 	.word	0x0800b338
+ 800ac4c:	0800b354 	.word	0x0800b354
+ 800ac50:	0800b374 	.word	0x0800b374
+ 800ac54:	0800b334 	.word	0x0800b334
 
 0800ac58 <abort>:
  800ac58:	b508      	push	{r3, lr}
@@ -29319,9 +29319,9 @@ void resource_table_init(int RPMsgRole, void **table_ptr, int *length)
  800adfa:	bf08      	it	eq
  800adfc:	68ec      	ldreq	r4, [r5, #12]
  800adfe:	e7da      	b.n	800adb6 <_fflush_r+0x22>
- 800ae00:	0800b358 	.word	0x0800b358
- 800ae04:	0800b378 	.word	0x0800b378
- 800ae08:	0800b338 	.word	0x0800b338
+ 800ae00:	0800b354 	.word	0x0800b354
+ 800ae04:	0800b374 	.word	0x0800b374
+ 800ae08:	0800b334 	.word	0x0800b334
 
 0800ae0c <_lseek_r>:
  800ae0c:	b538      	push	{r3, r4, r5, lr}

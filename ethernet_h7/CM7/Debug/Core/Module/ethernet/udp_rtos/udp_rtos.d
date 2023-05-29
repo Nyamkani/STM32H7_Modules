@@ -1,6 +1,6 @@
 Core/Module/ethernet/udp_rtos/udp_rtos.o: \
  ../Core/Module/ethernet/udp_rtos/udp_rtos.cpp \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/udp_rtos/udp_rtos.h \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/udp_rtos/udp_rtos.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
@@ -67,7 +67,7 @@ Core/Module/ethernet/udp_rtos/udp_rtos.o: \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/def.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/sys.h \
  ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/udp_rtos/udp_rtos.h:
+/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/udp_rtos/udp_rtos.h:
 ../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:

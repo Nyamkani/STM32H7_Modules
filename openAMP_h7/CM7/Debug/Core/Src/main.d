@@ -1,5 +1,5 @@
 Core/Src/main.o: ../Core/Src/main.cpp \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/openAMP_h7/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/openAMP_h7/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Core/Inc/stm32h7xx_hal_conf.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \
@@ -120,7 +120,7 @@ Core/Src/main.o: ../Core/Src/main.cpp \
  ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h \
  ../LWIP/Target/ethernetif.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/openAMP_h7/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:
+/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/openAMP_h7/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h:

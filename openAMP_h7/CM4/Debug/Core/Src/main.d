@@ -73,7 +73,7 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc.h \
  ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc_virtio.h \
  ../OPENAMP/openamp_conf.h ../OPENAMP/mbox_hsem.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/openAMP_h7/CM4/Core/Module/openAMP_RTOS_M4/include/openAMP_RTOS_M4/openAMP_RTOS_M4.h
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/openAMP_h7/CM4/Core/Module/openAMP_RTOS_M4/include/openAMP_RTOS_M4/openAMP_RTOS_M4.h
 ../Core/Inc/main.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
@@ -150,4 +150,4 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/remoteproc_virtio.h:
 ../OPENAMP/openamp_conf.h:
 ../OPENAMP/mbox_hsem.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/openAMP_h7/CM4/Core/Module/openAMP_RTOS_M4/include/openAMP_RTOS_M4/openAMP_RTOS_M4.h:
+/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/openAMP_h7/CM4/Core/Module/openAMP_RTOS_M4/include/openAMP_RTOS_M4/openAMP_RTOS_M4.h:

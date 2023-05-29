@@ -1,5 +1,5 @@
 Middlewares/Third_Party/LwIP/err.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/openAMP_h7/Middlewares/Third_Party/LwIP/src/api/err.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/openAMP_h7/Middlewares/Third_Party/LwIP/src/api/err.c \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/err.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h ../Core/Inc/main.h \

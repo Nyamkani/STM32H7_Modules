@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;HSS_Test_CM7/Core/Module/api_data_structure/include/api_data_structure/apt_data_define.h&apos; to &apos;api_data_define.h&apos;" description="Rename resource &apos;apt_data_define.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Module/api_data_structure/include/api_data_structure/apt_data_define.h" name="api_data_define.h" stamp="1685361081687" updateReferences="true"/>
+</session>

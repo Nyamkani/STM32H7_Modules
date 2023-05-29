@@ -1,0 +1,11 @@
+main.cpp:89:5:int main()	2
+main.cpp:153:13:void MX_ADC1_Init()	4
+main.cpp:221:13:void MX_ADC3_Init()	3
+main.cpp:279:13:void MX_HDMI_CEC_Init()	2
+main.cpp:315:13:void MX_RTC_Init()	3
+main.cpp:369:13:void MX_SAI1_Init()	3
+main.cpp:438:13:void MX_SPDIFRX1_Init()	2
+main.cpp:476:13:void MX_TIM8_Init()	5
+main.cpp:546:13:void MX_TIM13_Init()	4
+main.cpp:591:13:void MX_GPIO_Init()	1
+main.cpp:614:6:void Error_Handler()	1

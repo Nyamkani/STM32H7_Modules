@@ -94,7 +94,7 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h \
  ../LWIP/Target/ethernetif.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h \
  ../FATFS/Target/bsp_driver_sd.h
 ../Core/Inc/main.h:
 ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
@@ -195,5 +195,5 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../../Middlewares/Third_Party/LwIP/system/arch/sys_arch.h:
 ../LWIP/Target/ethernetif.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/tcpip.h:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:
+/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:
 ../FATFS/Target/bsp_driver_sd.h:

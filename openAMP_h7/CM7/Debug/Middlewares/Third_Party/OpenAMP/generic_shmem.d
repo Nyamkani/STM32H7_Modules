@@ -1,5 +1,5 @@
 Middlewares/Third_Party/OpenAMP/generic_shmem.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/openAMP_h7/Middlewares/Third_Party/OpenAMP/libmetal/lib/system/generic/generic_shmem.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/openAMP_h7/Middlewares/Third_Party/OpenAMP/libmetal/lib/system/generic/generic_shmem.c \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/shmem.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/io.h \
  ../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/assert.h \

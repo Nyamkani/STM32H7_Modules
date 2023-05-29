@@ -1,6 +1,6 @@
 Core/Module/fatfs_h7/src/fatfs_h7.o: \
  ../Core/Module/fatfs_h7/src/fatfs_h7.c \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h \
  ../../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/ffconf.h \
  ../FATFS/Target/bsp_driver_sd.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
@@ -45,7 +45,7 @@ Core/Module/fatfs_h7/src/fatfs_h7.o: \
  ../../Middlewares/Third_Party/FatFs/src/ff.h \
  ../../Middlewares/Third_Party/FatFs/src/integer.h \
  ../FATFS/Target/sd_diskio.h ../FATFS/Target/bsp_driver_sd.h
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:
+/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:
 ../../Middlewares/Third_Party/FatFs/src/ff.h:
 ../FATFS/Target/ffconf.h:
 ../FATFS/Target/bsp_driver_sd.h:

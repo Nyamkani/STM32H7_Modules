@@ -85,8 +85,8 @@ all: main-build
 main-build: sdmmc_h7_CM7.elf secondary-outputs
 
 # Tool invocations
-sdmmc_h7_CM7.elf sdmmc_h7_CM7.map: $(OBJS) $(USER_OBJS) /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/CM7/STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "sdmmc_h7_CM7.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="sdmmc_h7_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+sdmmc_h7_CM7.elf sdmmc_h7_CM7.map: $(OBJS) $(USER_OBJS) /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/CM7/STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "sdmmc_h7_CM7.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="sdmmc_h7_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -1,5 +1,5 @@
 Middlewares/Third_Party/LwIP/utils.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/openAMP_h7/Middlewares/Third_Party/LwIP/src/netif/ppp/utils.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/openAMP_h7/Middlewares/Third_Party/LwIP/src/netif/ppp/utils.c \
  ../../Middlewares/Third_Party/LwIP/src/include/netif/ppp/ppp_opts.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h ../Core/Inc/main.h \

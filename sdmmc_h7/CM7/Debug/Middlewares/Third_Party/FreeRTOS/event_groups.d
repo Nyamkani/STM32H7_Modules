@@ -1,5 +1,5 @@
 Middlewares/Third_Party/FreeRTOS/event_groups.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \

@@ -1,5 +1,5 @@
 Middlewares/Third_Party/LwIP/ip6_addr.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/LwIP/src/core/ipv6/ip6_addr.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/LwIP/src/core/ipv6/ip6_addr.c \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h ../Core/Inc/main.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \

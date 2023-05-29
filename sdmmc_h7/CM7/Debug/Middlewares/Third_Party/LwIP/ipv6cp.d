@@ -1,5 +1,5 @@
 Middlewares/Third_Party/LwIP/ipv6cp.o: \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/LwIP/src/netif/ppp/ipv6cp.c \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/LwIP/src/netif/ppp/ipv6cp.c \
  ../../Middlewares/Third_Party/LwIP/src/include/netif/ppp/ppp_opts.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h ../Core/Inc/main.h \

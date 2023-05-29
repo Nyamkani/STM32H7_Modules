@@ -1,6 +1,6 @@
 Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o: \
  ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.c \
- /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h \
+ /home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h ../Core/Inc/main.h \
  ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
@@ -74,7 +74,7 @@ Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o: \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_std.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/memp_priv.h \
  ../../Middlewares/Third_Party/LwIP/src/include/lwip/priv/mem_priv.h
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
+/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/ethernet_h7/CM7/Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.h:
 ../../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h:
 ../LWIP/Target/lwipopts.h:
 ../Core/Inc/main.h:
