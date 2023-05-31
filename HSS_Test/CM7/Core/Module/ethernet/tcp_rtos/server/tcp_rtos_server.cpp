@@ -121,6 +121,8 @@ static void TCPServerRecvTask(void const *argument)
 
 	std::string recv_buffer;
 
+	char temp_data[LWIP_MAX_LENGTH] = {0,};
+
 	//netconn_set_recvtimeout(Dst_->netconn_data_.accept_conn_, 2000UL);
 
 	while(1)
@@ -139,13 +141,12 @@ static void TCPServerRecvTask(void const *argument)
 						recv_buffer.clear();
 
 					//1. copy all data using data and length
-					char temp_data[LWIP_MAX_LENGTH] = {0,};
+					//char temp_data[LWIP_MAX_LENGTH] = {0,};
 
 					strncpy((char*)(temp_data),
 								(char*)((buf->p->payload)), buf->p->len);
 
 					recv_buffer.append(temp_data);
-
 
 					//2. check front values is 0x02, 0x32 is '2' character value for test
 					if(recv_buffer.front() != 0x32)
@@ -156,28 +157,38 @@ static void TCPServerRecvTask(void const *argument)
 					}
 
 					//3. get buf length
-					uint16_t buf_leng =
-							std::stoi(recv_buffer.substr(LENGTH_DATA_START_POINTER, LENGTH_DATA_END_POINTER));
+					uint16_t buf_leng = std::stoi(recv_buffer.substr(LENGTH_DATA_START_POINTER
+													, LENGTH_DATA_END_POINTER));
 
 					if((recv_buffer.length()) < buf_leng)
 					{
 						continue;
 					}
 
+					if((recv_buffer.length()) != buf_leng)
+					{
+						recv_buffer.clear();
+
+						continue;
+					}
+
 					//4. get into the json parser and get data
 					// and enqueue the next command
 					//this must do the data move to main data
-					if(GetDataFromEthernet(recv_buffer.substr(DATA_START_POINTER,
-							buf_leng + DATA_START_POINTER).c_str(), buf_leng) < 0)
+					if(GetDataFromEthernet(Dst_
+							, recv_buffer.substr(DATA_START_POINTER, buf_leng + DATA_START_POINTER).c_str()
+							, buf_leng) < 0)
 					{
 						//error occur
 						continue;
 					}
 
 					//7. buffer init
-					recv_buffer.erase(0, buf_leng +5);
+					recv_buffer.erase(0, buf_leng + DATA_START_POINTER);
 
 					recv_buffer.shrink_to_fit();
+
+					memset(temp_data, '\0', LWIP_MAX_LENGTH);
 
 				}
 				while (netbuf_next(buf) >=0);
@@ -191,75 +202,59 @@ static void TCPServerRecvTask(void const *argument)
 	vTaskDelete(NULL);
 }
 
-typedef struct
-{
-	uint16_t type = 0; //report? response
-	uint16_t recv_command_ = 0;
-	uint16_t send_command_ = 0;
-}eth_command_;
-
-_Message* recv_msg = NULL;
-
 
 static void TCPServerSendTask(void const* argument)
 {
 	data_structure* Dst_ = (data_structure*)argument;
 
-	//1. check the msg
-	std::vector<eth_command_> send_command_data_;
+	std::string send_buffer;
 
+	char json_data_[LWIP_MAX_LENGTH] = {0,};
+
+	//char* json_data_ = nullptr;
+
+	//1. check the msg
 	while(1)
 	{
 		//0. Get all messages from eth (be notified type)
-		//retVal = osMessageGet(TCPSendQueueHandle, 500); //dequeue
-
-		//1. if msg queue is available
-//		if(retVal.status == osEventMessage)
-//		{
-//			recv_msg  = new _Message;
-//
-//			this must enqeue command data to vector queue
-//			memcpy(recv_msg, (_Message*)retVal.value.p, sizeof(*recv_msg));
-//			_Message* recv_msg = (_Message*)retVal.value.p;
-
-
-//			eth_command_ cmd;
-//			cmd.type = recv_msg->id_;
-//			cmd.send_command_ = recv_msg->cmd_;
-//
-//			send_command_data_.push_back(cmd);
-//
-//			//printf("get data from main data\r\n");
-//			//recv_msg.
-//
-//
-//		}
-
-
-
-		//if no msg, do empty the queue
-		if(!(send_command_data_.empty()))
+		if(!(Dst_->tcp_send_queue_.empty()))
 		{
-			//0. copy the front data
-			const eth_command_ send_json_data_ = send_command_data_.front();
-			char send_data_[1024] = {0,};
 
-			//1. get data from main data structure
+			cmd_queue_data cmd_queue_data_ = Dst_->tcp_send_queue_.front();
 
-			if(send_json_data_.type == 0x11)
-			{
-				if(send_json_data_.send_command_ == 2)
-				{
-					//2. then, move to the buffer
-					//strncpy(send_data_ , ethernet_create_message(), strlen(ethernet_create_message()));
-					netconn_write(Dst_->netconn_data_.accept_conn_, ethernet_create_message(), strlen(ethernet_create_message()), NETCONN_COPY);
-				}
+			//check data for exception
 
-			}
+			//1. get command to json format
+//			strncpy((char*)(temp_data)
+//					,(char*)(GetStringFromMainData(cmd_queue_data_))
+//					,strlen(GetStringFromMainData(cmd_queue_data_)));
+
+			GetStringFromMainData(cmd_queue_data_, json_data_);
 
 
+			//3. make strings
+			//append stx data
+			send_buffer.append("2");
 
+			//append string legnth data
+			send_buffer.append(std::to_string(strlen(json_data_)));
 
+			//append main json string
+			send_buffer.append(json_data_);
+
+			//4. send data to client
+			netconn_write(Dst_->netconn_data_.accept_conn_
+					, send_buffer.c_str()
+					, strlen(send_buffer.c_str()) + 1
+					, NETCONN_COPY);
+
+			send_buffer.clear();
+
+			memset(json_data_, '\0', LWIP_MAX_LENGTH);
+
+			Dst_->tcp_send_queue_.erase(Dst_->tcp_send_queue_.begin());
+
+		}
 
 			//3. send msg
 			//netconn_write(newconn, send_data_, strlen(send_data_), NETCONN_COPY);
@@ -267,18 +262,10 @@ static void TCPServerSendTask(void const* argument)
 			//4. Check msg type. when recved data first -> delete first queue immediately
 			//						when send data first (this)-> wait until recved meg
 
-			send_command_data_.erase(send_command_data_.begin());
-		}
-
 	}
-
 	//if data is all set, dequeue the vector qeuue
 	//if(send_command_data_.send_command_ == sre_command_data_.recv_command_ )
 	//send_command_data_.erase(send_command_data_.begin())
-
-
-
-
 
 	return;
 }

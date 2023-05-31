@@ -14,116 +14,6 @@
 #include <main.h>
 #include <map>
 
-
-
-	/* msg - uint16_t type
-	 *
-	 *msgtype -> request -> response - ~0;
-	 *msgtype -> report -> ack - 100~200
-	 *msgtype  -> inquire -> answer - 200~300
-	 *msgtype  -> excute ->confirm - 300~400
-	 *msgtype  -> heartbeatrequset - > heartbeatresponse - 900~1000
-	 *  ----------------------
-	 *  categories  - 0 ~ 100
-	 *  request-> categories - >
-	 *  ----------------------
-	 *  info   - 1
-	 *  status - 2
-	 *  taskStatus  - 3
-	 *  taskCancel- 4
-	 *  setMode - 5
-	 *  alarmClear - 6
-	 *  sysReset - 7
-	 *  taskpause - 8
-	 *  taskresume - 9
-	 *  swems - 10
-	 *  timeSync -11
-	 *  readParam - 12
-	 *  writeParam - 13
-	 *  task1 - 20
-	 *  task2 - 21
-	 *  task3 - 22
-	 *  task4 - 23
-	 *  task5 - 24
-	 *  task6 - 25
-	 *  task7 - 26
-	 *  ----------------------
-	 *  categories  - 0 ~ 100
-	 *  report -> categories
-	 *  ----------------------
-	 *  task - 1
-	 *  alert - 2
-	 * -----------------------
-	 * categories  - 0 ~ 100
-	 * inquire -> answer
-	 * -----------------------
-	 * enterElevator - 1
-	 * leaveElevator - 2
-	 * bufferPick - 3
-	 * bufferPlace - 4
-	 * -----------------------
-	 * categories  - 0 ~ 100
-	 * excute -> confirm
-	 * -----------------------
-	 * enterElevator - 1
-	 * leaveElevator - 2
-	 * bufferPick - 3
-	 * bufferPlace - 4
-	 * -----------------------
-	 * categories  - 0 ~ 100
-	 * heartbeatrequset - > heartbeatresponse
-	 * -----------------------
-	 * Heartbeat - 1
-	 * */
-
-/*
- * tasktype
- *	move - 1
- *	manualmove -2
- *	pick -3
- *	place - 4
- *	stroke - 5
- *	width - 6
- *  finger - 7
- *
- * */
-
-
-
-
-
-/*
- * queue type struct type
- *
- * typedef struct
- * {
- * 	uint32_t transactionid;
- *	uint16_t msgtype;
- *  uint16_t category;
- * }queue_data
- *
- * qeueue - tcpsend queue from tcprecv, openamprecv
- *		  - openamp queue from tcprecv,
- *		  - sdcard qeuue - TBD
- *
- *
- * */
-
-
-
-
-/*
- * cjson error type
- * ok >0
- *
- * error <0
- * cant allocate memory - -1
- * cant parsing(internal error) - -2
- * canr parsing(no name) - -3
- *
- *
- * */
-
 osMessageQId TCPSendQueueHandle;
 
 //-----------------------------------------------------------main data
@@ -231,7 +121,7 @@ int WriteDataToMainData(void const* argument, int key, int value)
 	//if key is available
 	if (Dst_->main_data_.find(key_) != Dst_->main_data_.end() )
 	{
-		main_data_.at(key_) = value_;
+		Dst_->main_data_.at(key_) = value_;
 
 		status = 1;
 	}
@@ -242,9 +132,14 @@ int WriteDataToMainData(void const* argument, int key, int value)
 
 
 //get transactionid from header's transactionid
-int GetTransactionIdFromHeader(const char * const msg, int msg_leng)
+uint64_t GetTransactionIdFromHeader(const char * const msg, int msg_leng)
 {
-	int id = 0;
+	uint64_t id = 0;
+
+	char recv_buf[msg_leng + 1] = {0,};
+
+	strncpy (recv_buf, msg, msg_leng);
+
 
 	//declare header buffers
     const cJSON *header = NULL;
@@ -279,14 +174,7 @@ int GetTransactionIdFromHeader(const char * const msg, int msg_leng)
 	transactionid = cJSON_GetObjectItemCaseSensitive(header, "transactionId");
 
 	if (cJSON_IsString(transactionid) && (transactionid->valuestring != NULL))
-		// succeess
-
-	//middle check for checking error
-	if(id < 0)
-		return id;
-
-
-	id = transactionid->valuestring;
+		id = strtoull(transactionid->valuestring, NULL, 10); 	// succeess
 
 	cJSON_Delete(msg_json);
 
@@ -348,13 +236,18 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	//middle check for checking error
 	if(cmd < 0)
+	{
+		cJSON_Delete(msg_json);
+
 		return cmd;
+	}
+
 
 	//get command type for enqeue the command queue
 
 	if(strcmp(msgtype->valuestring, "request") == 0)
 	{
-		cmd += RecvCmdMaxRangeOffset::STRAT_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::START_REQUEST_CMD_RANGE;
 
 		if(strcmp(category->valuestring, "info") == 0) cmd += RequestCmdOffset::REQUEST_INFO;
 
@@ -388,11 +281,11 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	else if (strcmp(msgtype->valuestring, "ack") == 0)
 	{
-		cmd += RecvCmdMaxRangeOffset::REQUEST_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::START_ACK_CMD_RANGE;
 
 		if(strcmp(category->valuestring, "task") == 0) cmd += AckCmdOffset::ACK_TASK;
 
-		else if(strcmp(category->valuestring, "alert") == 0) AckCmdOffset::ACK_ALERT;
+		else if(strcmp(category->valuestring, "alert") == 0) cmd += AckCmdOffset::ACK_ALERT;
 
 		else cmd = JsonErrOffset::JSON_WRONG_DATA_ERROR;
 
@@ -400,7 +293,7 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	else if (strcmp(msgtype->valuestring, "approve") == 0)
 	{
-		cmd += RecvCmdMaxRangeOffset::ACK_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::START_APRROVE_CMD_RANGE;
 
 		if(strcmp(category->valuestring, "enterElevator") == 0) cmd += ApproveCmdOffset::APPROVE_ENTERELEVATOR;
 
@@ -416,7 +309,7 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	else if (strcmp(msgtype->valuestring, "execute") == 0)
 	{
-		cmd += RecvCmdMaxRangeOffset::APRROVE_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::START_EXCUTE_CMD_RANGE;
 
 		if(strcmp(category->valuestring, "enterElevator") == 0) cmd += ExcuteCmdOffset::EXCUTE_ENTERELEVATOR;
 
@@ -432,7 +325,7 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	else if (strcmp(msgtype->valuestring, "heartbeatRequset") == 0)
 	{
-		cmd += RecvCmdMaxRangeOffset::HEARTTBEAT_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE;
 
 		if(strcmp(category->valuestring, "Heartbeat") == 0) cmd += HeartbeatCmdOffset::heartbeat;
 
@@ -467,7 +360,7 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 	int cmd_  = cmd;
 
 	//-----------------------------------------------------------
-	cJSON *msg_json = cJSON_ParseWithLength(recv_buf, msg_leng + 1);
+	cJSON* msg_json = cJSON_ParseWithLength(recv_buf, msg_leng + 1);
 
 	//cjson ptr check
 	if (msg_json == NULL)
@@ -475,22 +368,26 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		cJSON_Delete(msg_json);
 
 		cmd_ = JsonErrOffset::JSON_FORMAT_ERROR;
+
+		return data_;
 	}
 
 	//Get body object pointer
-	cJSON body = cJSON_GetObjectItemCaseSensitive(msg_json, "body");
+	cJSON* body = cJSON_GetObjectItemCaseSensitive(msg_json, "body");
 
 	if (body == NULL)
 	{
 		cJSON_Delete(msg_json);
 
 		cmd_ = JsonErrOffset::JSON_FORMAT_ERROR;
+
+		return data_;
 	}
 
 
 	//-----------------------------------------------------------request body data
 
-	if(cmd_ < RecvCmdMaxRangeOffset::REQUEST_CMD_RANGE) //request
+	if(cmd_ < RecvCmdRangeOffset::START_ACK_CMD_RANGE) //request
 	{
 		/*
 		 * request - write setmode(4),  timesync(10), readparma(11), writeparam(12), task(20~)
@@ -499,7 +396,7 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		switch(cmd_)
 		{
 			case RequestCmdOffset::REQUEST_SETMODE: //setmode
-
+			{
 				cJSON* mode = cJSON_GetObjectItemCaseSensitive(body, "mode");
 
 				if (cJSON_IsString(mode) && (mode->valuestring != NULL))
@@ -507,12 +404,14 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 					int val = atoi(mode->valuestring);
 
 					data_.push_back(val);
-				}
 
+				}
 				break;
+			}
+
 
 			case RequestCmdOffset::REQUEST_TIMESYNC:  //timesync
-
+			{
 				cJSON* systime1 = cJSON_GetObjectItemCaseSensitive(body, "systime1");
 
 				if (cJSON_IsString(systime1) && (systime1->valuestring != NULL))
@@ -532,84 +431,131 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 				}
 
 				break;
+			}
 
-			case RequestCmdOffset::REQUEST_READPARAM: case RequestCmdOffset::REQUEST_WRITEPARAM: //readparma //writeparma
-
+			case RequestCmdOffset::REQUEST_READPARAM: //readparam
+			{
 				cJSON* index = cJSON_GetObjectItemCaseSensitive(body, "index");
 
 				if (cJSON_IsString(index) && (index->valuestring != NULL))
 				{
-					int val = atoi(index->valuestring);
+					//int val = atoi(index->valuestring);
+
+					//----------------------------------------------------------make switch case
+
+					//data_.push_back(val);
+				}
+
+				break;
+			}
+
+			case RequestCmdOffset::REQUEST_WRITEPARAM: //writeparam
+			{
+				cJSON* index = cJSON_GetObjectItemCaseSensitive(body, "index");
+
+				if (cJSON_IsString(index) && (index->valuestring != NULL))
+				{
+					//int val = atoi(index->valuestring);
+
+					//----------------------------------------------------------make switch case
+
+					//data_.push_back(val);
+				}
+
+				cJSON* data = cJSON_GetObjectItemCaseSensitive(body, "data");
+
+				if (cJSON_IsString(data) && (data->valuestring != NULL))
+				{
+					int val = atoi(data->valuestring);
 
 					data_.push_back(val);
 				}
 
 				break;
+			}
 
 			case RequestCmdOffset::REQUEST_TASK: //task
-
+			{
 				cJSON* taskType = cJSON_GetObjectItemCaseSensitive(body, "taskType");
 
 				if (cJSON_IsString(taskType) && (taskType->valuestring != NULL))
 				{
 					int val = atoi(taskType->valuestring);
 
+					data_.push_back(val);
+
 					//switch case
-					data_.push_back(val);
-				}
-
-				cJSON* taskGroup = cJSON_GetObjectItemCaseSensitive(body, "taskGroup");
-
-				if (cJSON_IsString(taskGroup) && (taskGroup->valuestring != NULL))
-				{
-					int val = atoi(taskGroup->valuestring);
-
-					data_.push_back(val);
-				}
-
-				cJSON* taskId = cJSON_GetObjectItemCaseSensitive(body, "taskId");
-
-				if (cJSON_IsString(taskId) && (taskId->valuestring != NULL))
-				{
-					int val = atoi(taskId->valuestring);
-
-					data_.push_back(val);
-				}
-
 					switch(val)
 					{
 						case TaskTypeOffset::TASK_MOVE://					 *	move - 1
+						{
+							cJSON* taskGroup = cJSON_GetObjectItemCaseSensitive(body, "taskGroup");
+
+							if (cJSON_IsString(taskGroup) && (taskGroup->valuestring != NULL))
+							{
+								int val = atoi(taskGroup->valuestring);
+
+								data_.push_back(val);
+							}
+
+							cJSON* taskId = cJSON_GetObjectItemCaseSensitive(body, "taskId");
+
+							if (cJSON_IsString(taskId) && (taskId->valuestring != NULL))
+							{
+								int val = atoi(taskId->valuestring);
+
+								data_.push_back(val);
+							}
 
 							cJSON* destination = cJSON_GetObjectItemCaseSensitive(body, "destination");
 
-								if (cJSON_IsString(destination) && (destination->valuestring != NULL))
-								{
-									int val = atoi(destination->valuestring);
+							if (cJSON_IsString(destination) && (destination->valuestring != NULL))
+							{
+								int val = atoi(destination->valuestring);
 
-									data_.push_back(val);
-								}
+								data_.push_back(val);
+							}
 
 							cJSON* speed = cJSON_GetObjectItemCaseSensitive(body, "speed");
 
-								if (cJSON_IsString(speed) && (speed->valuestring != NULL))
-								{
-									int val = atoi(speed->valuestring);
+							if (cJSON_IsString(speed) && (speed->valuestring != NULL))
+							{
+								int val = atoi(speed->valuestring);
 
-									data_.push_back(val);
-								}
+								data_.push_back(val);
+							}
 
 							cJSON* inquireOption = cJSON_GetObjectItemCaseSensitive(body, "inquireOption");
 
-								if (cJSON_IsString(inquireOption) && (inquireOption->valuestring != NULL))
-								{
-									int val = atoi(inquireOption->valuestring);
+							if (cJSON_IsString(inquireOption) && (inquireOption->valuestring != NULL))
+							{
+								int val = atoi(inquireOption->valuestring);
 
-									data_.push_back(val);
-								}
+								data_.push_back(val);
+							}
 
 							break;
+						}
 
 						case TaskTypeOffset::TASK_MANUALMOVE://*	manualmove -2
+						{
+							cJSON* taskGroup = cJSON_GetObjectItemCaseSensitive(body, "taskGroup");
+
+							if (cJSON_IsString(taskGroup) && (taskGroup->valuestring != NULL))
+							{
+								int val = atoi(taskGroup->valuestring);
+
+								data_.push_back(val);
+							}
+
+							cJSON* taskId = cJSON_GetObjectItemCaseSensitive(body, "taskId");
+
+							if (cJSON_IsString(taskId) && (taskId->valuestring != NULL))
+							{
+								int val = atoi(taskId->valuestring);
+
+								data_.push_back(val);
+							}
 
 							cJSON* distance = cJSON_GetObjectItemCaseSensitive(body, "distance");
 
@@ -620,7 +566,7 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 								data_.push_back(val);
 							}
 
-							cJSON* speed = cJSON_GetObjectItemCaseSensitive(body, "direction");
+							cJSON* direction = cJSON_GetObjectItemCaseSensitive(body, "direction");
 
 							if (cJSON_IsString(direction) && (direction->valuestring != NULL))
 							{
@@ -629,7 +575,7 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 								data_.push_back(val);
 							}
 
-							cJSON* inquireOption = cJSON_GetObjectItemCaseSensitive(body, "speed");
+							cJSON* speed = cJSON_GetObjectItemCaseSensitive(body, "speed");
 
 							if (cJSON_IsString(speed) && (speed->valuestring != NULL))
 							{
@@ -639,8 +585,27 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 							}
 
 							break;
+						}
 
 						case TaskTypeOffset::TASK_PICK: case TaskTypeOffset::TASK_PLACE://					 *	pick -3 *place - 4
+						{
+							cJSON* taskGroup = cJSON_GetObjectItemCaseSensitive(body, "taskGroup");
+
+							if (cJSON_IsString(taskGroup) && (taskGroup->valuestring != NULL))
+							{
+								int val = atoi(taskGroup->valuestring);
+
+								data_.push_back(val);
+							}
+
+							cJSON* taskId = cJSON_GetObjectItemCaseSensitive(body, "taskId");
+
+							if (cJSON_IsString(taskId) && (taskId->valuestring != NULL))
+							{
+								int val = atoi(taskId->valuestring);
+
+								data_.push_back(val);
+							}
 
 							cJSON* pickup = cJSON_GetObjectItemCaseSensitive(body, "pickup");
 
@@ -660,7 +625,7 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 								data_.push_back(val);
 							}
 
-							cJSON* inquireOption = cJSON_GetObjectItemCaseSensitive(body, "depth");
+							cJSON* depth = cJSON_GetObjectItemCaseSensitive(body, "depth");
 
 							if (cJSON_IsString(depth) && (depth->valuestring != NULL))
 							{
@@ -706,8 +671,27 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 							}
 
 							break;
+						}
 
 						case TaskTypeOffset::TASK_STROKE://					 *	stroke - 5
+						{
+							cJSON* taskGroup = cJSON_GetObjectItemCaseSensitive(body, "taskGroup");
+
+							if (cJSON_IsString(taskGroup) && (taskGroup->valuestring != NULL))
+							{
+								int val = atoi(taskGroup->valuestring);
+
+								data_.push_back(val);
+							}
+
+							cJSON* taskId = cJSON_GetObjectItemCaseSensitive(body, "taskId");
+
+							if (cJSON_IsString(taskId) && (taskId->valuestring != NULL))
+							{
+								int val = atoi(taskId->valuestring);
+
+								data_.push_back(val);
+							}
 
 							cJSON* stroke = cJSON_GetObjectItemCaseSensitive(body, "stroke");
 
@@ -720,7 +704,7 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 
 							cJSON* direction = cJSON_GetObjectItemCaseSensitive(body, "direction");
 
-							if (cJSON_IsString(direction) && (dropoff->valuestring != NULL))
+							if (cJSON_IsString(direction) && (direction->valuestring != NULL))
 							{
 								int val = atoi(direction->valuestring);
 
@@ -737,8 +721,27 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 							}
 
 							break;
+						}
 
 						case TaskTypeOffset::TASK_WIDTH://					 *	width - 6
+						{
+							cJSON* taskGroup = cJSON_GetObjectItemCaseSensitive(body, "taskGroup");
+
+							if (cJSON_IsString(taskGroup) && (taskGroup->valuestring != NULL))
+							{
+								int val = atoi(taskGroup->valuestring);
+
+								data_.push_back(val);
+							}
+
+							cJSON* taskId = cJSON_GetObjectItemCaseSensitive(body, "taskId");
+
+							if (cJSON_IsString(taskId) && (taskId->valuestring != NULL))
+							{
+								int val = atoi(taskId->valuestring);
+
+								data_.push_back(val);
+							}
 
 							cJSON* width = cJSON_GetObjectItemCaseSensitive(body, "width");
 
@@ -759,8 +762,27 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 							}
 
 							break;
+						}
 
 						case TaskTypeOffset::TASK_FINGER://					 *  finger - 7
+						{
+							cJSON* taskGroup = cJSON_GetObjectItemCaseSensitive(body, "taskGroup");
+
+							if (cJSON_IsString(taskGroup) && (taskGroup->valuestring != NULL))
+							{
+								int val = atoi(taskGroup->valuestring);
+
+								data_.push_back(val);
+							}
+
+							cJSON* taskId = cJSON_GetObjectItemCaseSensitive(body, "taskId");
+
+							if (cJSON_IsString(taskId) && (taskId->valuestring != NULL))
+							{
+								int val = atoi(taskId->valuestring);
+
+								data_.push_back(val);
+							}
 
 							cJSON* finger = cJSON_GetObjectItemCaseSensitive(body, "finger");
 
@@ -772,25 +794,27 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 							}
 
 							break;
-
+						}
 						default:
 							break;
 					}
+				}
 			}
+		}
 	}
 
-	if(cmd_ < RecvCmdMaxRangeOffset::ACK_CMD_RANGE) //report - ack
+	if(cmd_ < RecvCmdRangeOffset::START_APRROVE_CMD_RANGE) //report - ack
 	{
 		/*
 		 * ack - result
 		 * */
-		cmd_ -= RecvCmdMaxRangeOffset::REQUEST_CMD_RANGE;
+		cmd_ -= RecvCmdRangeOffset::START_ACK_CMD_RANGE;
 
 		switch(cmd_)
 		{
 
 			case AckCmdOffset::ACK_TASK: case AckCmdOffset::ACK_ALERT://task, alert
-
+			{
 				cJSON* result = cJSON_GetObjectItemCaseSensitive(body, "result");
 
 				if (cJSON_IsString(result) && (result->valuestring != NULL))
@@ -800,23 +824,23 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 					data_.push_back(val);
 				}
 				break;
-
+			}
 
 			default:
 				break;
 		}
 	}
 
-	if(cmd_ < RecvCmdMaxRangeOffset::APRROVE_CMD_RANGE) //approve
+	if(cmd_ < RecvCmdRangeOffset::START_EXCUTE_CMD_RANGE) //approve
 	{
 		/*
 		 * approve -action, result
 		 * */
-		//cmd_ -= RecvCmdMaxRangeOffset::ACK_CMD_RANGE;
+		//cmd_ -= RecvCmdRangeOffset::START_APRROVE_CMD_RANGE;
 
 		cJSON* action = cJSON_GetObjectItemCaseSensitive(body, "action");
 
-		if (cJSON_IsString(taskType) && (taskType->valuestring != NULL))
+		if (cJSON_IsString(action) && (action->valuestring != NULL))
 		{
 			int val = atoi(action->valuestring);
 
@@ -833,13 +857,13 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 	}
 
-	if(cmd_ < RecvCmdMaxRangeOffset::EXCUTE_CMD_RANGE) //approve
+	if(cmd_ < RecvCmdRangeOffset::START_RESERVED1_CMD_RANGE) //approve excute
 	{
 		/*
 		 * approve - enterElevator(1),  leaveElevator(2), bufferPick(3), bufferPlace(4)
 		 * */
 
-		//cmd_ -= RecvCmdMaxRangeOffset::APRROVE_CMD_RANGE;
+		//cmd_ -= RecvCmdRangeOffset::START_EXCUTE_CMD_RANGE;
 
 		cJSON* taskType = cJSON_GetObjectItemCaseSensitive(body, "taskType");
 
@@ -850,7 +874,7 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 			data_.push_back(val);
 		}
 
-		cJSON* leaveElevator = cJSON_GetObjectItemCaseSensitive(body, "taskGroup");
+		cJSON* taskGroup = cJSON_GetObjectItemCaseSensitive(body, "taskGroup");
 
 		if (cJSON_IsString(taskGroup) && (taskGroup->valuestring != NULL))
 		{
@@ -878,12 +902,13 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 
 	}
-	if(cmd_ < RecvCmdMaxRangeOffset::HEARTTBEAT_CMD_RANGE) //approve
+	if(cmd_ < RecvCmdRangeOffset::START_RESERVED2_CMD_RANGE) //heartbeat
 	{
+		//cmd_ -= RecvCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE;
 
 		cJSON* heartbeat = cJSON_GetObjectItemCaseSensitive(body, "heartbeat");
 
-		if (cJSON_IsString(heartbeat) && (result->valuestring != NULL))
+		if (cJSON_IsString(heartbeat) && (heartbeat->valuestring != NULL))
 		{
 			int val = atoi(heartbeat->valuestring);
 
@@ -891,162 +916,10 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 	}
 
-
-
 	cJSON_Delete(msg_json);
 
 	return data_;
 }
-
-
-////json parsing and get command or write thing
-//int DoCmdFromBody(void const* argument, const char * const msg, int msg_leng, int cmd)
-//{
-//	data_structure* Dst_ = (data_structure*)argument;
-//
-//	int status = 0;
-//
-//	//memory copy
-//	char recv_buf[msg_leng + 1] = {0,};
-//
-//	strncpy (recv_buf, msg, msg_leng);
-//
-//
-//	//declare header buffers
-//    const cJSON *body = NULL;
-//
-//
-//	//-----------------------------------------------------------
-//	cJSON *msg_json = cJSON_ParseWithLength(recv_buf, msg_leng+1);
-//
-//	//cjson ptr check
-//	if (msg_json == NULL)
-//	{
-//		cJSON_Delete(msg_json);
-//
-//		cmd = JsonErrOffset::JSON_FORMAT_ERROR;
-//
-//		return cmd;
-//	}
-//
-//	//Get header object pointer
-//	body = cJSON_GetObjectItemCaseSensitive(msg_json, "body");
-//
-//	if (body == NULL)
-//	{
-//		cJSON_Delete(msg_json);
-//
-//		cmd = JsonErrOffset::JSON_FORMAT_ERROR;
-//
-//		return cmd;
-//	}
-//
-//
-////add here the cmd -switch - categories
-//
-//	if(cmd <100) //request
-//	{
-//		/*
-//		 * request - write setmode(4),  timesync(10), readparma(11), writeparam(12), task(20~)
-//		 * */
-//		cmd -= 100;
-//
-//		switch(cmd)
-//		{
-//			case 4:
-//
-//				cJSON* mode = cJSON_GetObjectItemCaseSensitive(body, "mode");
-//
-//				if (cJSON_IsString(mode) && (mode->valuestring != NULL))
-//				{
-//					int val = atoi(mode->valuestring);
-//
-//					WriteDataToMainData(Dst_, mode_, val);
-//				}
-//				else
-//				{
-//					cmd = JsonErrOffset::JSON_PARSING_ERROR;
-//				}
-//
-//				break;
-//
-//			case 10:
-//
-//				cJSON* systime1 = cJSON_GetObjectItemCaseSensitive(body, "systime1");
-//
-//				if (cJSON_IsString(systime1) && (systime1->valuestring != NULL))
-//				{
-//					int val = atoi(systime1->valuestring);
-//
-//					WriteDataToMainData(Dst_, systime1_, val);
-//				}
-//				else
-//				{
-//					cmd = JsonErrOffset::JSON_PARSING_ERROR;
-//				}
-//
-//
-//				cJSON* systime2 = cJSON_GetObjectItemCaseSensitive(body, "systime2");
-//
-//				if (cJSON_IsString(systime2) && (systime2->valuestring != NULL))
-//				{
-//					int val = atoi(systime2->valuestring);
-//
-//					WriteDataToMainData(Dst_, systime2_, val);
-//				}
-//				else
-//				{
-//					cmd = -2;
-//				}
-//
-//				break;
-//
-//			case 11: break;
-//
-//			case 12: break;
-//
-//			case 20: break;
-//
-//			default: cmd = -3; break;
-//		}
-//
-//
-//
-//
-//	}
-//	else if(cmd >=100 && cmd <=200)
-//	{
-//
-//		/*
-//		 * request - write setmode(4),  timesync(10), readparma(11), writeparam(12), task(20~)
-//		 * */
-//	}
-//	else if(cmd >=200 && cmd <=300)
-//	{
-//
-//		/*
-//		 * request - write setmode(4),  timesync(10), readparma(11), writeparam(12), task(20~)
-//		 * */
-//	}
-//	else if(cmd >=100 && cmd <=200)
-//	{
-//
-//		/*
-//		 * request - write setmode(4),  timesync(10), readparma(11), writeparam(12), task(20~)
-//		 * */
-//	}
-//
-//
-//
-//
-//
-//
-//	cJSON_Delete(msg_json);
-//
-//	return status;
-//}
-//
-
 
 //Do thing like send queue to openamp-send or tcp-send,
 
@@ -1061,6 +934,8 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 //behavior function
 int DoCmdFromData(void const* argument, cmd_queue_data data)
 {
+	data_structure* Dst_ = (data_structure*)argument;
+
 	const cmd_queue_data cmd_queue_data_ = data;
 
 	int cmd_ = cmd_queue_data_.cmd_;
@@ -1069,6 +944,8 @@ int DoCmdFromData(void const* argument, cmd_queue_data data)
 
 
 
+	//send data to tcp sender
+	Dst_->tcp_send_queue_.push_back(cmd_queue_data_);
 
 
 	return 0;
@@ -1087,7 +964,7 @@ int GetDataFromEthernet(void const* argument, const char * const msg, int const 
 
 	cmd_queue_data_.cmd_ = GetCmdFromHeader(msg, msg_leng);
 
-	cmd_queue_data_.parameter_= GetDataFromBody(Dst_, msg, msg_leng, cmd_);
+	cmd_queue_data_.parameter_= GetDataFromBody(Dst_, msg, msg_leng, cmd_queue_data_.cmd_);
 
 
 	//do the things from here send queue or data save etc.
@@ -1098,30 +975,167 @@ int GetDataFromEthernet(void const* argument, const char * const msg, int const 
 
 
 
+//-------------------------------------------------------------read(get) data from main data
 
 
 
 
+const int ReadDataFromMainData(void const* argument, const char * const msg, int key)
+{
+	const int key_ = key;
 
-//const int ReadDataFromMainData(int key)
-//{
-//	const int key_ = key;
-//
-//	//if key is available
-//	if (Dst_->main_data_.find(key_) != Dst_->main_data_.end() )
-//	{
-//		main_data_.at(key_) = value_;
-//
-//		return main_data_.at(key_);
-//	}
-//	return -1;
-//
-//}
+	data_structure* Dst_ = (data_structure*)argument;
+
+	//if key is available
+	if (Dst_->main_data_.find(key_) != Dst_->main_data_.end() )
+		return Dst_->main_data_.at(key_);
+
+	return -1;
+
+}
 
 
+//in data out string
+int GetStringFromMainData(cmd_queue_data data, char* json_string)
+{
+	int status = 0;
+
+	const cmd_queue_data cmd_queue_data_ = data;
+
+	//get string data for sending json
+	//get transactionid for string
 
 
 
+	int cmd_ = cmd_queue_data_.cmd_;
+
+	std::vector<int>parameter_ = cmd_queue_data_.parameter_;
+
+	std::string temp_buffer;
+
+
+    //-------------------------------------------------------string start
+
+	//make string start
+    cJSON* sender = cJSON_CreateObject();
+
+	if (sender == NULL)
+	{
+		cJSON_Delete(sender);
+
+		cmd_ = JsonErrOffset::JSON_FORMAT_ERROR;
+	}
+
+
+    /* after creation was successful, immediately add it to the monitor,
+     * thereby transferring ownership of the pointer to it */
+
+    //-------------------------------------------------------header contents
+
+    cJSON* header = cJSON_CreateObject();
+
+    cJSON_AddItemToObject(sender, "header", header);
+
+
+
+    temp_buffer = std::to_string(cmd_queue_data_.transactionid_);
+
+    cJSON* transactionId = cJSON_CreateString(temp_buffer.c_str());
+
+    //if (transactionId == NULL)
+    	//error
+
+	temp_buffer.clear();
+
+    cJSON_AddItemToObject(header, "transactionId", transactionId);
+
+
+    if(cmd_ < RecvCmdRangeOffset::START_ACK_CMD_RANGE)
+    {
+    	temp_buffer.append("response");
+    }
+    else
+    {
+    	return -1;
+    }
+
+    cJSON* msgType = cJSON_CreateString(temp_buffer.c_str());
+    //  if (msgType == NULL)
+
+    cJSON_AddItemToObject(header, "msgType", msgType);
+
+	temp_buffer.clear();
+
+
+
+    switch(cmd_)
+    {
+    	case RequestCmdOffset::REQUEST_INFO: temp_buffer.append("info"); break;
+
+    	case RequestCmdOffset::REQUEST_STATUS: temp_buffer.append("status"); break;
+
+    	case RequestCmdOffset::REQUEST_TASKSTATUS: temp_buffer.append("taskCancel"); break;
+
+    	case RequestCmdOffset::REQUEST_SETMODE: temp_buffer.append("taskStatus"); break;
+
+    	case RequestCmdOffset::REQUEST_ALARMCLEAR: temp_buffer.append("setMode"); break;
+
+    	case RequestCmdOffset::REQUEST_SYSRESET: temp_buffer.append("alarmClear"); break;
+
+    	case RequestCmdOffset::REQUEST_TASKPAUSE: temp_buffer.append("sysReset"); break;
+
+    	case RequestCmdOffset::REQUEST_TASKRESUME: temp_buffer.append("taskPause"); break;
+
+    	case RequestCmdOffset::REQUEST_SWEMS: temp_buffer.append("taskResume"); break;
+
+    	case RequestCmdOffset::REQUEST_TIMESYNC: temp_buffer.append("ems"); break;
+
+    	case RequestCmdOffset::REQUEST_READPARAM: temp_buffer.append("readParam"); break;
+
+    	case RequestCmdOffset::REQUEST_WRITEPARAM: temp_buffer.append("writeParam"); break;
+
+    	case RequestCmdOffset::REQUEST_TASK: temp_buffer.append("task"); break;
+    }
+
+
+    cJSON* category = cJSON_CreateString(temp_buffer.c_str());
+    //if (category == NULL)
+
+    cJSON_AddItemToObject(header, "category", category);
+
+	temp_buffer.clear();
+
+
+    cJSON* timeStamp = cJSON_CreateString("1680063015500");
+    //if (timeStamp == NULL)
+
+    cJSON_AddItemToObject(header, "timeStamp", timeStamp);
+
+
+	//get command type for enqeue the command queue
+
+	/*add the if-case command for getting json string data*/
+
+
+   //cJSON_Print(sender);
+
+    char* temp_data = cJSON_Print(sender);
+
+    memcpy(json_string, temp_data , strlen(cJSON_Print(sender)));
+
+    if (json_string == NULL)
+    {
+        fprintf(stderr, "Failed to print monitor.\n");
+    }
+
+    cJSON_Delete(sender);
+
+    free(temp_data);
+
+    temp_buffer.clear();
+
+	return status;
+}
 
 
 

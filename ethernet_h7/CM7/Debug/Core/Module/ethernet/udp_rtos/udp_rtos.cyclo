@@ -1,5 +1,0 @@
-udp_rtos.cpp:26:13:void UDPServerThread(void*)	4
-udp_rtos.cpp:84:6:void UdpServerInit()	1
-udp_rtos.cpp:93:6:void udpsend(char*)	1
-udp_rtos.cpp:103:13:void UdpClientThread(void*)	5
-udp_rtos.cpp:162:6:void UdpClientInit()	1

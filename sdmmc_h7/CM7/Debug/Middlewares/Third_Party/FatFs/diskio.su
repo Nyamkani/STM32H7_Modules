@@ -1,5 +1,0 @@
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FatFs/src/diskio.c:30:9:disk_status	24	static
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FatFs/src/diskio.c:46:9:disk_initialize	24	static
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FatFs/src/diskio.c:66:9:disk_read	40	static
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FatFs/src/diskio.c:87:9:disk_write	40	static
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/sdmmc_h7/Middlewares/Third_Party/FatFs/src/diskio.c:108:9:disk_ioctl	24	static

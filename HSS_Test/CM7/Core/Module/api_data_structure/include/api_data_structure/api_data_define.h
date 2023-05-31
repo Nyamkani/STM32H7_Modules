@@ -11,6 +11,22 @@
 
 //-------------------------------------------------------main data enumerate
 
+enum RobotResult
+{
+	FAIL = 0,
+	SUCCRESS = 1,
+};
+
+enum RobotAction
+{
+	SUSPEND = 0,
+	PROCEED = 1,
+};
+
+
+
+
+
 enum RobotDataId
 {
 	//robot_info
@@ -34,17 +50,17 @@ enum RobotDataId
 	CONFIGGW_ADDR3 = 21,
 
 	//status_page_1
-	MODE = 10001,
+MODE = 10001,      			//set mode param
 	STATUS = 10002,
 	POSITION = 10003,
 	DESTINATION = 10004,
 
-	SPEED = 10005,
-	FORK_STROKE = 10006,
-	FORK_WIDTH = 10007,
+	SPEED = 10005,			//set speed param
+	FORK_STROKE = 10006,	//set storke param
+	FORK_WIDTH = 10007,		//set storke param
 	FORK_ON_LOAD = 10008,
 
-	ALARM_CODE = 10009,
+	ALARM_CODE = 10009,		//set alarm reset
 	ERROR_CODE = 10010,
 
 	//status_page_2
@@ -61,20 +77,20 @@ enum RobotDataId
 	CALLBACK_MSG = 10033,
 
 	//vehicle_config_page_1
-	MOVE_LIMIT_MIN = 20001,
-	MOVE_LIMIT_MAX = 20002,
+	MOVE_LIMIT_MIN = 20001,			//set limit param
+	MOVE_LIMIT_MAX = 20002,			//set limit param
 	ELEVATOR_ENTRY_POS = 20003,
 	ELEVATOR_BOARD_POS = 20004,
 	ELEVATOR_EXIT_POS = 20005,
-	FWD_STOP_CALIBRATION = 20006,
-	BWD_STOP_CALIBRATION = 20007,
+	FWD_STOP_CALIBRATION = 20006,	//set limit param
+	BWD_STOP_CALIBRATION = 20007,	//set limit param
 	POS_CRRECTION_CONSTANT = 20008,
 
 	//vehicle_config_page_2
-	MOVE_SPEED1 = 21001,
-	MOVE_ACC1 = 21002,
-	MOVE_SPEED2 = 21003,
-	MOVE_ACC2 = 21004,
+	MOVE_SPEED1 = 21001,		//set speed param
+	MOVE_ACC1 = 21002,			//set acc param
+	MOVE_SPEED2 = 21003,		//set speed param
+	MOVE_ACC2 = 21004,			//set acc param
 
 
 	//attach_config
@@ -96,8 +112,6 @@ enum RobotDataId
 	//time_sync_config
 	systime1_ = 60000,
 	systime2_ = 60001,
-
-
 
 };
 
@@ -146,17 +160,19 @@ enum HeartbeatCmdOffset
 };
 
 
-enum RecvCmdMaxRangeOffset
+enum RecvCmdRangeOffset
 {
-	STRAT_CMD_RANGE = 0,
-	REQUEST_CMD_RANGE = 100,
-	ACK_CMD_RANGE = 200,
-	APRROVE_CMD_RANGE = 300,
-	EXCUTE_CMD_RANGE = 400,
+	START_REQUEST_CMD_RANGE = 0,
+	START_ACK_CMD_RANGE = 100,
+	START_APRROVE_CMD_RANGE = 200,
+	START_EXCUTE_CMD_RANGE = 300,
+	START_RESERVED1_CMD_RANGE = 400,
 
-	HEARTTBEAT_CMD_RANGE = 900,
-
+	START_HEARTTBEAT_CMD_RANGE = 900,
+	START_RESERVED2_CMD_RANGE = 1000,
 };
+
+
 
 //------------------------------------------------------------Task
 enum TaskTypeOffset
@@ -180,7 +196,10 @@ enum TaskStatusOffset
 
 };
 
-//------------------------------------------------------------robot status
+
+
+
+//------------------------------------------------------------robot status and control
 
 enum RobotModeOffset
 {
@@ -202,6 +221,14 @@ enum RobotStatusOffset
 
 };
 
+enum RobotMoveDirOffset
+{
+	ROBOT_MOVE_DIR_NONE = 0,
+	ROBOT_MOVE_DIR_FWD = 1,
+	ROBOT_MOVE_DIR_BWD = 2,
+
+};
+
 enum RobotForkLoadStatusOffset
 {
 	ROBOT_FORK_LOAD_STATUS_EMPTY = 0,
@@ -212,6 +239,62 @@ enum RobotForkLoadStatusOffset
 	ROBOT_FORK_LOAD_STATUS_DUAL = 5,
 
 };
+
+enum RobotForkLoadPositonOffset
+{
+	ROBOT_FORK_LOAD_POS_EMPTY = 0,
+	ROBOT_FORK_LOAD_POS_CENTER = 2,
+	ROBOT_FORK_LOAD_POS_LEFT = 3,
+	ROBOT_FORK_LOAD_POS_RIGHT = 4,
+	ROBOT_FORK_LOAD_POS_AUTO = 9,
+
+};
+
+enum RobotPickPositonOffset
+{
+	ROBOT_PICK_POS_NONE = 0,
+	ROBOT_PICK_POS_LEFTIN = 13,
+	ROBOT_PICK_POS_LEFTOUT = 24,
+	ROBOT_PICK_POS_RIGHTIN = 23,
+	ROBOT_PICK_POS_RIGHTOUT = 24,
+
+};
+
+enum RobotInquireOptionOffset
+{
+	ROBOT_PICK_INQ_NONE = 0,
+	ROBOT_PICK_INQ_BUFFERPICK = 1,
+	ROBOT_PICK_INQ_BUFFERLPLACE = 2,
+
+};
+
+enum RobotFingerControlOffset
+{
+	ROBOT_FINGER_CONTROL_NONE = 0,
+	ROBOT_FINGER_CONTROL_ALLUP = 1,
+	ROBOT_FINGER_CONTROL_ALLDOWN = 2,
+	ROBOT_FINGER_CONTROL_LEFTDOWN = 3,
+	ROBOT_FINGER_CONTROL_CENTERDOWN = 4,
+	ROBOT_FINGER_CONTROL_RIGHTDOWN = 5,
+	ROBOT_FINGER_CONTROL_LEFTRIGHTDOWN = 6,
+	ROBOT_FINGER_CONTROL_LEFTFWDDOWN = 7,
+	ROBOT_FINGER_CONTROL_CENTERFWDDOWN = 8,
+	ROBOT_FINGER_CONTROL_RGIHTFWDOWN = 9,
+	ROBOT_FINGER_CONTROL_LEFTBWDDOWN = 10,
+	ROBOT_FINGER_CONTROL_CENTERBWDDOWN = 11,
+	ROBOT_FINGER_CONTROL_RIGHTBWDDOWN = 12,
+
+};
+
+enum RobotStrokeDirOffset
+{
+	ROBOT_STORKE_DIR_NONE = 0,
+	ROBOT_STORKE_DIR_LEFT = 1,
+	ROBOT_STORKE_DIR_RIGHT = 2,
+
+};
+
+
 
 
 

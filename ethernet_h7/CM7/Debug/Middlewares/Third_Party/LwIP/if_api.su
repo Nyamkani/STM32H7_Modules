@@ -1,2 +1,0 @@
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/ethernet_h7/Middlewares/Third_Party/LwIP/src/api/if_api.c:61:1:lwip_if_indextoname	16	static
-/home/kssvm/STM32CubeIDE/workspace_1.10.1/STM32H7_Modules/ethernet_h7/Middlewares/Third_Party/LwIP/src/api/if_api.c:86:1:lwip_if_nametoindex	16	static

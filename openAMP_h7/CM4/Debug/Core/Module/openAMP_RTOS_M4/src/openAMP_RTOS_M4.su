@@ -1,4 +1,0 @@
-../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h:147:19:rpmsg_send	32	static
-../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.c:25:12:rpmsg_recv_callback	24	static
-../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.c:34:14:receive_message	8	static
-../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.c:45:6:OpenAMPInit_M4	24	static

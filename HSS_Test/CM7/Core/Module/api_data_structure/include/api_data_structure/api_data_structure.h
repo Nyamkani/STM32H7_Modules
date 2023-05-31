@@ -177,7 +177,7 @@ typedef struct
 
 typedef struct
 {
-	uint32_t transactionid_;
+	uint64_t transactionid_;
 	uint16_t cmd_;
 
 	std::vector<int> parameter_;
@@ -187,13 +187,8 @@ typedef struct
 
 typedef struct
 {
-
-	std::map <int, int> main_data_; 	//main data structure
-
-	std::vector<int> transactionid;
-	std::vector<int> eth_send_queue_;
-	std::vector<int> openamp_send_queue_;
-	std::vector<int> sdcard_write_queue_;
+	//main data structure
+	std::map <int, int> main_data_;
 
 	//netconn(socket) data
 	netconn_data netconn_data_;
@@ -230,7 +225,7 @@ int WriteDataToMainData(int key, int value);
 const int ReadDataFromMainData(int key);
 
 int GetDataFromEthernet(void const* argument, const char * const msg, int const msg_leng);
-
+int GetStringFromMainData(cmd_queue_data data, char* json_string);
 
 
 int GetCommandFromEthernet(const char * const msg, int msg_leng);
