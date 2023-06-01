@@ -980,7 +980,7 @@ int GetDataFromEthernet(void const* argument, const char * const msg, int const 
 
 
 
-const int ReadDataFromMainData(void const* argument, const char * const msg, int key)
+const int ReadDataFromMainData(void const* argument, int key)
 {
 	const int key_ = key;
 
@@ -996,16 +996,16 @@ const int ReadDataFromMainData(void const* argument, const char * const msg, int
 
 
 //in data out string
-int GetStringFromMainData(cmd_queue_data data, char* json_string)
+int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_string)
 {
 	int status = 0;
+
+	data_structure* Dst_ = (data_structure*)argument;
 
 	const cmd_queue_data cmd_queue_data_ = data;
 
 	//get string data for sending json
 	//get transactionid for string
-
-
 
 	int cmd_ = cmd_queue_data_.cmd_;
 
@@ -1041,9 +1041,7 @@ int GetStringFromMainData(cmd_queue_data data, char* json_string)
     temp_buffer = std::to_string(cmd_queue_data_.transactionid_);
 
     cJSON* transactionId = cJSON_CreateString(temp_buffer.c_str());
-
     //if (transactionId == NULL)
-    	//error
 
 	temp_buffer.clear();
 
@@ -1060,12 +1058,12 @@ int GetStringFromMainData(cmd_queue_data data, char* json_string)
     }
 
     cJSON* msgType = cJSON_CreateString(temp_buffer.c_str());
-    //  if (msgType == NULL)
+    //if (msgType == NULL)
+
 
     cJSON_AddItemToObject(header, "msgType", msgType);
 
 	temp_buffer.clear();
-
 
 
     switch(cmd_)
@@ -1098,8 +1096,8 @@ int GetStringFromMainData(cmd_queue_data data, char* json_string)
     }
 
 
-    cJSON* category = cJSON_CreateString(temp_buffer.c_str());
-    //if (category == NULL)
+   cJSON* category = cJSON_CreateString(temp_buffer.c_str());
+   // if (category == NULL)
 
     cJSON_AddItemToObject(header, "category", category);
 
@@ -1107,7 +1105,8 @@ int GetStringFromMainData(cmd_queue_data data, char* json_string)
 
 
     cJSON* timeStamp = cJSON_CreateString("1680063015500");
-    //if (timeStamp == NULL)
+   // if (timeStamp == NULL)
+
 
     cJSON_AddItemToObject(header, "timeStamp", timeStamp);
 
@@ -1117,7 +1116,109 @@ int GetStringFromMainData(cmd_queue_data data, char* json_string)
 	/*add the if-case command for getting json string data*/
 
 
-   //cJSON_Print(sender);
+
+    //-------------------------------------------------------body contents
+
+    cJSON* body = cJSON_CreateObject();
+
+    cJSON_AddItemToObject(sender, "body", body);
+
+    switch(cmd_)
+    {
+    	case RequestCmdOffset::REQUEST_INFO:
+    	{
+    		int val1, val2;
+
+    		val1 = ReadDataFromMainData(Dst_, RobotDataId::ROBOT_NAME_);
+
+    		std::string str("st");
+
+    		str.append(std::to_string(val1));
+
+    		cJSON* name = cJSON_CreateString(str.c_str());
+		   // if (category == NULL)
+
+			cJSON_AddItemToObject(body, "name", name);
+
+
+    		val2 = ReadDataFromMainData(Dst_, RobotDataId::FW_VERSION);
+
+    		str.clear();
+
+    		str.append(std::to_string(val2));
+
+    		cJSON* fwver = cJSON_CreateString(str.c_str());
+		   // if (category == NULL)
+
+			cJSON_AddItemToObject(body, "fwver", fwver);
+
+        	break;
+    	}
+
+
+    	case RequestCmdOffset::REQUEST_STATUS:
+    	{
+    		int val = 0;
+
+    		val = ReadDataFromMainData(Dst_, RobotDataId::TASK_TYPE);
+
+    		std::string str;
+
+    		str.append(std::to_string(val));
+
+    		cJSON* name = cJSON_CreateString(str.c_str());
+		   // if (category == NULL)
+
+    		str.clear();
+
+			cJSON_AddItemToObject(body, "taskType", taskType);
+
+
+
+    		val = ReadDataFromMainData(Dst_, RobotDataId::TASK_GROUP);
+
+
+
+    		str.append(std::to_string(val2));
+
+    		cJSON* fwver = cJSON_CreateString(str.c_str());
+		   // if (category == NULL)
+
+			cJSON_AddItemToObject(body, "fwver", fwver);
+
+    		break;
+    	}
+
+//    	case RequestCmdOffset::REQUEST_TASKSTATUS: temp_buffer.append("taskCancel"); break;
+//
+//    	case RequestCmdOffset::REQUEST_SETMODE: temp_buffer.append("taskStatus"); break;
+//
+//    	case RequestCmdOffset::REQUEST_ALARMCLEAR: temp_buffer.append("setMode"); break;
+//
+//    	case RequestCmdOffset::REQUEST_SYSRESET: temp_buffer.append("alarmClear"); break;
+//
+//    	case RequestCmdOffset::REQUEST_TASKPAUSE: temp_buffer.append("sysReset"); break;
+//
+//    	case RequestCmdOffset::REQUEST_TASKRESUME: temp_buffer.append("taskPause"); break;
+//
+//    	case RequestCmdOffset::REQUEST_SWEMS: temp_buffer.append("taskResume"); break;
+//
+//    	case RequestCmdOffset::REQUEST_TIMESYNC: temp_buffer.append("ems"); break;
+//
+//    	case RequestCmdOffset::REQUEST_READPARAM: temp_buffer.append("readParam"); break;
+//
+//    	case RequestCmdOffset::REQUEST_WRITEPARAM: temp_buffer.append("writeParam"); break;
+//
+//    	case RequestCmdOffset::REQUEST_TASK: temp_buffer.append("task"); break;
+    }
+
+
+
+
+
+
+
+    //-------------------------------------------------------printing
 
     char* temp_data = cJSON_Print(sender);
 
@@ -1130,12 +1231,120 @@ int GetStringFromMainData(cmd_queue_data data, char* json_string)
 
     cJSON_Delete(sender);
 
-    free(temp_data);
+    cJSON_free(temp_data);
 
     temp_buffer.clear();
 
 	return status;
 }
+
+char* GetHeaderFromQueue(cmd_queue_data data, char* json_string)
+{
+	char* string = nullptr;
+
+	const cmd_queue_data cmd_queue_data_ = data;
+
+	int cmd_ = cmd_queue_data_.cmd_;
+
+	std::vector<int>parameter_ = cmd_queue_data_.parameter_;
+
+	std::string temp_buffer;
+
+
+    //-------------------------------------------------------string start
+
+	//make string start
+    cJSON* sender = cJSON_CreateObject();
+
+    cJSON* header = cJSON_CreateObject();
+
+    cJSON_AddItemToObject(sender, "header", header);
+
+    temp_buffer = std::to_string(cmd_queue_data_.transactionid_);
+
+    //cJSON* transactionId = cJSON_CreateString(temp_buffer.c_str());
+    //if (transactionId == NULL)
+
+	cJSON_AddStringToObject(header, "transactionid", temp_buffer.c_str());
+
+	temp_buffer.clear();
+
+    if(cmd_ < RecvCmdRangeOffset::START_ACK_CMD_RANGE)
+    {
+    	temp_buffer.append("response");
+    }
+//    else
+//    {
+//    	return -1;
+//    }
+
+    //cJSON* msgType = cJSON_CreateString(temp_buffer.c_str());
+    //if (msgType == NULL)
+
+
+    cJSON_AddStringToObject(header, "msgType", temp_buffer.c_str());
+
+	temp_buffer.clear();
+
+
+    switch(cmd_)
+    {
+    	case RequestCmdOffset::REQUEST_INFO: temp_buffer.append("info"); break;
+
+    	case RequestCmdOffset::REQUEST_STATUS: temp_buffer.append("status"); break;
+
+    	case RequestCmdOffset::REQUEST_TASKSTATUS: temp_buffer.append("taskCancel"); break;
+
+    	case RequestCmdOffset::REQUEST_SETMODE: temp_buffer.append("taskStatus"); break;
+
+    	case RequestCmdOffset::REQUEST_ALARMCLEAR: temp_buffer.append("setMode"); break;
+
+    	case RequestCmdOffset::REQUEST_SYSRESET: temp_buffer.append("alarmClear"); break;
+
+    	case RequestCmdOffset::REQUEST_TASKPAUSE: temp_buffer.append("sysReset"); break;
+
+    	case RequestCmdOffset::REQUEST_TASKRESUME: temp_buffer.append("taskPause"); break;
+
+    	case RequestCmdOffset::REQUEST_SWEMS: temp_buffer.append("taskResume"); break;
+
+    	case RequestCmdOffset::REQUEST_TIMESYNC: temp_buffer.append("ems"); break;
+
+    	case RequestCmdOffset::REQUEST_READPARAM: temp_buffer.append("readParam"); break;
+
+    	case RequestCmdOffset::REQUEST_WRITEPARAM: temp_buffer.append("writeParam"); break;
+
+    	case RequestCmdOffset::REQUEST_TASK: temp_buffer.append("task"); break;
+    }
+
+
+   //cJSON* category = cJSON_CreateString(temp_buffer.c_str());
+   // if (category == NULL)
+
+   cJSON_AddStringToObject(header, "category", temp_buffer.c_str());
+
+	temp_buffer.clear();
+
+
+    //cJSON* timeStamp = cJSON_CreateString("1680063015500");
+   // if (timeStamp == NULL)
+
+
+    cJSON_AddStringToObject(header, "timeStamp", "1680063015500");
+
+
+	//get command type for enqeue the command queue
+
+	/*add the if-case command for getting json string data*/
+
+
+   //cJSON_Print(sender);
+
+    string = cJSON_Print(sender);
+
+	return string;
+}
+
+
 
 
 

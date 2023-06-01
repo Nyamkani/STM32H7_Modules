@@ -222,10 +222,12 @@ int InitializeDataStructure(data_structure* Dst);
 
 int WriteDataToMainData(int key, int value);
 
-const int ReadDataFromMainData(int key);
+const int ReadDataFromMainData(void const* argument, int key);
 
 int GetDataFromEthernet(void const* argument, const char * const msg, int const msg_leng);
-int GetStringFromMainData(cmd_queue_data data, char* json_string);
+int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_string);
+
+char* GetHeaderFromQueue(cmd_queue_data data, char* json_string);
 
 
 int GetCommandFromEthernet(const char * const msg, int msg_leng);

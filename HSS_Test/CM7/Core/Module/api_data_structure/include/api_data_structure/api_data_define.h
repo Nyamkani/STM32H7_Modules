@@ -50,7 +50,7 @@ enum RobotDataId
 	CONFIGGW_ADDR3 = 21,
 
 	//status_page_1
-MODE = 10001,      			//set mode param
+	MODE = 10001,      			//set mode param
 	STATUS = 10002,
 	POSITION = 10003,
 	DESTINATION = 10004,
