@@ -1,6 +1,0 @@
-rpmsg.h:147:19:int rpmsg_send(rpmsg_endpoint*, const void*, int)	2
-gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	1
-openAMP_RTOS_M4.cpp:25:12:int rpmsg_recv_callback(rpmsg_endpoint*, void*, size_t, uint32_t, void*)	1
-openAMP_RTOS_M4.cpp:37:14:openamp_type receive_message()	1
-openAMP_RTOS_M4.cpp:47:5:int OpenAMPInit()	2
-openAMP_RTOS_M4.cpp:67:6:void OpenAMPDrive()	2

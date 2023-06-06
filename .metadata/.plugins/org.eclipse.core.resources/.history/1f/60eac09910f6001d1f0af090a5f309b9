@@ -1,8 +1,0 @@
-
-
-
-typedef struct
-{
-	uint16_t name_;
-	uint16_t fw_version_;
-}info_type_;

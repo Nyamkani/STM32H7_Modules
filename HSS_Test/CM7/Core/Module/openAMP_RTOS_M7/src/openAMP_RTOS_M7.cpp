@@ -7,7 +7,7 @@
 
 
 #include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
-
+#include <api_data_structure/include/api_data_structure/api_data_structure.h>
 
 /* Private variables ---------------------------------------------------------*/
 static openamp_type message_recv = {0,};
@@ -55,7 +55,7 @@ openamp_type receive_message(void)
 	  return received_data;
 }
 
-  void service_destroy_cb(struct rpmsg_endpoint *ept)
+void service_destroy_cb(struct rpmsg_endpoint *ept)
 {
   /* this function is called while remote endpoint as been destroyed, the
    * service is no more available
@@ -125,6 +125,8 @@ void OpenAMPInit()
 
 void OpenAMPReadTask(void const *argument)
 {
+	data_structure* Dst_ = (data_structure*)argument;
+
 	openamp_type test;
 	//osDelay(1);
 	//while(message_received == 0)
@@ -132,29 +134,29 @@ void OpenAMPReadTask(void const *argument)
 
 	while(1)
 	{
-		OPENAMP_check_for_message();
+		//0. check the openamp queue (aync or sync)
+		if(!(Dst_->openamp_send_queue_.empty())) //async qeueu
+		{
+			//get cmd to 1.
+		}
+		else //sync queue
+		{
+			//get cmd to 1.
+		}
+		
+		//1. get cmd to convert to openamp protocol
+		//int ret = GetOpenAMPCmdFromQueue(structval)
 
-		/* Receive the massage from the remote CPU */
+		//2. send data to slave(m4)
+		//OpenAMPSend(structval)
+
+		//3. wait for the msg
 		message_recv = receive_message();
 
-		if(message_recv.command_ != 0xff)
-		{
-			//int msg_leng = message_recv.data17_length_;
+		//4. if got msg do next thing (making tcp cmd to rcs or things)
 
-			//char send_buf[msg_leng + 1];
+		//5. delete queue(check aync or sync)
 
-			//strncpy(send_buf, message_recv.data17_, (msg_leng+1));   // get the message from the client
-
-			//send_buf[msg_leng] = '\0';
-
-			//printf("m7 got msg from m4 %s\r\n", send_buf);
-
-			//*send_buf = '\0';
-		}
-		else
-		{
-			printf("m7 got no msg from m4  %d\r\n", &message_recv.command_);
-		}
 
 
 	}
@@ -212,17 +214,17 @@ void OpenAMPChkMsgtask(void const *argument)
 
 
 
-void OpenAMPInit_M7()
+void OpenAMPInit_M7(void const* argument)
 {
 
 	OpenAMPInit();
 
 	/* Create the Thread */
 	osThreadDef(OpenAMP_ReadTask, OpenAMPReadTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *2);
-	osThreadCreate(osThread(OpenAMP_ReadTask), NULL);
+	osThreadCreate(osThread(OpenAMP_ReadTask), argument);
 
 	osThreadDef(OpenAMP_ChkTask, OpenAMPChkMsgtask, osPriorityNormal, 0, 128);
-	osThreadCreate(osThread(OpenAMP_ChkTask), NULL);
+	osThreadCreate(osThread(OpenAMP_ChkTask), argument);
 
 	return;
 }

@@ -291,17 +291,17 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	}
 
-	else if (strcmp(msgtype->valuestring, "approve") == 0)
+	else if (strcmp(msgtype->valuestring, "answer") == 0)
 	{
-		cmd += RecvCmdRangeOffset::START_APRROVE_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::START_ANSWER_CMD_RANGE;
 
-		if(strcmp(category->valuestring, "enterElevator") == 0) cmd += ApproveCmdOffset::APPROVE_ENTERELEVATOR;
+		if(strcmp(category->valuestring, "enterElevator") == 0) cmd += AnswerCmdOffset::APPROVE_ENTERELEVATOR;
 
-		else if(strcmp(category->valuestring, "leaveElevator") == 0) cmd += ApproveCmdOffset::APPROVE_LEAVEELEVATOR;
+		else if(strcmp(category->valuestring, "leaveElevator") == 0) cmd += AnswerCmdOffset::APPROVE_LEAVEELEVATOR;
 
-		else if(strcmp(category->valuestring, "bufferPick") == 0) cmd += ApproveCmdOffset::APPROVE_BUFFERPICK;
+		else if(strcmp(category->valuestring, "bufferPick") == 0) cmd += AnswerCmdOffset::APPROVE_BUFFERPICK;
 
-		else if(strcmp(category->valuestring, "bufferPlace") == 0) cmd += ApproveCmdOffset::APPROVE_BUFFERPLACE;
+		else if(strcmp(category->valuestring, "bufferPlace") == 0) cmd += AnswerCmdOffset::APPROVE_BUFFERPLACE;
 
 		else cmd = JsonErrOffset::JSON_WRONG_DATA_ERROR;
 
@@ -387,7 +387,8 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 
 	//-----------------------------------------------------------request body data
 
-	if(cmd_ < RecvCmdRangeOffset::START_ACK_CMD_RANGE) //request
+	if(cmd_ >= RecvCmdRangeOffset::START_REQUEST_CMD_RANGE 
+		&& cmd_ < RecvCmdRangeOffset::START_ACK_CMD_RANGE)
 	{
 		/*
 		 * request - write setmode(4),  timesync(10), readparma(11), writeparam(12), task(20~)
@@ -803,7 +804,8 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 	}
 
-	if(cmd_ < RecvCmdRangeOffset::START_APRROVE_CMD_RANGE) //report - ack
+	else if(cmd_ >= RecvCmdRangeOffset::START_ACK_CMD_RANGE 
+		&& cmd_ < RecvCmdRangeOffset::START_ANSWER_CMD_RANGE) //report - ack
 	{
 		/*
 		 * ack - result
@@ -831,12 +833,13 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 	}
 
-	if(cmd_ < RecvCmdRangeOffset::START_EXCUTE_CMD_RANGE) //approve
+	else if(cmd_ >= RecvCmdRangeOffset::START_ANSWER_CMD_RANGE 
+		&& cmd_ < RecvCmdRangeOffset::START_EXCUTE_CMD_RANGE) //answer
 	{
 		/*
 		 * approve -action, result
 		 * */
-		//cmd_ -= RecvCmdRangeOffset::START_APRROVE_CMD_RANGE;
+		//cmd_ -= RecvCmdRangeOffset::START_ANSWER_CMD_RANGE;
 
 		cJSON* action = cJSON_GetObjectItemCaseSensitive(body, "action");
 
@@ -857,7 +860,8 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 	}
 
-	if(cmd_ < RecvCmdRangeOffset::START_RESERVED1_CMD_RANGE) //approve excute
+	else if(cmd_ >= RecvCmdRangeOffset::START_EXCUTE_CMD_RANGE 
+		&& cmd_ < RecvCmdRangeOffset::START_RESERVED1_CMD_RANGE) //approve excute
 	{
 		/*
 		 * approve - enterElevator(1),  leaveElevator(2), bufferPick(3), bufferPlace(4)
@@ -902,7 +906,8 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 
 	}
-	if(cmd_ < RecvCmdRangeOffset::START_RESERVED2_CMD_RANGE) //heartbeat
+	else if(cmd_ >= RecvCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE 
+		&& cmd_ < RecvCmdRangeOffset::START_RESERVED2_CMD_RANGE) //heartbeat
 	{
 		//cmd_ -= RecvCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE;
 
@@ -1036,64 +1041,131 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 
     cJSON_AddItemToObject(sender, "header", header);
 
-
+	//-------------------------------transactionId
 
     temp_buffer = std::to_string(cmd_queue_data_.transactionid_);
 
     cJSON* transactionId = cJSON_CreateString(temp_buffer.c_str());
     //if (transactionId == NULL)
 
-	temp_buffer.clear();
-
     cJSON_AddItemToObject(header, "transactionId", transactionId);
 
+	temp_buffer.clear();
 
-    if(cmd_ < RecvCmdRangeOffset::START_ACK_CMD_RANGE)
-    {
-    	temp_buffer.append("response");
-    }
-    else
-    {
-    	return -1;
-    }
+	//-------------------------------msgtype
+
+	if(cmd_ >= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE 
+		&& cmd_ <SendCmdRangeOffset::START_REPORT_CMD_RANGE)
+    		temp_buffer.append("response");
+
+	else if(cmd_ >= SendCmdRangeOffset::START_REPORT_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::START_INQUIRE_CMD_RANGE)
+			temp_buffer.append("report");
+
+	else if(cmd_ >= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::START_CONFIRM_CMD_RANGE)
+			temp_buffer.append("inquire");
+
+	else if(cmd_ >= SendCmdRangeOffset::START_CONFIRM_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::START_RESERVED1_CMD_RANGE)
+			temp_buffer.append("confirm");
+
+	else if(cmd_ >= SendCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::START_RESERVED2_CMD_RANGE)
+			temp_buffer.append("heartbeat");
+
+
 
     cJSON* msgType = cJSON_CreateString(temp_buffer.c_str());
-    //if (msgType == NULL)
-
 
     cJSON_AddItemToObject(header, "msgType", msgType);
 
 	temp_buffer.clear();
 
+	//-------------------------------category
 
-    switch(cmd_)
-    {
-    	case RequestCmdOffset::REQUEST_INFO: temp_buffer.append("info"); break;
+	if(cmd_ >= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE 
+		&& cmd_ <SendCmdRangeOffset::START_REPORT_CMD_RANGE)
+	{
+	    switch(cmd_)
+	    {
+			cmd_ -= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE;
+			
+	    	case ResponseCmdOffset::RESPONSE_INFO: temp_buffer.append("info"); break;
 
-    	case RequestCmdOffset::REQUEST_STATUS: temp_buffer.append("status"); break;
+	    	case ResponseCmdOffset::RESPONSE_STATUS: temp_buffer.append("status"); break;
 
-    	case RequestCmdOffset::REQUEST_TASKSTATUS: temp_buffer.append("taskCancel"); break;
+			case ResponseCmdOffset::RESPONSE_TASKCANCEL: temp_buffer.append("taskCancel"); break;
 
-    	case RequestCmdOffset::REQUEST_SETMODE: temp_buffer.append("taskStatus"); break;
+	    	case ResponseCmdOffset::RESPONSE_TASKSTATUS: temp_buffer.append("taskStatus"); break;
 
-    	case RequestCmdOffset::REQUEST_ALARMCLEAR: temp_buffer.append("setMode"); break;
+	    	case ResponseCmdOffset::RESPONSE_SETMODE: temp_buffer.append("setMode"); break;
 
-    	case RequestCmdOffset::REQUEST_SYSRESET: temp_buffer.append("alarmClear"); break;
+	    	case ResponseCmdOffset::RESPONSE_ALARMCLEAR: temp_buffer.append("alarmClear"); break;
 
-    	case RequestCmdOffset::REQUEST_TASKPAUSE: temp_buffer.append("sysReset"); break;
+	    	case ResponseCmdOffset::RESPONSE_SYSRESET: temp_buffer.append("sysReset"); break;
 
-    	case RequestCmdOffset::REQUEST_TASKRESUME: temp_buffer.append("taskPause"); break;
+	    	case ResponseCmdOffset::RESPONSE_TASKPAUSE: temp_buffer.append("taskPause"); break;
 
-    	case RequestCmdOffset::REQUEST_SWEMS: temp_buffer.append("taskResume"); break;
+	    	case ResponseCmdOffset::RESPONSE_TASKRESUME: temp_buffer.append("taskResume"); break;
 
-    	case RequestCmdOffset::REQUEST_TIMESYNC: temp_buffer.append("ems"); break;
+	    	case ResponseCmdOffset::RESPONSE_SWEMS: temp_buffer.append("ems"); break;
 
-    	case RequestCmdOffset::REQUEST_READPARAM: temp_buffer.append("readParam"); break;
+	    	case ResponseCmdOffset::RESPONSE_TIMESYNC: temp_buffer.append("timeSync"); break;
 
-    	case RequestCmdOffset::REQUEST_WRITEPARAM: temp_buffer.append("writeParam"); break;
+	    	case ResponseCmdOffset::RESPONSE_READPARAM: temp_buffer.append("readParam"); break;
 
-    	case RequestCmdOffset::REQUEST_TASK: temp_buffer.append("task"); break;
-    }
+	    	case ResponseCmdOffset::RESPONSE_WRITEPARAM: temp_buffer.append("writeParam"); break;
+
+	    	case ResponseCmdOffset::RESPONSE_TASK: temp_buffer.append("task"); break;
+	    }
+	}
+
+	else if(cmd_ >= SendCmdRangeOffset::START_REPORT_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::START_INQUIRE_CMD_RANGE)
+	{
+		cmd_ -= SendCmdRangeOffset::START_REPORT_CMD_RANGE;
+
+		case ReportCmdOffset::REPORT_TASK: temp_buffer.append("task"); break;
+
+		case ReportCmdOffset::REPORT_ALERT: temp_buffer.append("alert"); break;
+	}
+
+	else if(cmd_ >= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::START_CONFIRM_CMD_RANGE)
+	{
+		cmd_ -= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE;	
+
+		case InquireCmdOffset::INQUIRE_ENTERELEVATOR: temp_buffer.append("enterElevator"); break;
+
+		case InquireCmdOffset::INQUIRE_LEAVEELEVATOR: temp_buffer.append("leaveElevator"); break;
+
+		case InquireCmdOffset::INQUIRE_BUFFERPICK: temp_buffer.append("bufferPick"); break;
+
+		case InquireCmdOffset::INQUIRE_BUFFERPLACE: temp_buffer.append("bufferPlace"); break;
+	}
+
+	else if(cmd_ >= SendCmdRangeOffset::START_CONFIRM_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::START_RESERVED1_CMD_RANGE)
+	{
+		cmd_ -= SendCmdRangeOffset::START_CONFIRM_CMD_RANGE;	
+
+		case ConfirmCmdOffset::CONFIRM_ENTERELEVATOR: temp_buffer.append("enterElevator"); break;
+
+		case ConfirmCmdOffset::CONFIRM_LEAVEELEVATOR: temp_buffer.append("leaveElevator"); break;
+
+		case ConfirmCmdOffset::CONFIRM_BUFFERPICK: temp_buffer.append("bufferPick"); break;
+
+		case ConfirmCmdOffset::CONFIRM_BUFFERPLACE: temp_buffer.append("bufferPlace"); break;
+	}
+
+	else if(cmd_ >= SendCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::START_RESERVED2_CMD_RANGE)
+	{
+		cmd_ -= SendCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE;
+		
+		case HeartbeatCmdOffset::heartbeat: temp_buffer.append("heartbeatresponse"); break;
+	}
 
 
    cJSON* category = cJSON_CreateString(temp_buffer.c_str());
@@ -1103,6 +1175,8 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 
 	temp_buffer.clear();
 
+
+	//-------------------------------timestamp
 
     cJSON* timeStamp = cJSON_CreateString("1680063015500");
    // if (timeStamp == NULL)
@@ -1119,104 +1193,384 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 
     //-------------------------------------------------------body contents
 
-    cJSON* body = cJSON_CreateObject();
+	cJSON* body = cJSON_CreateObject();
 
-    cJSON_AddItemToObject(sender, "body", body);
-
-    switch(cmd_)
-    {
-    	case RequestCmdOffset::REQUEST_INFO:
-    	{
-    		int val1, val2;
-
-    		val1 = ReadDataFromMainData(Dst_, RobotDataId::ROBOT_NAME_);
-
-    		std::string str("st");
-
-    		str.append(std::to_string(val1));
-
-    		cJSON* name = cJSON_CreateString(str.c_str());
-		   // if (category == NULL)
-
-			cJSON_AddItemToObject(body, "name", name);
+	cJSON_AddItemToObject(sender, "body", body);
 
 
-    		val2 = ReadDataFromMainData(Dst_, RobotDataId::FW_VERSION);
+	//----------------------------------------request
+	if(cmd_ >= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::START_REPORT_CMD_RANGE)
+	{
+		cmd_ -= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE;
 
-    		str.clear();
+		switch(cmd_)
+		{
+			case ResponseCmdOffset::RESPONSE_INFO:
+			{
+				int val = 0;
 
-    		str.append(std::to_string(val2));
+				std::string str;
 
-    		cJSON* fwver = cJSON_CreateString(str.c_str());
-		   // if (category == NULL)
+				/*------------------------*/
 
-			cJSON_AddItemToObject(body, "fwver", fwver);
+				val = ReadDataFromMainData(Dst_, RobotDataId::ROBOT_NAME_);
 
-        	break;
-    	}
+				str.append("ST");
+
+				std::string robot_name_ = std::to_string(val);
+
+				if (robot_name_.length() < 2)
+					str.insert(str.front() == '-' ? 1 : 0, 2 - str.length(), '0');
+
+				str.append(std::to_string(val));
+
+				cJSON* name = cJSON_CreateString(str.c_str());
+				// if (category == NULL)
+
+				cJSON_AddItemToObject(body, "name", name);
+
+				str.clear();
+
+				/*------------------------*/
+				AddItemToObjectFromMainData(Dst_, body, "fwver", RobotDataId::FW_VERSION);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_STATUS:
+			{
+
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskStatus", RobotDataId::TASK_STATUS);
+
+				AddItemToObjectFromMainData(Dst_, body, "mode", RobotDataId::MODE);
+
+				AddItemToObjectFromMainData(Dst_, body, "position", RobotDataId::POSITION);
+
+				AddItemToObjectFromMainData(Dst_, body, "destination", RobotDataId::DESTINATION);
+
+				AddItemToObjectFromMainData(Dst_, body, "speed", RobotDataId::SPEED);
+
+				AddItemToObjectFromMainData(Dst_, body, "forkStroke", RobotDataId::FORK_STROKE);
+
+				AddItemToObjectFromMainData(Dst_, body, "forkWidth", RobotDataId::FORK_WIDTH);
+
+				AddItemToObjectFromMainData(Dst_, body, "forkOnLoad", RobotDataId::FORK_ON_LOAD);
+
+				AddItemToObjectFromMainData(Dst_, body, "alramCode", RobotDataId::ALARM_CODE);
+
+				AddItemToObjectFromMainData(Dst_, body, "errorCode", RobotDataId::ERROR_CODE);
+
+				AddItemToObjectFromMainData(Dst_, body, "odometer", RobotDataId::ODOMETER);
+
+				AddItemToObjectFromMainData(Dst_, body, "sensorInput", RobotDataId::SENSOR_INPUT);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_TASKCANCEL:
+			{
+				cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+				cJSON_AddItemToObject(body, "result", item);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_TASKSTATUS:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskStatus", RobotDataId::TASK_STATUS);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_SETMODE:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "mode", RobotDataId::MODE);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_ALARMCLEAR:
+			{
+				cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+				cJSON_AddItemToObject(body, "result", item);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_SYSRESET:
+			{
+				cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+				cJSON_AddItemToObject(body, "result", item);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_TASKPAUSE:
+			{
+				cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+				cJSON_AddItemToObject(body, "result", item);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_TASKRESUME:
+			{
+				cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+				cJSON_AddItemToObject(body, "result", item);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_SWEMS:
+			{
+				cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+				cJSON_AddItemToObject(body, "result", item);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_TIMESYNC:
+			{
+				cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+				cJSON_AddItemToObject(body, "result", item);
+
+				break;
+			}
+
+			case ResponseCmdOffset::RESPONSE_READPARAM: 
+			{
+
+				break;
+			}
 
 
-    	case RequestCmdOffset::REQUEST_STATUS:
-    	{
-    		int val = 0;
+			case ResponseCmdOffset::RESPONSE_WRITEPARAM:
+			{
 
-    		val = ReadDataFromMainData(Dst_, RobotDataId::TASK_TYPE);
+				break;
+			}
 
-    		std::string str;
+			case ResponseCmdOffset::RESPONSE_TASK:
+			{
+				int tasktype = parameter_.front();
 
-    		str.append(std::to_string(val));
+				cJSON* taskType = cJSON_CreateString(std::to_string(tasktype));
+				// if (category == NULL)
 
-    		cJSON* name = cJSON_CreateString(str.c_str());
-		   // if (category == NULL)
+				cJSON_AddItemToObject(body, "taskType", taskType);
 
-    		str.clear();
+				int taskgroup = parameter_.at(1);
 
-			cJSON_AddItemToObject(body, "taskType", taskType);
+				cJSON* taskGroup = cJSON_CreateString(std::to_string(taskgroup));
+				// if (category == NULL)
 
+				cJSON_AddItemToObject(body, "taskGroup", taskGroup);
 
+				int taskid = parameter_.at(2);
 
-    		val = ReadDataFromMainData(Dst_, RobotDataId::TASK_GROUP);
+				cJSON* taskId = cJSON_CreateString(std::to_string(taskid));
+				// if (category == NULL)
 
+				cJSON_AddItemToObject(body, "taskId", taskId);
 
+				cJSON* result = cJSON_CreateString("1");
+				// if (category == NULL)
 
-    		str.append(std::to_string(val2));
+				cJSON_AddItemToObject(body, "result", result);
 
-    		cJSON* fwver = cJSON_CreateString(str.c_str());
-		   // if (category == NULL)
+				break;
+			}
+		}
+	}
 
-			cJSON_AddItemToObject(body, "fwver", fwver);
+	else if(cmd_ >= SendCmdRangeOffset::START_REPORT_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::START_INQUIRE_CMD_RANGE)
+	{
+		cmd_ -= SendCmdRangeOffset::START_REPORT_CMD_RANGE;
 
-    		break;
-    	}
+		switch(cmd_)
+		{
+			case ReportCmdOffset::REPORT_TASK:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
 
-//    	case RequestCmdOffset::REQUEST_TASKSTATUS: temp_buffer.append("taskCancel"); break;
-//
-//    	case RequestCmdOffset::REQUEST_SETMODE: temp_buffer.append("taskStatus"); break;
-//
-//    	case RequestCmdOffset::REQUEST_ALARMCLEAR: temp_buffer.append("setMode"); break;
-//
-//    	case RequestCmdOffset::REQUEST_SYSRESET: temp_buffer.append("alarmClear"); break;
-//
-//    	case RequestCmdOffset::REQUEST_TASKPAUSE: temp_buffer.append("sysReset"); break;
-//
-//    	case RequestCmdOffset::REQUEST_TASKRESUME: temp_buffer.append("taskPause"); break;
-//
-//    	case RequestCmdOffset::REQUEST_SWEMS: temp_buffer.append("taskResume"); break;
-//
-//    	case RequestCmdOffset::REQUEST_TIMESYNC: temp_buffer.append("ems"); break;
-//
-//    	case RequestCmdOffset::REQUEST_READPARAM: temp_buffer.append("readParam"); break;
-//
-//    	case RequestCmdOffset::REQUEST_WRITEPARAM: temp_buffer.append("writeParam"); break;
-//
-//    	case RequestCmdOffset::REQUEST_TASK: temp_buffer.append("task"); break;
-    }
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
 
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
 
+				AddItemToObjectFromMainData(Dst_, body, "taskStatus", RobotDataId::TASK_STATUS);
 
+				AddItemToObjectFromMainData(Dst_, body, "alramCode", RobotDataId::ALARM_CODE);
 
+				AddItemToObjectFromMainData(Dst_, body, "errorCode", RobotDataId::ERROR_CODE);
 
+				break;
+			}
 
+			case ReportCmdOffset::REPORT_ALERT:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "alramCode", RobotDataId::ALARM_CODE);
+
+				AddItemToObjectFromMainData(Dst_, body, "errorCode", RobotDataId::ERROR_CODE);
+
+				break;
+			}
+		}
+	}
+
+	else if(cmd_ >= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::START_CONFIRM_CMD_RANGE)
+	{
+		cmd_ -= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE;
+
+		switch(cmd_)
+		{
+			case InquireCmdOffset::INQUIRE_ENTERELEVATOR:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+				break;
+			}
+
+			case InquireCmdOffset::INQUIRE_LEAVEELEVATOR:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+				break;
+			}
+
+			case InquireCmdOffset::INQUIRE_BUFFERPICK:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+				break;
+			}
+
+			case InquireCmdOffset::INQUIRE_BUFFERPLACE:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+				break;
+			}
+		}
+	}
+
+	else if(cmd_ >= SendCmdRangeOffset::START_CONFIRM_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::START_RESERVED1_CMD_RANGE)
+	{
+		case InquireCmdOffset::INQUIRE_ENTERELEVATOR:
+		{
+			AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+			AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+			AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+			cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+			cJSON_AddItemToObject(body, "result", item);
+
+			break;
+		}
+
+		case InquireCmdOffset::INQUIRE_LEAVEELEVATOR:
+		{
+			AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+			AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+			AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+			cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+			cJSON_AddItemToObject(body, "result", item);
+
+			break;
+		}
+
+		case InquireCmdOffset::INQUIRE_BUFFERPICK:
+		{
+			AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+			AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+			AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+			cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+			cJSON_AddItemToObject(body, "result", item);
+
+			break;
+		}
+
+		case InquireCmdOffset::INQUIRE_BUFFERPLACE:
+		{
+			AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+
+			AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+
+			AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+
+			cJSON* item = cJSON_CreateString("1");
+				// if (category == NULL)
+
+			cJSON_AddItemToObject(body, "result", item);
+
+			break;
+		}
+	}
+
+	else if(cmd_ >= SendCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::START_RESERVED2_CMD_RANGE)
+	{
+
+	}
 
     //-------------------------------------------------------printing
 
@@ -1238,614 +1592,12 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 	return status;
 }
 
-char* GetHeaderFromQueue(cmd_queue_data data, char* json_string)
-{
-	char* string = nullptr;
 
-	const cmd_queue_data cmd_queue_data_ = data;
 
-	int cmd_ = cmd_queue_data_.cmd_;
 
-	std::vector<int>parameter_ = cmd_queue_data_.parameter_;
 
-	std::string temp_buffer;
 
 
-    //-------------------------------------------------------string start
-
-	//make string start
-    cJSON* sender = cJSON_CreateObject();
-
-    cJSON* header = cJSON_CreateObject();
-
-    cJSON_AddItemToObject(sender, "header", header);
-
-    temp_buffer = std::to_string(cmd_queue_data_.transactionid_);
-
-    //cJSON* transactionId = cJSON_CreateString(temp_buffer.c_str());
-    //if (transactionId == NULL)
-
-	cJSON_AddStringToObject(header, "transactionid", temp_buffer.c_str());
-
-	temp_buffer.clear();
-
-    if(cmd_ < RecvCmdRangeOffset::START_ACK_CMD_RANGE)
-    {
-    	temp_buffer.append("response");
-    }
-//    else
-//    {
-//    	return -1;
-//    }
-
-    //cJSON* msgType = cJSON_CreateString(temp_buffer.c_str());
-    //if (msgType == NULL)
-
-
-    cJSON_AddStringToObject(header, "msgType", temp_buffer.c_str());
-
-	temp_buffer.clear();
-
-
-    switch(cmd_)
-    {
-    	case RequestCmdOffset::REQUEST_INFO: temp_buffer.append("info"); break;
-
-    	case RequestCmdOffset::REQUEST_STATUS: temp_buffer.append("status"); break;
-
-    	case RequestCmdOffset::REQUEST_TASKSTATUS: temp_buffer.append("taskCancel"); break;
-
-    	case RequestCmdOffset::REQUEST_SETMODE: temp_buffer.append("taskStatus"); break;
-
-    	case RequestCmdOffset::REQUEST_ALARMCLEAR: temp_buffer.append("setMode"); break;
-
-    	case RequestCmdOffset::REQUEST_SYSRESET: temp_buffer.append("alarmClear"); break;
-
-    	case RequestCmdOffset::REQUEST_TASKPAUSE: temp_buffer.append("sysReset"); break;
-
-    	case RequestCmdOffset::REQUEST_TASKRESUME: temp_buffer.append("taskPause"); break;
-
-    	case RequestCmdOffset::REQUEST_SWEMS: temp_buffer.append("taskResume"); break;
-
-    	case RequestCmdOffset::REQUEST_TIMESYNC: temp_buffer.append("ems"); break;
-
-    	case RequestCmdOffset::REQUEST_READPARAM: temp_buffer.append("readParam"); break;
-
-    	case RequestCmdOffset::REQUEST_WRITEPARAM: temp_buffer.append("writeParam"); break;
-
-    	case RequestCmdOffset::REQUEST_TASK: temp_buffer.append("task"); break;
-    }
-
-
-   //cJSON* category = cJSON_CreateString(temp_buffer.c_str());
-   // if (category == NULL)
-
-   cJSON_AddStringToObject(header, "category", temp_buffer.c_str());
-
-	temp_buffer.clear();
-
-
-    //cJSON* timeStamp = cJSON_CreateString("1680063015500");
-   // if (timeStamp == NULL)
-
-
-    cJSON_AddStringToObject(header, "timeStamp", "1680063015500");
-
-
-	//get command type for enqeue the command queue
-
-	/*add the if-case command for getting json string data*/
-
-
-   //cJSON_Print(sender);
-
-    string = cJSON_Print(sender);
-
-	return string;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int ethernet_data_parser(const char * const msg, int msg_leng)
-{
-	//memory copy
-	char send_buf[msg_leng + 1];
-
-	strncpy (send_buf, msg, sizeof(send_buf));
-
-	send_buf[msg_leng] = '\0';
-
-	//declare header buffers
-    const cJSON *header = NULL;
-    const cJSON *transactionid = NULL;
-    const cJSON *msgtype = NULL;
-    const cJSON *category = NULL;
-    const cJSON *timestamp = NULL;
-
-    printf("%s\r\n",send_buf);
-
-
-    int status = 0;
-
-    //cJSON *msg_json = cJSON_Parse(send_buf);
-    cJSON *msg_json = cJSON_ParseWithLength(send_buf, msg_leng);
-
-    //error check
-    if (msg_json == NULL)
-    {
-        const char *error_ptr = cJSON_GetErrorPtr();
-        if (error_ptr != NULL)
-        {
-            fprintf(stderr, "Error before: %s\n", error_ptr);
-        }
-        status = -1;
-        goto end;
-    }
-
-    //Get header object pointer
-    header = cJSON_GetObjectItemCaseSensitive(msg_json, "header");
-
-    if (header == NULL)
-    {
-        status = -1;
-        goto end;
-    }
-
-
-    transactionid = cJSON_GetObjectItemCaseSensitive(header, "transactionId");
-
-    if (cJSON_IsString(transactionid) && (transactionid->valuestring != NULL))
-    {
-        printf("transactionid is: \"%s\"\n", transactionid->valuestring);
-    }
-
-    msgtype = cJSON_GetObjectItemCaseSensitive(header, "msgType");
-
-    if (cJSON_IsString(msgtype) && (msgtype->valuestring != NULL))
-    {
-        printf("msgtype is: \"%s\"\n", msgtype->valuestring);
-    }
-
-    category = cJSON_GetObjectItemCaseSensitive(header, "category");
-
-    if (cJSON_IsString(category) && (category->valuestring != NULL))
-    {
-        printf("category is: \"%s\"\n", category->valuestring);
-    }
-
-    timestamp = cJSON_GetObjectItemCaseSensitive(header, "timeStamp");
-
-    if (cJSON_IsString(msgtype) && (timestamp->valuestring != NULL))
-    {
-        printf("timestamp is: \"%s\"\n", timestamp->valuestring);
-    }
-
-
-    //switch fucntion for each command type
-
-//    if(strcmp(msgtype->valuestring, "request") == 0)
-//    {
-//       // printf("1\r\n");
-//    }
-//    else if (strcmp(msgtype->valuestring, "response") == 0)
-//    {
-//        //printf("2\r\n");
-//
-//    }
-//
-
-
-end:
-    cJSON_Delete(msg_json);
-    return status;
-}
-
-
-
-const char* ethernet_create_message(void)
-{
-
-    char* string = NULL;
-
-	//declare header buffers
-    cJSON *header = NULL;
-    cJSON *transactionId = NULL;
-    cJSON *msgType = NULL;
-    cJSON *category = NULL;
-    cJSON *timeStamp = NULL;
-
-	//declare body buffers
-    cJSON *body = NULL;
-    cJSON *taskType = NULL;
-    cJSON *JobId = NULL;
-    cJSON *taskId = NULL;
-    cJSON *taskStatus = NULL;
-    cJSON *mode = NULL;
-    cJSON *status = NULL;
-    cJSON *position = NULL;
-    cJSON *destination = NULL;
-    cJSON *speed = NULL;
-    cJSON *forkStroke = NULL;
-    cJSON *forkWidth = NULL;
-    cJSON *forkOnLoad = NULL;
-    cJSON *alarmCode = NULL;
-    cJSON *errorCode = NULL;
-    cJSON *sensorGroup1 = NULL;
-    cJSON *sensorGroup2 = NULL;
-    cJSON *odometer = NULL;
-
-
-    cJSON *sender = cJSON_CreateObject();
-    if (sender == NULL)
-    {
-        goto end;
-    }
-
-    /* after creation was successful, immediately add it to the monitor,
-     * thereby transferring ownership of the pointer to it */
-
-    //-------------------------------------------------------header contents
-
-    header = cJSON_CreateObject();
-    if (header == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(sender, "header", header);
-
-    transactionId = cJSON_CreateString("12");
-    if (transactionId == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(header, "transactionId", transactionId);
-
-    msgType = cJSON_CreateString("response");
-    if (msgType == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(header, "msgType", msgType);
-
-    category = cJSON_CreateString("status");
-    if (category == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(header, "category", category);
-
-    timeStamp = cJSON_CreateString("1680063015500");
-    if (timeStamp == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(header, "timeStamp", timeStamp);
-
-    //-------------------------------------------------------body contents
-    body = cJSON_CreateObject();
-    if (body == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(sender, "body", body);
-
-    taskType = cJSON_CreateString("move");
-    if (taskType == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "taskType", taskType);
-
-    JobId = cJSON_CreateString("abcd123456789");
-    if (JobId == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "JobId", JobId);
-
-    taskId = cJSON_CreateString("1");
-    if (taskId == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "taskId", taskId);
-
-    taskStatus = cJSON_CreateString("2");
-    if (taskStatus == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "taskStatus", taskStatus);
-
-    mode = cJSON_CreateString("2");
-    if (mode == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "mode", mode);
-
-    status = cJSON_CreateString("1");
-    if (status == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "status", status);
-
-    position = cJSON_CreateString("1234");
-    if (position == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "position", position);
-
-    destination = cJSON_CreateString("12345");
-    if (destination == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "destination", destination);
-
-    speed = cJSON_CreateString("4200");
-    if (speed == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "speed", speed);
-
-    forkStroke = cJSON_CreateString("0");
-    if (forkStroke == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "forkStroke", forkStroke);
-
-    forkWidth = cJSON_CreateString("500");
-    if (forkWidth == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "forkWidth", forkWidth);
-
-    forkOnLoad = cJSON_CreateString("3");
-    if (forkOnLoad == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "forkOnLoad", forkOnLoad);
-
-    alarmCode = cJSON_CreateString("0");
-    if (alarmCode == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "alarmCode", alarmCode);
-
-    errorCode = cJSON_CreateString("0");
-    if (errorCode == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "errorCode", errorCode);
-
-    sensorGroup1 = cJSON_CreateString("0");
-    if (sensorGroup1 == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "sensorGroup1", sensorGroup1);
-
-    sensorGroup2 = cJSON_CreateString("0");
-    if (sensorGroup2 == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "sensorGroup2", sensorGroup2);
-
-    odometer = cJSON_CreateString("4294967296");
-    if (odometer == NULL)
-        goto end;
-
-    cJSON_AddItemToObject(body, "odometer", odometer);
-
-
-
-    string = cJSON_Print(sender);
-    if (string == NULL)
-    {
-        fprintf(stderr, "Failed to print monitor.\n");
-    }
-    cJSON_free (string);
-
-end:
-
-    cJSON_Delete(sender);
-    return string;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* return 1 if the monitor supports full hd, 0 otherwise */
-int supports_full_hd(const char * const msg, int msg_leng)
-{
-	char send_buf[msg_leng + 1];
-
-	strncpy (send_buf, msg, sizeof(send_buf));
-
-	send_buf[msg_leng] = '\0';
-
-	char* st = NULL;
-
-    const cJSON *value = NULL;
-    const cJSON *values = NULL;
-    const cJSON *command = NULL;
-    const cJSON *mode = NULL;
-
-    int status = 0;
-
-    cJSON *msg_json = cJSON_Parse(send_buf);
-
-    //error check
-    if (msg_json == NULL)
-    {
-        const char *error_ptr = cJSON_GetErrorPtr();
-        if (error_ptr != NULL)
-        {
-            fprintf(stderr, "Error before: %s\n", error_ptr);
-        }
-        status = 0;
-        goto end;
-    }
-
-    //command parse
-    command = cJSON_GetObjectItemCaseSensitive(msg_json, "command");
-
-    if (cJSON_IsString(command) && (command->valuestring != NULL))
-    {
-        printf("command is: \"%s\"\n", command->valuestring);
-    }
-
-    //mode parse
-    mode = cJSON_GetObjectItemCaseSensitive(msg_json, "mode");
-
-    if (cJSON_IsString(mode) && (mode->valuestring != NULL))
-    {
-        printf("mode is: \"%s\"\n", mode->valuestring);
-    }
-
-    //value parse
-    values = cJSON_GetObjectItemCaseSensitive(msg_json, "values");
-
-    //for
-    cJSON_ArrayForEach(value, values)
-    {
-        cJSON *from = cJSON_GetObjectItemCaseSensitive(value, "from");
-        cJSON *to = cJSON_GetObjectItemCaseSensitive(value, "to");
-
-        printf("from : %d, to :%d \r\n", from->valueint, to->valueint);
-
-        itoa(from->valueint, st, 10);
-
-//        if (!cJSON_IsNumber(width) || !cJSON_IsNumber(height))
-//        {
-//            status = 0;
-//            goto end;
-//        }
-//
-//        if ((width->valuedouble == 1920) && (height->valuedouble == 1080))
-//        {
-//            status = 1;
-//            goto end;
-//        }
-    }
-
-
-
-end:
-    cJSON_Delete(msg_json);
-    return status;
-}
-
-//create a monitor with a list of supported resolutions
-//NOTE: Returns a heap allocated string, you are required to free it after use.
-const char* create_monitor(void)
-{
-    const unsigned int resolution_numbers[3][2] = {
-        {1280, 720},
-        {1920, 1080},
-        {3840, 2160}
-    };
-    char *string = NULL;
-    cJSON *command = NULL;
-    cJSON *mode = NULL;
-    cJSON *values = NULL;
-    cJSON *value = NULL;
-    cJSON *from = NULL;
-    cJSON *to = NULL;
-    size_t index = 0;
-
-    cJSON *sender = cJSON_CreateObject();
-
-    if (sender == NULL)
-    {
-        goto end;
-    }
-
-    command = cJSON_CreateString("Stop");
-    if (command == NULL)
-    {
-        goto end;
-    }
-    /* after creation was successful, immediately add it to the monitor,
-     * thereby transferring ownership of the pointer to it */
-    cJSON_AddItemToObject(sender, "command", command);
-
-    mode = cJSON_CreateString("Auto");
-    if (mode == NULL)
-    {
-        goto end;
-    }
-
-    cJSON_AddItemToObject(sender, "mode", mode);
-
-
-    values = cJSON_CreateArray();
-    if (values == NULL)
-    {
-        goto end;
-    }
-    cJSON_AddItemToObject(sender, "values", values);
-
-    for (index = 0; index < (sizeof(resolution_numbers) / (2 * sizeof(int))); ++index)
-    {
-    	value = cJSON_CreateObject();
-        if (value == NULL)
-        {
-            goto end;
-        }
-        cJSON_AddItemToArray(values, value);
-
-        from = cJSON_CreateNumber(resolution_numbers[index][0]);
-        if (from == NULL)
-        {
-            goto end;
-        }
-        cJSON_AddItemToObject(value, "from", from);
-
-        to = cJSON_CreateNumber(resolution_numbers[index][1]);
-        if (to == NULL)
-        {
-            goto end;
-        }
-        cJSON_AddItemToObject(value, "to", to);
-    }
-
-    string = cJSON_Print(sender);
-    if (string == NULL)
-    {
-        fprintf(stderr, "Failed to print monitor.\n");
-    }
-
-end:
-    cJSON_Delete(sender);
-    return string;
-}
 
 //-----------------------------------------------------------Eth
 
@@ -1854,8 +1606,27 @@ struct netconn* ConnectEthToDataStructure()
 
 }
 
+//-----------------------------------------------------------Eth
 
 
+void AddItemToObjectFromMainData(void const* argument, cJSON& object, const char* item_name, int main_data_index)
+{
+	data_structure* Dst_ = (data_structure*)argument;
+
+	int val = ReadDataFromMainData(Dst_, RobotDataId::TASK_ID);
+
+	str.append(std::to_string(val));
+
+	cJSON* item = cJSON_CreateString(str.c_str());
+	// if (category == NULL)
+
+	cJSON_AddItemToObject(object, item_name, item);
+
+	return;
+}
+
+
+//-----------------------------------------------------------openamp app
 
 
 

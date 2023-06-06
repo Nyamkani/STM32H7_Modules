@@ -240,7 +240,7 @@ const char* create_monitor();
 
 
 
-
+void AddItemToObjectFromMainData(void const* argument, cJSON& object, const char* item_name, int main_data_index);
 
 
 

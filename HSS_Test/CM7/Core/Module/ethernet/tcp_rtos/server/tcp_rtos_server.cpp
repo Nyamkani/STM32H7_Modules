@@ -217,23 +217,23 @@ static void TCPServerSendTask(void const* argument)
 
 			//1. get command for json format
 			int result = GetStringFromMainData(Dst_, cmd_queue_data_, json_data_);
-			//json_data_ = GetHeaderFromQueue(cmd_queue_data_, json_data_);
-
-
-			if(result < 0)
-			{
-
-				printf("OMG\r\n");
-
-			}
-
 
 			//3. make strings
 			//append stx data
 			send_buffer.append("2");
 
 			//append string legnth data
-			send_buffer.append(std::to_string(strlen(json_data_)));
+			std::string data_length_ = std::to_string(strlen(json_data_));
+
+			if (data_length_.length() < 4)
+				data_length_.insert(data_length_.front() == '-' ? 1 : 0, 4 - data_length_.length(), '0');
+
+			send_buffer.append(data_length_);
+
+			//delete length string 
+			data_length_.clear();
+
+			data_length_.shrink_to_fit();			
 
 			//append main json string
 			send_buffer.append(json_data_);

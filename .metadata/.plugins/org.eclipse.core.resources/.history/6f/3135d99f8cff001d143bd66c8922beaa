@@ -1,6 +1,0 @@
-../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include/openamp/rpmsg.h:147:19:int rpmsg_send(rpmsg_endpoint*, const void*, int)	32	static
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/arm-none-eabi/thumb/v7e-m+fp/hard/bits/gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.cpp:25:12:int rpmsg_recv_callback(rpmsg_endpoint*, void*, size_t, uint32_t, void*)	40	static
-../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.cpp:37:14:openamp_type receive_message()	24	static
-../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.cpp:47:5:int OpenAMPInit()	24	static
-../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.cpp:67:6:void OpenAMPDrive()	72	static

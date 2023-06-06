@@ -1,5 +1,0 @@
-io.h:127:1:metal_io_virt	3
-io.c:12:6:metal_io_init	3
-io.c:33:5:metal_io_block_read	9
-io.c:70:5:metal_io_block_write	9
-io.c:107:5:metal_io_block_set	9
