@@ -26,8 +26,8 @@ int InitializeDataStructure(data_structure* Dst)
 	//0. insert the data to main data structure
 
 	//robot_info
-	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ROBOT_NAME_, 1));
-	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FW_VERSION, 1));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ROBOT_NAME_, 11));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FW_VERSION, 102));
 
 	//ipaddress_info
 	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGIP_ADDR0, 192));
@@ -48,13 +48,13 @@ int InitializeDataStructure(data_structure* Dst)
 	//status_page_1;
 	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::MODE, 0));
 	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::STATUS, 0));
-	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::POSITION, 0));
-	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::DESTINATION, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::POSITION, 123456));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::DESTINATION, 1));
 
-	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::SPEED, 0));
-	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FORK_STROKE, 0));
-	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FORK_WIDTH, 0));
-	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FORK_ON_LOAD, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::SPEED, 100));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FORK_STROKE, 20));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FORK_WIDTH, 34));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FORK_ON_LOAD, 1));
 
 	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ALARM_CODE, 0));
 	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ERROR_CODE, 0));
@@ -147,7 +147,7 @@ uint64_t GetTransactionIdFromHeader(const char * const msg, int msg_leng)
     const cJSON *transactionid = NULL;
 
 	//-----------------------------------------------------------
-	cJSON *msg_json = cJSON_ParseWithLength(recv_buf, msg_leng + 1);
+	cJSON *msg_json = cJSON_ParseWithLength(recv_buf, msg_leng);
 
 	//cjson ptr check
 	if (msg_json == NULL)
@@ -247,11 +247,13 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	if(strcmp(msgtype->valuestring, "request") == 0)
 	{
-		cmd += RecvCmdRangeOffset::START_REQUEST_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::RECV_REQUEST_CMD_RANGE;
 
 		if(strcmp(category->valuestring, "info") == 0) cmd += RequestCmdOffset::REQUEST_INFO;
 
 		else if(strcmp(category->valuestring, "status") == 0) cmd += RequestCmdOffset::REQUEST_STATUS;
+
+		else if(strcmp(category->valuestring, "taskCancel") == 0) cmd += RequestCmdOffset::REQUEST_TASKCANCEL;
 
 		else if(strcmp(category->valuestring, "taskStatus") == 0) cmd += RequestCmdOffset::REQUEST_TASKSTATUS;
 
@@ -281,7 +283,7 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	else if (strcmp(msgtype->valuestring, "ack") == 0)
 	{
-		cmd += RecvCmdRangeOffset::START_ACK_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::RECV_ACK_CMD_RANGE;
 
 		if(strcmp(category->valuestring, "task") == 0) cmd += AckCmdOffset::ACK_TASK;
 
@@ -293,15 +295,15 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	else if (strcmp(msgtype->valuestring, "answer") == 0)
 	{
-		cmd += RecvCmdRangeOffset::START_ANSWER_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::RECV_ANSWER_CMD_RANGE;
 
-		if(strcmp(category->valuestring, "enterElevator") == 0) cmd += AnswerCmdOffset::APPROVE_ENTERELEVATOR;
+		if(strcmp(category->valuestring, "enterElevator") == 0) cmd += AnswerCmdOffset::ANSWER_ENTERELEVATOR;
 
-		else if(strcmp(category->valuestring, "leaveElevator") == 0) cmd += AnswerCmdOffset::APPROVE_LEAVEELEVATOR;
+		else if(strcmp(category->valuestring, "leaveElevator") == 0) cmd += AnswerCmdOffset::ANSWER_LEAVEELEVATOR;
 
-		else if(strcmp(category->valuestring, "bufferPick") == 0) cmd += AnswerCmdOffset::APPROVE_BUFFERPICK;
+		else if(strcmp(category->valuestring, "bufferPick") == 0) cmd += AnswerCmdOffset::ANSWER_BUFFERPICK;
 
-		else if(strcmp(category->valuestring, "bufferPlace") == 0) cmd += AnswerCmdOffset::APPROVE_BUFFERPLACE;
+		else if(strcmp(category->valuestring, "bufferPlace") == 0) cmd += AnswerCmdOffset::ANSWER_BUFFERPLACE;
 
 		else cmd = JsonErrOffset::JSON_WRONG_DATA_ERROR;
 
@@ -309,7 +311,7 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	else if (strcmp(msgtype->valuestring, "execute") == 0)
 	{
-		cmd += RecvCmdRangeOffset::START_EXCUTE_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::RECV_EXCUTE_CMD_RANGE;
 
 		if(strcmp(category->valuestring, "enterElevator") == 0) cmd += ExcuteCmdOffset::EXCUTE_ENTERELEVATOR;
 
@@ -325,7 +327,7 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 	else if (strcmp(msgtype->valuestring, "heartbeatRequset") == 0)
 	{
-		cmd += RecvCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE;
+		cmd += RecvCmdRangeOffset::RECV_HEARTTBEAT_CMD_RANGE;
 
 		if(strcmp(category->valuestring, "Heartbeat") == 0) cmd += HeartbeatCmdOffset::heartbeat;
 
@@ -387,8 +389,8 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 
 	//-----------------------------------------------------------request body data
 
-	if(cmd_ >= RecvCmdRangeOffset::START_REQUEST_CMD_RANGE 
-		&& cmd_ < RecvCmdRangeOffset::START_ACK_CMD_RANGE)
+	if(cmd_ >= RecvCmdRangeOffset::RECV_REQUEST_CMD_RANGE
+		&& cmd_ < RecvCmdRangeOffset::RECV_ACK_CMD_RANGE)
 	{
 		/*
 		 * request - write setmode(4),  timesync(10), readparma(11), writeparam(12), task(20~)
@@ -804,13 +806,13 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 	}
 
-	else if(cmd_ >= RecvCmdRangeOffset::START_ACK_CMD_RANGE 
-		&& cmd_ < RecvCmdRangeOffset::START_ANSWER_CMD_RANGE) //report - ack
+	else if(cmd_ >= RecvCmdRangeOffset::RECV_ACK_CMD_RANGE
+		&& cmd_ < RecvCmdRangeOffset::RECV_ANSWER_CMD_RANGE) //report - ack
 	{
 		/*
 		 * ack - result
 		 * */
-		cmd_ -= RecvCmdRangeOffset::START_ACK_CMD_RANGE;
+		cmd_ -= RecvCmdRangeOffset::RECV_ACK_CMD_RANGE;
 
 		switch(cmd_)
 		{
@@ -833,8 +835,8 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 	}
 
-	else if(cmd_ >= RecvCmdRangeOffset::START_ANSWER_CMD_RANGE 
-		&& cmd_ < RecvCmdRangeOffset::START_EXCUTE_CMD_RANGE) //answer
+	else if(cmd_ >= RecvCmdRangeOffset::RECV_ANSWER_CMD_RANGE
+		&& cmd_ < RecvCmdRangeOffset::RECV_EXCUTE_CMD_RANGE) //answer
 	{
 		/*
 		 * approve -action, result
@@ -860,8 +862,8 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 	}
 
-	else if(cmd_ >= RecvCmdRangeOffset::START_EXCUTE_CMD_RANGE 
-		&& cmd_ < RecvCmdRangeOffset::START_RESERVED1_CMD_RANGE) //approve excute
+	else if(cmd_ >= RecvCmdRangeOffset::RECV_EXCUTE_CMD_RANGE
+		&& cmd_ < RecvCmdRangeOffset::RECV_RESERVED1_CMD_RANGE) //approve excute
 	{
 		/*
 		 * approve - enterElevator(1),  leaveElevator(2), bufferPick(3), bufferPlace(4)
@@ -906,8 +908,8 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 		}
 
 	}
-	else if(cmd_ >= RecvCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE 
-		&& cmd_ < RecvCmdRangeOffset::START_RESERVED2_CMD_RANGE) //heartbeat
+	else if(cmd_ >= RecvCmdRangeOffset::RECV_HEARTTBEAT_CMD_RANGE
+		&& cmd_ < RecvCmdRangeOffset::RECV_RESERVED2_CMD_RANGE) //heartbeat
 	{
 		//cmd_ -= RecvCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE;
 
@@ -950,7 +952,8 @@ int DoCmdFromData(void const* argument, cmd_queue_data data)
 
 
 	//send data to tcp sender
-	Dst_->tcp_send_queue_.push_back(cmd_queue_data_);
+	if(cmd_queue_data_.cmd_  != 65535)
+		Dst_->tcp_send_queue_.push_back(cmd_queue_data_);
 
 
 	return 0;
@@ -1054,24 +1057,24 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 
 	//-------------------------------msgtype
 
-	if(cmd_ >= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE 
-		&& cmd_ <SendCmdRangeOffset::START_REPORT_CMD_RANGE)
+	if(cmd_ >= SendCmdRangeOffset::SEND_RESPONSE_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::SEND_REPORT_CMD_RANGE)
     		temp_buffer.append("response");
 
-	else if(cmd_ >= SendCmdRangeOffset::START_REPORT_CMD_RANGE
-		&& cmd_ <SendCmdRangeOffset::START_INQUIRE_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_REPORT_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::SEND_INQUIRE_CMD_RANGE)
 			temp_buffer.append("report");
 
-	else if(cmd_ >= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE
-		&& cmd_ <SendCmdRangeOffset::START_CONFIRM_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_INQUIRE_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::SEND_CONFIRM_CMD_RANGE)
 			temp_buffer.append("inquire");
 
-	else if(cmd_ >= SendCmdRangeOffset::START_CONFIRM_CMD_RANGE
-		&& cmd_ <SendCmdRangeOffset::START_RESERVED1_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_CONFIRM_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::SEND_RESERVED1_CMD_RANGE)
 			temp_buffer.append("confirm");
 
-	else if(cmd_ >= SendCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE
-		&& cmd_ <SendCmdRangeOffset::START_RESERVED2_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_HEARTTBEAT_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::SEND_RESERVED2_CMD_RANGE)
 			temp_buffer.append("heartbeat");
 
 
@@ -1084,13 +1087,13 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 
 	//-------------------------------category
 
-	if(cmd_ >= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE 
-		&& cmd_ <SendCmdRangeOffset::START_REPORT_CMD_RANGE)
+	if(cmd_ >= SendCmdRangeOffset::SEND_RESPONSE_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::SEND_REPORT_CMD_RANGE)
 	{
+		cmd_ -= SendCmdRangeOffset::SEND_RESPONSE_CMD_RANGE;
+
 	    switch(cmd_)
 	    {
-			cmd_ -= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE;
-			
 	    	case ResponseCmdOffset::RESPONSE_INFO: temp_buffer.append("info"); break;
 
 	    	case ResponseCmdOffset::RESPONSE_STATUS: temp_buffer.append("status"); break;
@@ -1121,50 +1124,63 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 	    }
 	}
 
-	else if(cmd_ >= SendCmdRangeOffset::START_REPORT_CMD_RANGE
-		&& cmd_ <SendCmdRangeOffset::START_INQUIRE_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_REPORT_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::SEND_INQUIRE_CMD_RANGE)
 	{
-		cmd_ -= SendCmdRangeOffset::START_REPORT_CMD_RANGE;
+		cmd_ -= SendCmdRangeOffset::SEND_REPORT_CMD_RANGE;
 
-		case ReportCmdOffset::REPORT_TASK: temp_buffer.append("task"); break;
+	    switch(cmd_)
+	    {
+			case ReportCmdOffset::REPORT_TASK: temp_buffer.append("task"); break;
 
-		case ReportCmdOffset::REPORT_ALERT: temp_buffer.append("alert"); break;
+			case ReportCmdOffset::REPORT_ALERT: temp_buffer.append("alert"); break;
+	    }
 	}
 
-	else if(cmd_ >= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE
-		&& cmd_ <SendCmdRangeOffset::START_CONFIRM_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_INQUIRE_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::SEND_CONFIRM_CMD_RANGE)
 	{
-		cmd_ -= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE;	
+		cmd_ -= SendCmdRangeOffset::SEND_INQUIRE_CMD_RANGE;
 
-		case InquireCmdOffset::INQUIRE_ENTERELEVATOR: temp_buffer.append("enterElevator"); break;
+	    switch(cmd_)
+	    {
+			case InquireCmdOffset::INQUIRE_ENTERELEVATOR: temp_buffer.append("enterElevator"); break;
 
-		case InquireCmdOffset::INQUIRE_LEAVEELEVATOR: temp_buffer.append("leaveElevator"); break;
+			case InquireCmdOffset::INQUIRE_LEAVEELEVATOR: temp_buffer.append("leaveElevator"); break;
 
-		case InquireCmdOffset::INQUIRE_BUFFERPICK: temp_buffer.append("bufferPick"); break;
+			case InquireCmdOffset::INQUIRE_BUFFERPICK: temp_buffer.append("bufferPick"); break;
 
-		case InquireCmdOffset::INQUIRE_BUFFERPLACE: temp_buffer.append("bufferPlace"); break;
+			case InquireCmdOffset::INQUIRE_BUFFERPLACE: temp_buffer.append("bufferPlace"); break;
+
+	    }
 	}
 
-	else if(cmd_ >= SendCmdRangeOffset::START_CONFIRM_CMD_RANGE
-		&& cmd_ <SendCmdRangeOffset::START_RESERVED1_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_CONFIRM_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::SEND_RESERVED1_CMD_RANGE)
 	{
-		cmd_ -= SendCmdRangeOffset::START_CONFIRM_CMD_RANGE;	
+		cmd_ -= SendCmdRangeOffset::SEND_CONFIRM_CMD_RANGE;
 
-		case ConfirmCmdOffset::CONFIRM_ENTERELEVATOR: temp_buffer.append("enterElevator"); break;
+	    switch(cmd_)
+	    {
+			case ConfirmCmdOffset::CONFIRM_ENTERELEVATOR: temp_buffer.append("enterElevator"); break;
 
-		case ConfirmCmdOffset::CONFIRM_LEAVEELEVATOR: temp_buffer.append("leaveElevator"); break;
+			case ConfirmCmdOffset::CONFIRM_LEAVEELEVATOR: temp_buffer.append("leaveElevator"); break;
 
-		case ConfirmCmdOffset::CONFIRM_BUFFERPICK: temp_buffer.append("bufferPick"); break;
+			case ConfirmCmdOffset::CONFIRM_BUFFERPICK: temp_buffer.append("bufferPick"); break;
 
-		case ConfirmCmdOffset::CONFIRM_BUFFERPLACE: temp_buffer.append("bufferPlace"); break;
+			case ConfirmCmdOffset::CONFIRM_BUFFERPLACE: temp_buffer.append("bufferPlace"); break;
+	    }
 	}
 
-	else if(cmd_ >= SendCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE
-		&& cmd_ <SendCmdRangeOffset::START_RESERVED2_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_HEARTTBEAT_CMD_RANGE
+		&& cmd_ <SendCmdRangeOffset::SEND_RESERVED2_CMD_RANGE)
 	{
-		cmd_ -= SendCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE;
+		cmd_ -= SendCmdRangeOffset::SEND_HEARTTBEAT_CMD_RANGE;
 		
-		case HeartbeatCmdOffset::heartbeat: temp_buffer.append("heartbeatresponse"); break;
+	    switch(cmd_)
+	    {
+			case HeartbeatCmdOffset::heartbeat: temp_buffer.append("heartbeatresponse"); break;
+	    }
 	}
 
 
@@ -1199,10 +1215,10 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 
 
 	//----------------------------------------request
-	if(cmd_ >= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE
-		&& cmd_ < SendCmdRangeOffset::START_REPORT_CMD_RANGE)
+	if(cmd_ >= SendCmdRangeOffset::SEND_RESPONSE_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::SEND_REPORT_CMD_RANGE)
 	{
-		cmd_ -= SendCmdRangeOffset::START_RESPONSE_CMD_RANGE;
+		cmd_ -= SendCmdRangeOffset::SEND_RESPONSE_CMD_RANGE;
 
 		switch(cmd_)
 		{
@@ -1221,7 +1237,16 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 				std::string robot_name_ = std::to_string(val);
 
 				if (robot_name_.length() < 2)
-					str.insert(str.front() == '-' ? 1 : 0, 2 - str.length(), '0');
+				{
+					int itr = 2 - robot_name_.length();
+
+					for(int i = 0; i < itr; i++)
+						str.append("0");
+				}
+
+
+				//if (robot_name_.length() < 2)
+				//	str.insert(str.front() == '-' ? 1 : 0, 2 - str.length(), '0');
 
 				str.append(std::to_string(val));
 
@@ -1251,6 +1276,8 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 
 				AddItemToObjectFromMainData(Dst_, body, "mode", RobotDataId::MODE);
 
+				AddItemToObjectFromMainData(Dst_, body, "status", RobotDataId::STATUS);
+
 				AddItemToObjectFromMainData(Dst_, body, "position", RobotDataId::POSITION);
 
 				AddItemToObjectFromMainData(Dst_, body, "destination", RobotDataId::DESTINATION);
@@ -1263,11 +1290,11 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 
 				AddItemToObjectFromMainData(Dst_, body, "forkOnLoad", RobotDataId::FORK_ON_LOAD);
 
-				AddItemToObjectFromMainData(Dst_, body, "alramCode", RobotDataId::ALARM_CODE);
+				AddItemToObjectFromMainData(Dst_, body, "alarmCode", RobotDataId::ALARM_CODE);
 
 				AddItemToObjectFromMainData(Dst_, body, "errorCode", RobotDataId::ERROR_CODE);
 
-				AddItemToObjectFromMainData(Dst_, body, "odometer", RobotDataId::ODOMETER);
+				//AddItemToObjectFromMainData(Dst_, body, "odometer", RobotDataId::ODOMETER);
 
 				AddItemToObjectFromMainData(Dst_, body, "sensorInput", RobotDataId::SENSOR_INPUT);
 
@@ -1381,21 +1408,21 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 			{
 				int tasktype = parameter_.front();
 
-				cJSON* taskType = cJSON_CreateString(std::to_string(tasktype));
+				cJSON* taskType = cJSON_CreateString(std::to_string(tasktype).c_str());
 				// if (category == NULL)
 
 				cJSON_AddItemToObject(body, "taskType", taskType);
 
 				int taskgroup = parameter_.at(1);
 
-				cJSON* taskGroup = cJSON_CreateString(std::to_string(taskgroup));
+				cJSON* taskGroup = cJSON_CreateString(std::to_string(taskgroup).c_str());
 				// if (category == NULL)
 
 				cJSON_AddItemToObject(body, "taskGroup", taskGroup);
 
 				int taskid = parameter_.at(2);
 
-				cJSON* taskId = cJSON_CreateString(std::to_string(taskid));
+				cJSON* taskId = cJSON_CreateString(std::to_string(taskid).c_str());
 				// if (category == NULL)
 
 				cJSON_AddItemToObject(body, "taskId", taskId);
@@ -1410,10 +1437,10 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 		}
 	}
 
-	else if(cmd_ >= SendCmdRangeOffset::START_REPORT_CMD_RANGE
-		&& cmd_ < SendCmdRangeOffset::START_INQUIRE_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_REPORT_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::SEND_INQUIRE_CMD_RANGE)
 	{
-		cmd_ -= SendCmdRangeOffset::START_REPORT_CMD_RANGE;
+		cmd_ -= SendCmdRangeOffset::SEND_REPORT_CMD_RANGE;
 
 		switch(cmd_)
 		{
@@ -1445,10 +1472,10 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 		}
 	}
 
-	else if(cmd_ >= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE
-		&& cmd_ < SendCmdRangeOffset::START_CONFIRM_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_INQUIRE_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::SEND_CONFIRM_CMD_RANGE)
 	{
-		cmd_ -= SendCmdRangeOffset::START_INQUIRE_CMD_RANGE;
+		cmd_ -= SendCmdRangeOffset::SEND_INQUIRE_CMD_RANGE;
 
 		switch(cmd_)
 		{
@@ -1498,78 +1525,84 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 		}
 	}
 
-	else if(cmd_ >= SendCmdRangeOffset::START_CONFIRM_CMD_RANGE
-		&& cmd_ < SendCmdRangeOffset::START_RESERVED1_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_CONFIRM_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::SEND_RESERVED1_CMD_RANGE)
 	{
-		case InquireCmdOffset::INQUIRE_ENTERELEVATOR:
+		cmd_ -= SendCmdRangeOffset::SEND_CONFIRM_CMD_RANGE;
+
+		switch(cmd_)
 		{
-			AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
 
-			AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+			case InquireCmdOffset::INQUIRE_ENTERELEVATOR:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
 
-			AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
 
-			cJSON* item = cJSON_CreateString("1");
-				// if (category == NULL)
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
 
-			cJSON_AddItemToObject(body, "result", item);
+				cJSON* item = cJSON_CreateString("1");
+					// if (category == NULL)
 
-			break;
-		}
+				cJSON_AddItemToObject(body, "result", item);
 
-		case InquireCmdOffset::INQUIRE_LEAVEELEVATOR:
-		{
-			AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+				break;
+			}
 
-			AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+			case InquireCmdOffset::INQUIRE_LEAVEELEVATOR:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
 
-			AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
 
-			cJSON* item = cJSON_CreateString("1");
-				// if (category == NULL)
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
 
-			cJSON_AddItemToObject(body, "result", item);
+				cJSON* item = cJSON_CreateString("1");
+					// if (category == NULL)
 
-			break;
-		}
+				cJSON_AddItemToObject(body, "result", item);
 
-		case InquireCmdOffset::INQUIRE_BUFFERPICK:
-		{
-			AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+				break;
+			}
 
-			AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+			case InquireCmdOffset::INQUIRE_BUFFERPICK:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
 
-			AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
 
-			cJSON* item = cJSON_CreateString("1");
-				// if (category == NULL)
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
 
-			cJSON_AddItemToObject(body, "result", item);
+				cJSON* item = cJSON_CreateString("1");
+					// if (category == NULL)
 
-			break;
-		}
+				cJSON_AddItemToObject(body, "result", item);
 
-		case InquireCmdOffset::INQUIRE_BUFFERPLACE:
-		{
-			AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
+				break;
+			}
 
-			AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
+			case InquireCmdOffset::INQUIRE_BUFFERPLACE:
+			{
+				AddItemToObjectFromMainData(Dst_, body, "taskType", RobotDataId::TASK_TYPE);
 
-			AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
+				AddItemToObjectFromMainData(Dst_, body, "taskGroup", RobotDataId::TASK_GROUP);
 
-			cJSON* item = cJSON_CreateString("1");
-				// if (category == NULL)
+				AddItemToObjectFromMainData(Dst_, body, "taskId", RobotDataId::TASK_ID);
 
-			cJSON_AddItemToObject(body, "result", item);
+				cJSON* item = cJSON_CreateString("1");
+					// if (category == NULL)
 
-			break;
+				cJSON_AddItemToObject(body, "result", item);
+
+				break;
+			}
 		}
 	}
 
-	else if(cmd_ >= SendCmdRangeOffset::START_HEARTTBEAT_CMD_RANGE
-		&& cmd_ < SendCmdRangeOffset::START_RESERVED2_CMD_RANGE)
+	else if(cmd_ >= SendCmdRangeOffset::SEND_HEARTTBEAT_CMD_RANGE
+		&& cmd_ < SendCmdRangeOffset::SEND_RESERVED2_CMD_RANGE)
 	{
-
+		cmd_ -= SendCmdRangeOffset::SEND_HEARTTBEAT_CMD_RANGE;
 	}
 
     //-------------------------------------------------------printing
@@ -1584,10 +1617,6 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
     }
 
     cJSON_Delete(sender);
-
-    cJSON_free(temp_data);
-
-    temp_buffer.clear();
 
 	return status;
 }
@@ -1609,13 +1638,13 @@ struct netconn* ConnectEthToDataStructure()
 //-----------------------------------------------------------Eth
 
 
-void AddItemToObjectFromMainData(void const* argument, cJSON& object, const char* item_name, int main_data_index)
+void AddItemToObjectFromMainData(void const* argument, cJSON* object, const char* item_name, int main_data_index)
 {
 	data_structure* Dst_ = (data_structure*)argument;
 
-	int val = ReadDataFromMainData(Dst_, RobotDataId::TASK_ID);
+	int val = ReadDataFromMainData(Dst_, main_data_index);
 
-	str.append(std::to_string(val));
+	std::string str(std::to_string(val));
 
 	cJSON* item = cJSON_CreateString(str.c_str());
 	// if (category == NULL)

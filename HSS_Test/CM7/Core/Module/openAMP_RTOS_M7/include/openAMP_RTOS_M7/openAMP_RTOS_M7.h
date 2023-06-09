@@ -48,7 +48,7 @@ typedef struct
 void OpenAMPInit();
 void OpenAMPReadTask(void const *argument);
 void OpenAMPSend(const char* msg, int msg_leng);
-void OpenAMPInit_M7();
+void OpenAMPInit_M7(void const* argument);
 
 #ifdef __cplusplus
  extern "C" {

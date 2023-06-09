@@ -221,10 +221,10 @@ void OpenAMPInit_M7(void const* argument)
 
 	/* Create the Thread */
 	osThreadDef(OpenAMP_ReadTask, OpenAMPReadTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *2);
-	osThreadCreate(osThread(OpenAMP_ReadTask), argument);
+	osThreadCreate(osThread(OpenAMP_ReadTask), (void*)argument);
 
 	osThreadDef(OpenAMP_ChkTask, OpenAMPChkMsgtask, osPriorityNormal, 0, 128);
-	osThreadCreate(osThread(OpenAMP_ChkTask), argument);
+	osThreadCreate(osThread(OpenAMP_ChkTask), (void*)argument);
 
 	return;
 }

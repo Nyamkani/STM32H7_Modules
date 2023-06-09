@@ -95,7 +95,7 @@ static void TCPAcceptConnTask(void const *argument)
 		if(!test_flag2_)
 		{
 			/* definition and creation of TCPServerTask */
-			osThreadDef(TCPServerSendTask_, TCPServerSendTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *4);
+			osThreadDef(TCPServerSendTask_, TCPServerSendTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
 					TcpServerSendHandle = osThreadCreate(osThread(TCPServerSendTask_), (void*)Dst_);
 
 			test_flag2_ = true;
@@ -145,7 +145,9 @@ static void TCPServerRecvTask(void const *argument)
 					recv_buffer.append(temp_data);
 
 					//2. check front values is 0x02, 0x32 is '2' character value for test
+
 					if(recv_buffer.front() != 0x32)
+					//if(recv_buffer.front() != 0x02)
 					{
 						recv_buffer.clear();
 
@@ -159,7 +161,7 @@ static void TCPServerRecvTask(void const *argument)
 													, LENGTH_DATA_END_POINTER));
 
 					//4. check data length
-					if((recv_buffer.length()) < buf_leng || recv_buffer.at(DATA_START_POINTER + buf_leng -1) != '}')
+					if((recv_buffer.length()) < buf_leng) // || recv_buffer.at(DATA_START_POINTER + buf_leng -1) != '}')
 					{
 						continue;
 					}
@@ -184,6 +186,13 @@ static void TCPServerRecvTask(void const *argument)
 
 					recv_buffer.shrink_to_fit();
 
+					//8. check front values is 0x02 once again
+					if(recv_buffer.front() != 0x32)
+					//if(recv_buffer.front() != 0x02)
+					{
+						recv_buffer.clear();
+					}
+
 				}
 				while (netbuf_next(buf) >=0);
 
@@ -201,7 +210,7 @@ static void TCPServerSendTask(void const* argument)
 {
 	data_structure* Dst_ = (data_structure*)argument;
 
-	std::string send_buffer;
+
 
 	//1. check the msg
 	while(1)
@@ -209,6 +218,7 @@ static void TCPServerSendTask(void const* argument)
 		//0. Get all messages from eth (be notified type)
 		if(!(Dst_->tcp_send_queue_.empty()))
 		{
+			std::string send_buffer;
 
 			cmd_queue_data cmd_queue_data_ = Dst_->tcp_send_queue_.front();
 
@@ -220,13 +230,20 @@ static void TCPServerSendTask(void const* argument)
 
 			//3. make strings
 			//append stx data
-			send_buffer.append("2");
+			//send_buffer.append((const char*)0x02);
+			send_buffer.insert(0, 1, 0x02);
+			//send_buffer.append("2");
 
 			//append string legnth data
 			std::string data_length_ = std::to_string(strlen(json_data_));
 
 			if (data_length_.length() < 4)
-				data_length_.insert(data_length_.front() == '-' ? 1 : 0, 4 - data_length_.length(), '0');
+			{
+				int itr = 4 - data_length_.length();
+
+				for(int i = 0; i < itr; i++)
+					send_buffer.append("0");
+			}
 
 			send_buffer.append(data_length_);
 
@@ -239,32 +256,16 @@ static void TCPServerSendTask(void const* argument)
 			send_buffer.append(json_data_);
 
 			//4. send data to client
-			netconn_write(Dst_->netconn_data_.accept_conn_
-					, send_buffer.c_str()
-					, strlen(send_buffer.c_str())
-					, NETCONN_COPY);
-
-			send_buffer.clear();
-
-			send_buffer.shrink_to_fit();
-
-			//free(json_data_);
-			memset(json_data_, '\0', LWIP_MAX_LENGTH);
+//			netconn_write(Dst_->netconn_data_.accept_conn_
+//					, send_buffer.c_str()
+//					, send_buffer.length()
+//					, NETCONN_COPY);
 
 			Dst_->tcp_send_queue_.erase(Dst_->tcp_send_queue_.begin());
-
 		}
 
-			//3. send msg
-			//netconn_write(newconn, send_data_, strlen(send_data_), NETCONN_COPY);
-
-			//4. Check msg type. when recved data first -> delete first queue immediately
-			//						when send data first (this)-> wait until recved meg
-
+		osDelay(10);
 	}
-	//if data is all set, dequeue the vector qeuue
-	//if(send_command_data_.send_command_ == sre_command_data_.recv_command_ )
-	//send_command_data_.erase(send_command_data_.begin())
 
 	return;
 }

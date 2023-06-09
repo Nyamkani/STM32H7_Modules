@@ -210,7 +210,7 @@ void StartInitTask(void const * argument)
 	//FatFsTest("test.txt");
 
 	//3. openAMP_h7 initialize
-	OpenAMPInit_M7();
+	OpenAMPInit_M7(st);
 
 
 
