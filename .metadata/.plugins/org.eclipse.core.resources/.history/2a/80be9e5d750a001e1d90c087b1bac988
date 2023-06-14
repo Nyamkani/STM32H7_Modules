@@ -1,0 +1,107 @@
+/*
+ * openAMP_RTOS_M7.h
+ *
+ *  Created on: Mar 8, 2023
+ *      Author: studio3s
+ */
+
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_H_
+#define MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_H_
+
+#include <iostream>
+#include <string>
+#include <functional>
+
+#include <api_data_structure/include/api_data_structure/api_data_structure.h>
+
+#include "stm32h7xx_hal.h"
+#include "openamp.h"
+#include "cmsis_os.h"
+
+
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
+
+
+/* Private macro -------------------------------------------------------------*/
+#define RPMSG_CHAN_NAME               "openamp"
+
+
+
+
+typedef struct
+{
+	volatile int command_;
+	volatile int data1_;
+	volatile int data2_;
+	volatile int data3_;
+	volatile int data4_;
+	volatile int data5_;
+	volatile int data6_;
+	volatile int data7_;
+	volatile int data8_;
+	volatile char data_10;
+//	volatile int data10_;
+//	volatile int data11_;
+//	volatile int data12_;
+//	volatile int data13_;
+//	volatile int data14_;
+//	volatile int data15_;
+//	volatile int data16_;
+//	volatile int data17_;
+}openamp_type;
+
+/* Exported constants --------------------------------------------------------*/
+#define appliSTACK_SIZE configMINIMAL_STACK_SIZE *2
+
+void OpenAMPSend(const char* msg, int msg_leng);
+void OpenAMPInit_M7(void const* argument);
+
+
+
+class OpenAMP_M7
+{
+	public:
+		data_structure* Dst_ = nullptr;
+
+	private:
+		osSemaphoreId osSemaphore_ChannelCreation;
+		osSemaphoreId osSemaphore_MessageReception;
+
+
+	public:
+		OpenAMP_M7();
+		OpenAMP_M7(data_structure* Dst);
+		virtual ~OpenAMP_M7();
+
+		void Initialize();
+
+	private:
+		void OpenAMPSend(const char* msg, int msg_leng);
+		static void OpenAMP_M7::service_destroy_cb(struct rpmsg_endpoint *ept)
+		static void new_service_cb(struct rpmsg_device *rdev, const char *name, uint32_t dest);
+		static int rpmsg_recv_callback(struct rpmsg_endpoint *ept, void *data,
+		                size_t len, uint32_t src, void *priv);
+
+
+		void startTask();
+		static void OpenAMPReadTask(void const *argument);
+
+};
+
+
+
+
+
+
+#endif /* MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_H_ */

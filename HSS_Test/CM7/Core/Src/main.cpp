@@ -180,7 +180,7 @@ int main(void)
   /* USER CODE END 3 */
 }
 
-
+OpenAMP_M7 testAmp_m7;
 
 /* USER CODE BEGIN Header_StartInitTask */
 /**
@@ -210,9 +210,10 @@ void StartInitTask(void const * argument)
 	//FatFsTest("test.txt");
 
 	//3. openAMP_h7 initialize
-	OpenAMPInit_M7(st);
-
-
+	//OpenAMPInit_M7(st);
+	testAmp_m7.Initialize();
+	testAmp_m7.startTask();
+	testAmp_m7.SetData(st);
 
 
 

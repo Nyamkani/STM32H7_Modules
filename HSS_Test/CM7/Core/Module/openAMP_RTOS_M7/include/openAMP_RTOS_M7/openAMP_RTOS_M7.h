@@ -9,15 +9,34 @@
 #ifndef MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_H_
 #define MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_H_
 
+#include <iostream>
+#include <string>
+#include <functional>
+
+#include <api_data_structure/include/api_data_structure/api_data_structure.h>
 
 #include "stm32h7xx_hal.h"
 #include "openamp.h"
 #include "cmsis_os.h"
 
-#include <iostream>
-#include <string>
+
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
+
+
 /* Private macro -------------------------------------------------------------*/
 #define RPMSG_CHAN_NAME               "openamp"
+
+
 
 
 typedef struct
@@ -45,19 +64,48 @@ typedef struct
 /* Exported constants --------------------------------------------------------*/
 #define appliSTACK_SIZE configMINIMAL_STACK_SIZE *2
 
-void OpenAMPInit();
-void OpenAMPReadTask(void const *argument);
 void OpenAMPSend(const char* msg, int msg_leng);
 void OpenAMPInit_M7(void const* argument);
 
-#ifdef __cplusplus
- extern "C" {
-#endif
+
+
+class OpenAMP_M7
+{
+	public:
+
+
+	private:
+		data_structure* Dst_ = nullptr;
+
+
+	public:
+		OpenAMP_M7();
+		OpenAMP_M7(data_structure* Dst);
+		virtual ~OpenAMP_M7();
+
+		void Initialize();
+
+		OpenAMP_M7& SetData(data_structure* Dst);
+
+		void startTask();
 
 
 
-#ifdef __cplusplus
-}
-#endif
+	private:
+		void OpenAMPSend();
+		static void service_destroy_cb(struct rpmsg_endpoint *ept);
+		static void new_service_cb(struct rpmsg_device *rdev, const char *name, uint32_t dest);
+		static int rpmsg_recv_callback(struct rpmsg_endpoint *ept, void *data,
+		                size_t len, uint32_t src, void *priv);
+
+
+		static void OpenAMPOperationTask(void const *argument);
+		static void OpenAMPChkMsgtask(void const *argument);
+};
+
+
+
+
+
 
 #endif /* MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_H_ */

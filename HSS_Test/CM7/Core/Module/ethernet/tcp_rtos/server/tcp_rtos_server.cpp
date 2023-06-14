@@ -126,81 +126,52 @@ static void TCPServerRecvTask(void const *argument)
 		/*wait for recv*/
 		/*notice : When socket is alive, Didnt get recv in 5 seconds, break socket*/
 
-		if(netconn_recv(Dst_->netconn_data_.accept_conn_, &buf) == ERR_OK)
+		if(netconn_recv(Dst_->netconn_data_.accept_conn_, &buf) != ERR_OK)
+			continue;
+
+		do
 		{
-			while(1)
+			char temp_data[LWIP_MAX_LENGTH] = {0,};
+
+			memcpy((char*)(temp_data), (char*)((buf->p->payload)), buf->p->len);
+
+			if(recv_buffer.length() >= MAX_BUFFER_LENGTH)
+				recv_buffer.clear();
+
+			recv_buffer.append(temp_data);
+
+			//if(recv_buffer.front() != 0x32)
+			if(recv_buffer.front() != 0x02)
 			{
-				do
-				{
-					//0. maximum data occur error
-					if(recv_buffer.length() >= MAX_BUFFER_LENGTH)
-						recv_buffer.clear();
+				recv_buffer.clear();
 
-					//1. copy all data using data and length
-					char temp_data[LWIP_MAX_LENGTH] = {0,};
+				recv_buffer.shrink_to_fit();
 
-					strncpy((char*)(temp_data),
-								(char*)((buf->p->payload)), buf->p->len);
-
-					recv_buffer.append(temp_data);
-
-					//2. check front values is 0x02, 0x32 is '2' character value for test
-
-					if(recv_buffer.front() != 0x32)
-					//if(recv_buffer.front() != 0x02)
-					{
-						recv_buffer.clear();
-
-						recv_buffer.shrink_to_fit();
-
-						continue;
-					}
-
-					//3. get buf length
-					uint16_t buf_leng = std::stoi(recv_buffer.substr(LENGTH_DATA_START_POINTER
-													, LENGTH_DATA_END_POINTER));
-
-					//4. check data length
-					if((recv_buffer.length()) < buf_leng) // || recv_buffer.at(DATA_START_POINTER + buf_leng -1) != '}')
-					{
-						continue;
-					}
-
-
-
-
-					//4. get into the json parser and get data
-					// and enqueue the next command
-					//this must do the data move to main data
-					if(GetDataFromEthernet(Dst_
-							, recv_buffer.substr(DATA_START_POINTER
-												, buf_leng + DATA_START_POINTER).c_str()
-							, buf_leng) < 0)
-					{
-						//error occur
-						continue;
-					}
-
-					//7. buffer init
-					recv_buffer.erase(0, buf_leng + DATA_START_POINTER);
-
-					recv_buffer.shrink_to_fit();
-
-					//8. check front values is 0x02 once again
-					if(recv_buffer.front() != 0x32)
-					//if(recv_buffer.front() != 0x02)
-					{
-						recv_buffer.clear();
-					}
-
-				}
-				while (netbuf_next(buf) >=0);
-
-				netbuf_delete(buf);
-				break;
-
+				continue;
 			}
+
+			int buf_leng = std::stoi(recv_buffer.substr(LENGTH_DATA_START_POINTER, LENGTH_DATA_END_POINTER));
+
+			if(recv_buffer.length() < buf_leng)
+				continue;
+
+			if(GetDataFromEthernet(Dst_
+					, recv_buffer.substr(DATA_START_POINTER, buf_leng + DATA_START_POINTER).c_str()
+					, buf_leng) < 0)
+				continue; //error
+
+			recv_buffer.erase(0, buf_leng + DATA_START_POINTER);
+
+			recv_buffer.shrink_to_fit();
+
+			//if(recv_buffer.front() != 0x32)
+			if(recv_buffer.front() != 0x02)
+				recv_buffer.clear();
+
 		}
+		while (netbuf_next(buf) > 0);
+
+		netbuf_delete(buf);
 	}
 	vTaskDelete(NULL);
 }
@@ -209,8 +180,6 @@ static void TCPServerRecvTask(void const *argument)
 static void TCPServerSendTask(void const* argument)
 {
 	data_structure* Dst_ = (data_structure*)argument;
-
-
 
 	//1. check the msg
 	while(1)
@@ -222,19 +191,17 @@ static void TCPServerSendTask(void const* argument)
 
 			cmd_queue_data cmd_queue_data_ = Dst_->tcp_send_queue_.front();
 
-			//check data for exception
 			char json_data_[LWIP_MAX_LENGTH] = {0,};
 
-			//1. get command for json format
-			int result = GetStringFromMainData(Dst_, cmd_queue_data_, json_data_);
 
-			//3. make strings
-			//append stx data
-			//send_buffer.append((const char*)0x02);
+
+			if(GetStringFromMainData(Dst_, cmd_queue_data_, json_data_) < 0)
+			{
+				//error occur
+			}
+
 			send_buffer.insert(0, 1, 0x02);
-			//send_buffer.append("2");
 
-			//append string legnth data
 			std::string data_length_ = std::to_string(strlen(json_data_));
 
 			if (data_length_.length() < 4)
@@ -247,19 +214,16 @@ static void TCPServerSendTask(void const* argument)
 
 			send_buffer.append(data_length_);
 
-			//delete length string 
 			data_length_.clear();
 
 			data_length_.shrink_to_fit();			
 
-			//append main json string
 			send_buffer.append(json_data_);
 
-			//4. send data to client
-//			netconn_write(Dst_->netconn_data_.accept_conn_
-//					, send_buffer.c_str()
-//					, send_buffer.length()
-//					, NETCONN_COPY);
+			netconn_write(Dst_->netconn_data_.accept_conn_
+					, send_buffer.c_str()
+					, send_buffer.length()
+					, NETCONN_COPY);
 
 			Dst_->tcp_send_queue_.erase(Dst_->tcp_send_queue_.begin());
 		}
@@ -274,6 +238,9 @@ void TcpServerInit(void const* argument)
 {
 	data_structure* Dst_ = (data_structure*)argument;
 
+	//must add the ip params
+	//MX_LWIP_Init();
+
 	/* Create a new connection identifier. */
 	Dst_->netconn_data_.conn_  = netconn_new(NETCONN_TCP);
 
@@ -286,15 +253,117 @@ void TcpServerInit(void const* argument)
 
 	/*bind failed error check*/
 	if (Dst_->netconn_data_.err != ERR_OK)
-	{
 		printf("error\r\n");
-	}
 
-	//must add the ip params
-	//MX_LWIP_Init();
+	/* definition and creation of TCPServerTask */
+	osThreadDef(TCPAcceptConnTask_, TCPAcceptConnTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
+	TcpAcceptConnHandle = osThreadCreate(osThread(TCPAcceptConnTask_), (void*)Dst_);
+}
 
-		/* definition and creation of TCPServerTask */
-		osThreadDef(TCPAcceptConnTask_, TCPAcceptConnTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-		TcpAcceptConnHandle = osThreadCreate(osThread(TCPAcceptConnTask_), (void*)Dst_);
+
+//-----------------------------------------------------------------------class
+
+TcpRtos::TcpRtos()
+{
 
 }
+
+TcpRtos::TcpRtos(data_structure* Dst)
+{
+	this->Dst_ = Dst;
+}
+
+TcpRtos::~TcpRtos()
+{
+
+
+}
+
+TcpRtos& TcpRtos::SetData(data_structure* Dst)
+{
+
+}
+
+
+void TcpRtos::LWIPInitialize()
+{
+
+	struct netif gnetif;
+	ip4_addr_t ipaddr;
+	ip4_addr_t netmask;
+	ip4_addr_t gw;
+	uint8_t IP_ADDRESS[4];
+	uint8_t NETMASK_ADDRESS[4];
+	uint8_t GATEWAY_ADDRESS[4];
+
+	/* IP addresses initialization */
+	IP_ADDRESS[0] = 192;
+	IP_ADDRESS[1] = 168;
+	IP_ADDRESS[2] = 1;
+	IP_ADDRESS[3] = 30;
+	NETMASK_ADDRESS[0] = 255;
+	NETMASK_ADDRESS[1] = 255;
+	NETMASK_ADDRESS[2] = 255;
+	NETMASK_ADDRESS[3] = 0;
+	GATEWAY_ADDRESS[0] = 0;
+	GATEWAY_ADDRESS[1] = 0;
+	GATEWAY_ADDRESS[2] = 0;
+	GATEWAY_ADDRESS[3] = 0;
+
+	/* Initilialize the LwIP stack with RTOS */
+	tcpip_init( NULL, NULL );
+
+	/* IP addresses initialization without DHCP (IPv4) */
+	IP4_ADDR(&ipaddr, IP_ADDRESS[0], IP_ADDRESS[1], IP_ADDRESS[2], IP_ADDRESS[3]);
+	IP4_ADDR(&netmask, NETMASK_ADDRESS[0], NETMASK_ADDRESS[1] , NETMASK_ADDRESS[2], NETMASK_ADDRESS[3]);
+	IP4_ADDR(&gw, GATEWAY_ADDRESS[0], GATEWAY_ADDRESS[1], GATEWAY_ADDRESS[2], GATEWAY_ADDRESS[3]);
+
+	/* add the network interface (IPv4/IPv6) with RTOS */
+	netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
+
+	/* Registers the default network interface */
+	netif_set_default(&gnetif);
+
+	netif_set_down(&gnetif);
+
+	/* Set the link callback function, this function is called on change of link status*/
+	//netif_set_link_callback(&gnetif, ethernet_link_status_updated);
+
+}
+
+
+
+
+
+void TcpRtos::Initialize()
+{
+	//must add the ip params
+	LWIPInitialize();
+
+	MX_LWIP_Init();
+
+	/* Create a new connection identifier. */
+	this->Dst_->netconn_data_.conn_  = netconn_new(NETCONN_TCP);
+
+	/*failed init error check */
+	if (!(this->Dst_->netconn_data_.conn_))
+		this->Dst_->netconn_data_.err = -20; //error occur
+
+	/* Bind connection to the server port. */
+	this->Dst_->netconn_data_.err  = netconn_bind(Dst_->netconn_data_.conn_, IP_ADDR_ANY, ServerPort);
+
+	/*bind failed error check*/
+	if (this->Dst_->netconn_data_.err != ERR_OK)
+		printf("error\r\n");
+
+	/* definition and creation of TCPServerTask */
+	osThreadDef(TCPAcceptConnTask_, TCPAcceptConnTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
+	TcpAcceptConnHandle = osThreadCreate(osThread(TCPAcceptConnTask_), (void*)Dst_);
+
+}
+
+
+
+
+
+

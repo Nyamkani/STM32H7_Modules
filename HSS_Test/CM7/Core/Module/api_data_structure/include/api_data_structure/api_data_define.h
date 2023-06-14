@@ -76,6 +76,8 @@ enum RobotDataId
 	INQUIRE_OPTION = 10032,
 	CALLBACK_MSG = 10033,
 
+
+
 	//vehicle_config_page_1
 	MOVE_LIMIT_MIN = 20001,			//set limit param
 	MOVE_LIMIT_MAX = 20002,			//set limit param

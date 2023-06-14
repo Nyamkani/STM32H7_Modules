@@ -19,13 +19,33 @@
 extern "C" {
 #endif
 
+#ifdef __cplusplus
+}
+#endif
+
+#include "lwip.h"
+#include "lwip/init.h"
+#include "lwip/netif.h"
 #include "lwip/opt.h"
 #include "lwip/api.h"
 #include "lwip/sys.h"
 
+#include "netif.h"
+#include "ethernetif.h"
+
 #include "string.h"
 
-#include "netif.h"
+
+
+
+/* Variables Initialization */
+//extern struct netif gnetif;
+//extern ip4_addr_t ipaddr;
+//extern ip4_addr_t netmask;
+//extern ip4_addr_t gw;
+//extern uint8_t IP_ADDRESS[4];
+//extern uint8_t NETMASK_ADDRESS[4];
+//extern uint8_t GATEWAY_ADDRESS[4];
 
 
 void TcpServerInit(void const * argument);
@@ -33,9 +53,33 @@ void TcpServerSend(const char *data);
 void TcpServerDelete();
 void TcpServerRecvBuffer(const char *data);
 
+//-----------------------------------------------------------------------class
 
-#ifdef __cplusplus
-}
-#endif
+class TcpRtos
+{
+	private:
+		data_structure* Dst_ = nullptr;
+
+	public:
+
+
+
+	private:
+		void LWIPInitialize();
+
+	public:
+		TcpRtos();
+		TcpRtos(data_structure* Dst);
+		virtual ~TcpRtos();
+
+
+		void Initialize();
+		TcpRtos& SetData(data_structure* Dst);
+};
+
+
+
+
+
 
 #endif /* MODULE_ETHERNET_TCP_RTOS_TCP_RTOS_H_ */

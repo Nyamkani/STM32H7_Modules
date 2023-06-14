@@ -136,18 +136,13 @@ uint64_t GetTransactionIdFromHeader(const char * const msg, int msg_leng)
 {
 	uint64_t id = 0;
 
-	char recv_buf[msg_leng + 1] = {0,};
-
-	strncpy (recv_buf, msg, msg_leng);
-
-
 	//declare header buffers
     const cJSON *header = NULL;
 
     const cJSON *transactionid = NULL;
 
 	//-----------------------------------------------------------
-	cJSON *msg_json = cJSON_ParseWithLength(recv_buf, msg_leng);
+	cJSON *msg_json = cJSON_ParseWithLength(msg, msg_leng);
 
 	//cjson ptr check
 	if (msg_json == NULL)
@@ -186,11 +181,6 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 {
 	int cmd = 0;
 
-	//memory copy
-	char recv_buf[msg_leng + 1] = {0,};
-
-	strncpy (recv_buf, msg, msg_leng);
-
 	//declare header buffers
     const cJSON *header = NULL;
     const cJSON *msgtype = NULL;
@@ -199,7 +189,7 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 
 
 	//-----------------------------------------------------------
-	cJSON *msg_json = cJSON_ParseWithLength(recv_buf, msg_leng + 1);
+	cJSON *msg_json = cJSON_ParseWithLength(msg, msg_leng);
 
 	//cjson ptr check
 	if (msg_json == NULL)
@@ -349,12 +339,6 @@ int GetCmdFromHeader(const char * const msg, int msg_leng)
 //Get data from body
 std::vector<int> GetDataFromBody(void const* argument, const char * const msg, int msg_leng, int cmd)
 {
-
-	//memory copy
-	char recv_buf[msg_leng + 1] = {0,};
-
-	strncpy (recv_buf, msg, msg_leng);
-
 	std::vector<int> data_;
 
 	data_.clear();
@@ -362,7 +346,7 @@ std::vector<int> GetDataFromBody(void const* argument, const char * const msg, i
 	int cmd_  = cmd;
 
 	//-----------------------------------------------------------
-	cJSON* msg_json = cJSON_ParseWithLength(recv_buf, msg_leng + 1);
+	cJSON* msg_json = cJSON_ParseWithLength(msg, msg_leng);
 
 	//cjson ptr check
 	if (msg_json == NULL)
@@ -1002,7 +986,6 @@ const int ReadDataFromMainData(void const* argument, int key)
 
 }
 
-
 //in data out string
 int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_string)
 {
@@ -1606,17 +1589,21 @@ int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_
 	}
 
     //-------------------------------------------------------printing
+	//static char* temp_data = cJSON_Print(sender);
 
-    char* temp_data = cJSON_Print(sender);
 
-    memcpy(json_string, temp_data , strlen(cJSON_Print(sender)));
+	char* temp_data = cJSON_Print(sender);
 
-    if (json_string == NULL)
+    if (temp_data == NULL)
     {
         fprintf(stderr, "Failed to print monitor.\n");
     }
 
-    cJSON_Delete(sender);
+	memcpy(json_string, temp_data , strlen(temp_data));
+
+	cJSON_free(temp_data);
+
+	cJSON_Delete(sender);
 
 	return status;
 }
