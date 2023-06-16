@@ -10,15 +10,15 @@
 #include <api_data_structure/include/api_data_structure/api_data_structure.h>
 
 /* Private variables ---------------------------------------------------------*/
-static openamp_type message_recv = {0,};
+static openamp_data message_recv = {0,};
 
 static volatile int message_received = 0;
 static volatile int service_created;
-static openamp_type received_data;
+static openamp_data received_data;
 static struct rpmsg_endpoint rp_endpoint;
 
 
-/* Extern variables ---------------------------------------------------------*/
+/* static variables ---------------------------------------------------------*/
 static osSemaphoreId osSemaphore_ChannelCreation;
 static osSemaphoreId osSemaphore_MessageReception;
 /* Private function prototypes -----------------------------------------------*/
@@ -29,7 +29,7 @@ static osSemaphoreId osSemaphore_MessageReception;
 int OpenAMP_M7::OpenAMP_M7::rpmsg_recv_callback(struct rpmsg_endpoint *ept, void *data,
                 size_t len, uint32_t src, void *priv)
 {
-  received_data = *((openamp_type*) data);
+  received_data = *((openamp_data*) data);
 
   osSemaphoreRelease(osSemaphore_MessageReception);
 
@@ -38,12 +38,12 @@ int OpenAMP_M7::OpenAMP_M7::rpmsg_recv_callback(struct rpmsg_endpoint *ept, void
   return 0;
 }
 
-openamp_type receive_message(void)
-{\
-	  received_data.command_= 0xff;
+openamp_data receive_message(void)
+{
+	  received_data.cmd_= 0xff;
 	  uint32_t status = 0;
 
-	  while (received_data.command_ == 0xff)
+	  while (received_data.cmd_ == 0xff)
 	  {
 	    status = osSemaphoreWait(osSemaphore_MessageReception , 0xffff);
 
@@ -76,50 +76,86 @@ void OpenAMP_M7::new_service_cb(struct rpmsg_device *rdev, const char *name, uin
 	  service_created = 1;
 }
 
+//------------------------------------------------------------------------------------------
+/*utility*/
+bool test_cmp(priority_data a, priority_data b) {
+  return a.priority < b.priority;
+}
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------
+
+
 
 void OpenAMP_M7::OpenAMPOperationTask(void const *argument)
 {
-	OpenAMP_M7* main = (OpenAMP_M7*)argument;
+	OpenAMP_M7* this_ = (OpenAMP_M7*)argument;
 
-	data_structure* Dst_ = main->Dst_;
+	data_structure* Dst_ = this_->Dst_;
 
-
-	if(Dst_ == nullptr)
-	{
-		printf("OMG\r\n");
-	}
-	//openamp_type test;
+	/*
+	* The rpmsg service is initiate by the remote processor, on A7 new_service_cb
+	* callback is received on service creation. Wait for the callback
+	*/
+	OPENAMP_Wait_EndPointready(&rp_endpoint);
 
 	while(1)
 	{
 		//0. check the openamp queue (aync or sync)
 		if(!(Dst_->openamp_send_queue_.empty())) //async qeueu
 		{
-			//get cmd to 1.
-			message_recv = receive_message();
+			//get queue data to main data qeueue
+			const cmd_queue_data queue_data_ = Dst_->openamp_send_queue_.front();
+
+			//convert send data type and push back
+			//this_->send_data_queue_.push_back(~converted data~)
+
+			//sorting
+			std::sort(this_->send_data_queue_.begin(), this_->send_data_queue_.end(), test_cmp);
 		}
 		else //sync queue
 		{
-			//get cmd to 1.
+			if(this_->send_data_queue_.empty())
+			{
+				//add read data601,602,603
+				//this_->send_data_queue_.push_back(~converted data~)
+				//this_->send_data_queue_.push_back(~converted data~)
+				//this_->send_data_queue_.push_back(~converted data~)
+
+
+			}
 		}
 		
-		//1. get cmd to convert to openamp protocol
-		//int ret = GetOpenAMPCmdFromQueue(structval)
+		//1. send data to slave(m4)
+		openamp_data send_data_buf_ = this_->send_data_queue_.front().data_;
 
-		//2. send data to slave(m4)
-		//OpenAMPSend(structval)
+		int status = this_->OpenAMPSendToSlave(send_data_buf_);
+
+		if(status < 0 )
+		{
+			//error
+		}
 
 		//3. wait for the msg
-
+		message_recv = receive_message();
 
 		//4. if got msg do next thing (making tcp cmd to rcs or things)
 
-		//5. delete queue(check aync or sync)
 
+		//5. delete queue if success(getting data) (check aync or sync)
 
+		if(!(this_->send_data_queue_.empty()))
+			this_->send_data_queue_.erase(this_->send_data_queue_.begin());
 
 	}
-		//}
 
 	return;
 }
@@ -202,47 +238,28 @@ void OpenAMP_M7::Initialize()
 
 	/* Initialize OpenAmp and libmetal libraries */
 	if (MX_OPENAMP_Init(RPMSG_MASTER, (rpmsg_ns_bind_cb)&OpenAMP_M7::new_service_cb)!= HAL_OK)
-						//, static_cast<OpenAMP_M7*>(this->new_service_cb))!= HAL_OK)
-						//, static_cast<OpenAMP_M7*>this->new_service_cb)!= HAL_OK)
+	{
 		//error
+	}
 
-	/*
-	* The rpmsg service is initiate by the remote processor, on A7 new_service_cb
-	* callback is received on service creation. Wait for the callback
-	*/
-	OPENAMP_Wait_EndPointready(&rp_endpoint);
-
+	this->is_init_ = true;
 
 	/* Create the Thread */
-	//startTask();
+	startTask();
 
 	return;
 }
 
-void OpenAMP_M7::OpenAMPSend()
+int OpenAMP_M7::OpenAMPSendToSlave(openamp_data data)
 {
-	openamp_type test;
+	int status = 0;
 
-	test.command_ = 123;
-	test.data1_ = 1;
-	test.data2_ = 2;
-	test.data3_ = 3;
-	test.data4_ = 4;
-	test.data5_ = 5;
-	test.data6_ = 6;
-	test.data7_ = 7;
-	test.data8_ = 8;
-	//test.data9_ = 9;
-
-	size_t size = sizeof(test);
+	const openamp_data send_data_buf = data;
 
 	/* Send the massage to the remote CPU */
-	int status = OPENAMP_send(&rp_endpoint, &test, size);
+	status = OPENAMP_send(&rp_endpoint, &send_data_buf, sizeof(send_data_buf));
 
-	if (status < 0){}
-		//error
-
-	return;
+	return status;
 }
 
 
@@ -264,16 +281,7 @@ void OpenAMP_M7::startTask()
 
 	osThreadCreate(osThread(OpenAMP_ChkMsgTask), this);
 
-
 	return;
 }
-
-//void OpenAMP_M7::startTaskImpl(void* _this)
-//{
-//  static_cast<AIFreeRTOS*>(_this)->OpenAMPReadTask();
-//}
-
-
-
 
 

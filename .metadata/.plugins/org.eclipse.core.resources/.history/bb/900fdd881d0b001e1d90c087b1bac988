@@ -1,0 +1,93 @@
+/*
+ * tcprtosserver.h
+ *
+ *  Created on: Sep 6, 2022
+ *      Author: kss
+ */
+
+#ifndef MODULE_ETHERNET_TCP_RTOS_TCP_RTOS_H_
+#define MODULE_ETHERNET_TCP_RTOS_TCP_RTOS_H_
+
+#include <string>
+
+//Defines
+#define max_num_buf_             1024
+
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#include "lwip.h"
+#include "lwip/init.h"
+#include "lwip/netif.h"
+#include "lwip/opt.h"
+#include "lwip/api.h"
+#include "lwip/sys.h"
+
+#include "netif.h"
+#include "ethernetif.h"
+
+#include "string.h"
+
+
+
+
+
+
+void TcpServerInit(void const * argument);
+void TcpServerSend(const char *data);
+void TcpServerDelete();
+void TcpServerRecvBuffer(const char *data);
+
+//-----------------------------------------------------------------------class
+
+class TcpRtos
+{
+	private:
+		/*main data structure*/
+		data_structure* Dst_ = nullptr;
+
+		/*network interface values*/
+		struct netif gnetif;
+		ip4_addr_t ipaddr, netmask, gw;
+		uint8_t IP_ADDRESS[4], NETMASK_ADDRESS[4] ,GATEWAY_ADDRESS[4];
+
+		bool is_init_ = false;
+		bool is_run_ = false;
+		bool is_error_ = false;
+
+		osThreadId TcpAcceptConnHandle;
+		osThreadId TcpServerRecvHandle;
+		osThreadId TcpServerSendHandle;
+
+
+
+	public:
+
+
+
+	private:
+		void LWIPInitialize();
+
+	public:
+		TcpRtos();
+		TcpRtos(data_structure* Dst);
+		virtual ~TcpRtos();
+
+
+		void Initialize();
+		TcpRtos& SetData(data_structure* Dst);
+};
+
+
+
+
+
+
+#endif /* MODULE_ETHERNET_TCP_RTOS_TCP_RTOS_H_ */

@@ -10,17 +10,9 @@
 
 #include <string>
 
-//Defines
-#define max_num_buf_             1024
-
-
 
 #ifdef __cplusplus
 extern "C" {
-#endif
-
-#ifdef __cplusplus
-}
 #endif
 
 #include "lwip.h"
@@ -35,20 +27,36 @@ extern "C" {
 
 #include "string.h"
 
+#ifdef __cplusplus
+}
+#endif
+
+
+//defines
+#define STX 0x02
+
+enum RecvDataLength
+{
+	LWIP_MAX_LENGTH = 1460,
+	MAX_BUFFER_LENGTH = 4000,
+};
+
+enum RecvDataPointer
+{
+	DATA_STX_START_POINTER = 0,
+	DATA_LENGTH_START_POINTER = 1,
+	DATA_LENGTH_END_POINTER = 4,
+	DATA_START_POINTER = 5,
+};
 
 
 
-/* Variables Initialization */
-//extern struct netif gnetif;
-//extern ip4_addr_t ipaddr;
-//extern ip4_addr_t netmask;
-//extern ip4_addr_t gw;
-//extern uint8_t IP_ADDRESS[4];
-//extern uint8_t NETMASK_ADDRESS[4];
-//extern uint8_t GATEWAY_ADDRESS[4];
 
 
-void TcpServerInit(void const * argument);
+
+
+
+
 void TcpServerSend(const char *data);
 void TcpServerDelete();
 void TcpServerRecvBuffer(const char *data);
@@ -58,7 +66,33 @@ void TcpServerRecvBuffer(const char *data);
 class TcpRtos
 {
 	private:
+		/*main data structure*/
 		data_structure* Dst_ = nullptr;
+
+		/*network interface values*/
+		struct netif gnetif;
+		ip4_addr_t ipaddr, netmask, gateway;
+		uint8_t ip_address[4], netmask_address[4] ,gateway_address[4];
+		uint16_t ip_port_ = 0;
+
+		/*netconn values*/
+		struct netconn* conn_ = nullptr;
+		struct netconn* accept_conn_ = nullptr;
+
+		err_t err;
+		err_t accept_err;
+
+		/*status values*/
+		bool is_init_ = false;
+		bool is_run_ = false;
+		bool is_error_ = false;
+
+		/*RTOS task(handle)values*/
+		osThreadId TcpAcceptConnHandle = nullptr;
+		osThreadId TcpServerRecvHandle = nullptr;
+		osThreadId TcpServerSendHandle = nullptr;
+
+
 
 	public:
 
@@ -66,6 +100,10 @@ class TcpRtos
 
 	private:
 		void LWIPInitialize();
+
+		static void TCPAcceptConnTask(void const* argument);
+		static void TCPServerRecvTask(void const* argument);
+		static void TCPServerSendTask(void const* argument);
 
 	public:
 		TcpRtos();

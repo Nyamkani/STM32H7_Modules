@@ -1,0 +1,57 @@
+/*
+ * ShuttleMain.cpp
+ *
+ *  Created on: Jun 16, 2023
+ *      Author: studio3s
+ */
+
+#include <shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h>
+
+ShuttleMain::ShuttleMain()
+{
+	// TODO Auto-generated constructor stub
+
+}
+
+
+ShuttleMain::ShuttleMain(TcpRtos* TcpRtos_global
+							, OpenAMP_M7* OpenAMP_M7_global
+							, data_structure* data_structure_global)
+{
+	this->TcpRtos_ = TcpRtos_global;
+	this->OpenAMP_M7_ = OpenAMP_M7_global;
+	this->Dst_ = data_structure_global;
+}
+
+
+
+ShuttleMain::~ShuttleMain()
+{
+	// TODO Auto-generated destructor stub
+}
+
+
+ShuttleMain::Initialize()
+{
+	if(!(this->Dst_))
+	{
+		this->Dst_ = new data_structure();
+
+	}
+
+
+
+
+	if(!(this->TcpRtos_))
+	{
+		this->TcpRtos_ = new TcpRtos();
+
+	}
+
+
+
+
+}
+
+
+

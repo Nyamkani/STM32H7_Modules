@@ -1,105 +1,24 @@
-17:23:52 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+10:47:29 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
 make -j4 all 
 arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-g++ "../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.d" -MT"Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.o"
 arm-none-eabi-g++ "../Core/Module/api_debug/api_debug.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/api_debug/api_debug.d" -MT"Core/Module/api_debug/api_debug.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/api_debug/api_debug.o"
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp: In function 'void TCPServerRecvTask(const void*)':
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:155:28: warning: comparison of integer expressions of different signedness: 'std::__cxx11::basic_string<char>::size_type' {aka 'unsigned int'} and 'int' [-Wsign-compare]
-  155 |    if(recv_buffer.length() < buf_leng)
-      |       ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp: In member function 'TcpRtos& TcpRtos::SetData(data_structure*)':
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:285:1: warning: no return statement in function returning non-void [-Wreturn-type]
-  285 | }
-      | ^
-In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
-                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
-   23 | static void BSPInit();
-      |             ^~~~~~~
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp: In function 'void TCPServerSendTask(const void*)':
-../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:228:61: note: parameter passing for argument of type 'std::vector<cmd_queue_data>::const_iterator' changed in GCC 7.1
-  228 |    Dst_->tcp_send_queue_.erase(Dst_->tcp_send_queue_.begin());
-      |                                                             ^
-In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/vector:67,
-                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:25,
-                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_vector.h: In member function 'std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::erase(std::vector<_Tp, _Alloc>::const_iterator) [with _Tp = cmd_queue_data; _Alloc = std::allocator<cmd_queue_data>]':
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_vector.h:1430:7: note: parameter passing for argument of type 'std::vector<cmd_queue_data>::const_iterator' changed in GCC 7.1
- 1430 |       erase(const_iterator __position)
-      |       ^~~~~
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_vector.h:1431:24: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
- 1431 |       { return _M_erase(begin() + (__position - cbegin())); }
-      |                ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/vector:72,
-                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:25,
-                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/vector.tcc: In member function 'std::vector<_Tp, _Alloc>::iterator std::vector<_Tp, _Alloc>::_M_erase(std::vector<_Tp, _Alloc>::iterator) [with _Tp = cmd_queue_data; _Alloc = std::allocator<cmd_queue_data>]':
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/vector.tcc:171:5: note: parameter passing for argument of type 'std::vector<cmd_queue_data>::iterator' changed in GCC 7.1
-  171 |     vector<_Tp, _Alloc>::
-      |     ^~~~~~~~~~~~~~~~~~~
-In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/vector:60,
-                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:25,
-                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/vector.tcc:175:2: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-  175 |  _GLIBCXX_MOVE3(__position + 1, end(), __position);
-      |  ^~~~~~~~~~~~~~
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h: In function '_OI std::move(_II, _II, _OI) [with _II = __gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >; _OI = __gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >]':
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h:593:5: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-  593 |     move(_II __first, _II __last, _OI __result)
-      |     ^~~~
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h:593:5: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
-                 from ../Core/Src/main.cpp:20:
-/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
-   23 | static void BSPInit();
-      |             ^~~~~~~
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h:593:5: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h:601:38: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-  601 |       return std::__copy_move_a<true>(std::__miter_base(__first),
-      |              ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  602 |           std::__miter_base(__last), __result);
-      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/cmath:42,
-                 from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/math.h:36,
-                 from ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h:32,
-                 from ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h:27,
-                 from ../Core/Inc/stm32h7xx_hal_conf.h:246,
-                 from ../../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:29,
-                 from ../FATFS/Target/bsp_driver_sd.h:30,
-                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:16,
-                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
-                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/cpp_type_traits.h: In function '_Iterator std::__miter_base(_Iterator) [with _Iterator = __gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >]':
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/cpp_type_traits.h:544:5: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-  544 |     __miter_base(_Iterator __it)
-      |     ^~~~~~~~~~~~
-In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/vector:60,
-                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:25,
-                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h: In function '_OI std::__copy_move_a(_II, _II, _OI) [with bool _IsMove = true; _II = __gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >; _OI = __gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >]':
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h:511:5: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-  511 |     __copy_move_a(_II __first, _II __last, _OI __result)
-      |     ^~~~~~~~~~~~~
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h:511:5: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h:511:5: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h:67,
-                 from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/vector:60,
-                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:25,
-                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_iterator.h: In function '_Iterator std::__niter_base(__gnu_cxx::__normal_iterator<_Iterator, _Container>) [with _Iterator = cmd_queue_data*; _Container = std::vector<cmd_queue_data>]':
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_iterator.h:1225:5: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
- 1225 |     __niter_base(__gnu_cxx::__normal_iterator<_Iterator, _Container> __it)
-      |     ^~~~~~~~~~~~
-In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/vector:60,
-                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:25,
-                 from ../Core/Module/ethernet/tcp_rtos/server/tcp_rtos_server.cpp:7:
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h: In function '_From std::__niter_wrap(_From, _To) [with _From = __gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >; _To = cmd_queue_data*]':
-/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_algobase.h:323:5: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
-  323 |     __niter_wrap(_From __from, _To __res)
-      |     ^~~~~~~~~~~~
+../Core/Src/main.cpp: In function 'void StartInitTask(const void*)':
+../Core/Src/main.cpp:187:18: warning: unused variable 'st' [-Wunused-variable]
+  187 |  data_structure* st = (data_structure*)argument;
+      |                  ^~
 In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
                  from ../Core/Module/api_debug/api_debug.cpp:11:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+../Core/Module/api_debug/api_debug.cpp:22:12: warning: 'str' defined but not used [-Wunused-variable]
+   22 | static int str = 0;
+      |            ^~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
 /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
    23 | static void BSPInit();
       |             ^~~~~~~
@@ -109,22 +28,596 @@ Finished building target: HSS_Test_CM7.elf
 arm-none-eabi-size   HSS_Test_CM7.elf 
 arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
    text	   data	    bss	    dec	    hex	filename
- 351792	   1008	 332751	 685551	  a75ef	HSS_Test_CM7.elf
+ 349408	   1016	 332219	 682643	  a6a93	HSS_Test_CM7.elf
 Finished building: default.size.stdout
  
 Finished building: HSS_Test_CM7.list
  
-17:24:07 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+10:47:57 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
 make -j4 all 
 arm-none-eabi-size   HSS_Test_CM4.elf 
    text	   data	    bss	    dec	    hex	filename
   19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
 Finished building: default.size.stdout
  
-17:24:11 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+10:48:01 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
 make -j4 all 
 arm-none-eabi-size   HSS_Test_CM7.elf 
    text	   data	    bss	    dec	    hex	filename
- 351792	   1008	 332751	 685551	  a75ef	HSS_Test_CM7.elf
+ 349408	   1016	 332219	 682643	  a6a93	HSS_Test_CM7.elf
 Finished building: default.size.stdout
+ 
+10:49:41 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+10:49:45 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ "../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/shuttle_main_m7/src/shuttle_main_m7.d" -MT"Core/Module/shuttle_main_m7/src/shuttle_main_m7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/shuttle_main_m7/src/shuttle_main_m7.o"
+../Core/Src/main.cpp: In function 'void StartInitTask(const void*)':
+../Core/Src/main.cpp:190:18: warning: unused variable 'st' [-Wunused-variable]
+  190 |  data_structure* st = (data_structure*)argument;
+      |                  ^~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp:8:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 349408	   1016	 332219	 682643	  a6a93	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
+10:53:38 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+10:55:47 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+10:55:50 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/shuttle_main_m7/src/shuttle_main_m7.d" -MT"Core/Module/shuttle_main_m7/src/shuttle_main_m7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/shuttle_main_m7/src/shuttle_main_m7.o"
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp:8:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 331072	    840	 331735	 663647	  a205f	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
+11:36:21 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+11:36:25 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ "../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/shuttle_main_m7/src/shuttle_main_m7.d" -MT"Core/Module/shuttle_main_m7/src/shuttle_main_m7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/shuttle_main_m7/src/shuttle_main_m7.o"
+../Core/Src/main.cpp: In function 'int main()':
+../Core/Src/main.cpp:102:27: error: 's' was not declared in this scope
+  102 |   ShuttleMain main(&Dst_);s
+      |                           ^
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp:8:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+make: *** [Core/Src/subdir.mk:43: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+11:36:37 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+11:36:41 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 349408	   1016	 332219	 682643	  a6a93	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
+11:41:25 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+11:45:25 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+11:45:29 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ "../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/shuttle_main_m7/src/shuttle_main_m7.d" -MT"Core/Module/shuttle_main_m7/src/shuttle_main_m7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/shuttle_main_m7/src/shuttle_main_m7.o"
+arm-none-eabi-g++ "../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.d" -MT"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o"
+arm-none-eabi-g++ "../Core/Module/api_debug/api_debug.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/api_debug/api_debug.d" -MT"Core/Module/api_debug/api_debug.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/api_debug/api_debug.o"
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from ../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:9:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from ../Core/Module/api_debug/api_debug.cpp:11:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+../Core/Module/api_debug/api_debug.cpp:22:12: warning: 'str' defined but not used [-Wunused-variable]
+   22 | static int str = 0;
+      |            ^~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp:8:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ "../Core/Module/api_data_structure/src/api_data_structure.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/api_data_structure/src/api_data_structure.d" -MT"Core/Module/api_data_structure/src/api_data_structure.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/api_data_structure/src/api_data_structure.o"
+../Core/Module/api_data_structure/src/api_data_structure.cpp: In function 'int DoCmdFromData(const void*, cmd_queue_data)':
+../Core/Module/api_data_structure/src/api_data_structure.cpp:936:6: warning: unused variable 'cmd_' [-Wunused-variable]
+  936 |  int cmd_ = cmd_queue_data_.cmd_;
+      |      ^~~~
+../Core/Module/api_data_structure/src/api_data_structure.cpp: In function 'netconn* ConnectEthToDataStructure()':
+../Core/Module/api_data_structure/src/api_data_structure.cpp:1627:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ 1627 | }
+      | ^
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from ../Core/Module/api_data_structure/src/api_data_structure.cpp:11:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/vector:67,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:29,
+                 from ../Core/Module/api_data_structure/src/api_data_structure.cpp:11:
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_vector.h: In member function 'void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = cmd_queue_data; _Alloc = std::allocator<cmd_queue_data>]':
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_vector.h:1198:21: note: parameter passing for argument of type '__gnu_cxx::__normal_iterator<cmd_queue_data*, std::vector<cmd_queue_data> >' changed in GCC 7.1
+ 1198 |    _M_realloc_insert(end(), __x);
+      |    ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/vector:72,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:29,
+                 from ../Core/Module/api_data_structure/src/api_data_structure.cpp:11:
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/vector.tcc: In member function 'void std::vector<_Tp, _Alloc>::_M_realloc_insert(std::vector<_Tp, _Alloc>::iterator, _Args&& ...) [with _Args = {const cmd_queue_data&}; _Tp = cmd_queue_data; _Alloc = std::allocator<cmd_queue_data>]':
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/vector.tcc:426:7: note: parameter passing for argument of type 'std::vector<cmd_queue_data>::iterator' changed in GCC 7.1
+  426 |       vector<_Tp, _Alloc>::
+      |       ^~~~~~~~~~~~~~~~~~~
+In file included from /opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/vector:66,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:29,
+                 from ../Core/Module/api_data_structure/src/api_data_structure.cpp:11:
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h: In function '_ForwardIterator std::__uninitialized_move_if_noexcept_a(_InputIterator, _InputIterator, _ForwardIterator, _Allocator&) [with _InputIterator = cmd_queue_data*; _ForwardIterator = cmd_queue_data*; _Allocator = std::allocator<cmd_queue_data>]':
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h:347:2: note: parameter passing for argument of type 'std::move_iterator<cmd_queue_data*>' changed in GCC 7.1
+  346 |       return std::__uninitialized_copy_a
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  347 |  (_GLIBCXX_MAKE_MOVE_IF_NOEXCEPT_ITERATOR(__first),
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  348 |   _GLIBCXX_MAKE_MOVE_IF_NOEXCEPT_ITERATOR(__last), __result, __alloc);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h: In function '_ForwardIterator std::__uninitialized_copy_a(_InputIterator, _InputIterator, _ForwardIterator, std::allocator<_Tp>&) [with _InputIterator = std::move_iterator<cmd_queue_data*>; _ForwardIterator = cmd_queue_data*; _Tp = cmd_queue_data]':
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h:323:5: note: parameter passing for argument of type 'std::move_iterator<cmd_queue_data*>' changed in GCC 7.1
+  323 |     __uninitialized_copy_a(_InputIterator __first, _InputIterator __last,
+      |     ^~~~~~~~~~~~~~~~~~~~~~
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h:323:5: note: parameter passing for argument of type 'std::move_iterator<cmd_queue_data*>' changed in GCC 7.1
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h:325:37: note: parameter passing for argument of type 'std::move_iterator<cmd_queue_data*>' changed in GCC 7.1
+  325 |     { return std::uninitialized_copy(__first, __last, __result); }
+      |              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h: In function '_ForwardIterator std::uninitialized_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = std::move_iterator<cmd_queue_data*>; _ForwardIterator = cmd_queue_data*]':
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h:125:5: note: parameter passing for argument of type 'std::move_iterator<cmd_queue_data*>' changed in GCC 7.1
+  125 |     uninitialized_copy(_InputIterator __first, _InputIterator __last,
+      |     ^~~~~~~~~~~~~~~~~~
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h:125:5: note: parameter passing for argument of type 'std::move_iterator<cmd_queue_data*>' changed in GCC 7.1
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h:150:15: note: parameter passing for argument of type 'std::move_iterator<cmd_queue_data*>' changed in GCC 7.1
+  147 |       return std::__uninitialized_copy<__is_trivial(_ValueType1)
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  148 |            && __is_trivial(_ValueType2)
+      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  149 |            && __assignable>::
+      |            ~~~~~~~~~~~~~~~~~~
+  150 |  __uninit_copy(__first, __last, __result);
+      |  ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h: In static member function 'static _ForwardIterator std::__uninitialized_copy<_TrivialValueTypes>::__uninit_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = std::move_iterator<cmd_queue_data*>; _ForwardIterator = cmd_queue_data*; bool _TrivialValueTypes = false]':
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h:84:9: note: parameter passing for argument of type 'std::move_iterator<cmd_queue_data*>' changed in GCC 7.1
+   84 |         __uninit_copy(_InputIterator __first, _InputIterator __last,
+      |         ^~~~~~~~~~~~~
+/opt/st/stm32cubeide_1.11.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.linux64_1.0.100.202210260954/tools/arm-none-eabi/include/c++/10.3.1/bits/stl_uninitialized.h:84:9: note: parameter passing for argument of type 'std::move_iterator<cmd_queue_data*>' changed in GCC 7.1
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 349400	   1016	 332219	 682635	  a6a8b	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
+14:12:53 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+14:12:56 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.d" -MT"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o"
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp: In member function 'void OpenAMP_M7::Initialize()':
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:234:6: warning: init-statement in selection statements only available with '-std=c++17' or '-std=gnu++17'
+  234 |  if (MX_OPENAMP_Init(RPMSG_MASTER, new_service_cb!= HAL_OK)
+      |      ^~~~~~~~~~~~~~~
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:234:50: error: no match for 'operator!=' (operand types are 'void(rpmsg_device*, const char*, uint32_t)' {aka 'void(rpmsg_device*, const char*, long unsigned int)'} and 'HAL_StatusTypeDef')
+  234 |  if (MX_OPENAMP_Init(RPMSG_MASTER, new_service_cb!= HAL_OK)
+      |                                    ~~~~~~~~~~~~~~^~~~~~~~~
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:243:42: error: expected ')' before ';' token
+  243 |  OPENAMP_Wait_EndPointready(&rp_endpoint);
+      |                                          ^
+      |                                          )
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:234:5: note: to match this '('
+  234 |  if (MX_OPENAMP_Init(RPMSG_MASTER, new_service_cb!= HAL_OK)
+      |     ^
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:243:28: error: could not convert 'OPENAMP_Wait_EndPointready((& rp_endpoint))' from 'void' to 'bool'
+  243 |  OPENAMP_Wait_EndPointready(&rp_endpoint);
+      |  ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+      |                            |
+      |                            void
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from ../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:9:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+make: *** [Core/Module/openAMP_RTOS_M7/src/subdir.mk:19: Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+14:13:04 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+14:13:09 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.d" -MT"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o"
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from ../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:9:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 349400	   1016	 332219	 682635	  a6a8b	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
+14:26:40 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m4 -std=gnu++14 -g3 -DDEBUG -DCORE_CM4 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_SLAVE_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM4/Core/Module" -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Drivers/CMSIS/Include -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ "../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.cpp" -mcpu=cortex-m4 -std=gnu++14 -g3 -DDEBUG -DCORE_CM4 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_SLAVE_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM4/Core/Module" -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Drivers/CMSIS/Include -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.d" -MT"Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.o"
+../Core/Src/main.cpp: In function 'int main()':
+../Core/Src/main.cpp:133:7: warning: unused variable 'i' [-Wunused-variable]
+  133 |   int i = OpenAMPInit();
+      |       ^
+../Core/Src/main.cpp: At global scope:
+../Core/Src/main.cpp:278:13: warning: 'void MX_TIM13_Init()' defined but not used [-Wunused-function]
+  278 | static void MX_TIM13_Init(void)
+      |             ^~~~~~~~~~~~~
+../Core/Src/main.cpp:208:13: warning: 'void MX_TIM8_Init()' defined but not used [-Wunused-function]
+  208 | static void MX_TIM8_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.cpp:154:13: warning: 'void MX_RTC_Init()' defined but not used [-Wunused-function]
+  154 | static void MX_RTC_Init(void)
+      |             ^~~~~~~~~~~
+../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.cpp: In function 'int rpmsg_recv_callback(rpmsg_endpoint*, void*, size_t, uint32_t, void*)':
+../Core/Module/openAMP_RTOS_M4/src/openAMP_RTOS_M4.cpp:30:11: warning: unused variable 'len_' [-Wunused-variable]
+   30 |    size_t len_=  len;
+      |           ^~~~
+arm-none-eabi-g++ -o "HSS_Test_CM4.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM4/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM4.elf
+ 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM4.elf  > "HSS_Test_CM4.list"
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM4.list
+ 
+14:26:47 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ "../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.d" -MT"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o"
+../Core/Src/main.cpp: In function 'int main()':
+../Core/Src/main.cpp:109:20: error: 'Dst' was not declared in this scope; did you mean 'Dst_'?
+  109 |   testamp.SetData(&Dst);
+      |                    ^~~
+      |                    Dst_
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from ../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:9:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+make: *** [Core/Src/subdir.mk:43: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+14:27:09 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+14:27:13 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 226240	    968	 285512	 512720	  7d2d0	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
+14:37:09 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+14:37:15 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ "../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/shuttle_main_m7/src/shuttle_main_m7.d" -MT"Core/Module/shuttle_main_m7/src/shuttle_main_m7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/shuttle_main_m7/src/shuttle_main_m7.o"
+arm-none-eabi-g++ "../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.d" -MT"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o"
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from ../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:9:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Module/shuttle_main_m7/src/shuttle_main_m7.cpp:8:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 225032	    968	 283272	 509272	  7c558	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
+14:37:47 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+14:38:58 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+14:39:02 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 226256	    968	 285512	 512736	  7d2e0	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
+14:41:32 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+14:41:36 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.d" -MT"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o"
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp: In static member function 'static void OpenAMP_M7::OpenAMPOperationTask(const void*)':
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:156:37: error: cannot convert 'std::vector<priority_data>::empty' from type 'bool (std::vector<priority_data>::)() const noexcept' {aka 'bool (std::vector<priority_data>::)() const'} to type 'bool'
+  156 |   if(!(this_->send_data_queue_.empty))
+      |                                     ^
+../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:156:32: error: in argument to unary !
+  156 |   if(!(this_->send_data_queue_.empty))
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from ../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:9:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h: At global scope:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+make: *** [Core/Module/openAMP_RTOS_M7/src/subdir.mk:19: Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+14:41:47 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+14:41:51 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.d" -MT"Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.o"
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from ../Core/Module/openAMP_RTOS_M7/src/openAMP_RTOS_M7.cpp:9:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 226272	    968	 285512	 512752	  7d2f0	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
+ 
+14:44:21 **** Incremental Build of configuration Debug for project HSS_Test_CM4 ****
+make -j4 all 
+arm-none-eabi-size   HSS_Test_CM4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  19404	    292	   2072	  21768	   5508	HSS_Test_CM4.elf
+Finished building: default.size.stdout
+ 
+14:44:24 **** Incremental Build of configuration Debug for project HSS_Test_CM7 ****
+make -j4 all 
+arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DDATA_IN_D2_SRAM -DCORE_CM7 -DUSE_HAL_DRIVER -DSTM32H747xx -DMETAL_INTERNAL -DMETAL_MAX_DEVICE_REGIONS=2 -DRPMSG_BUFFER_SIZE=1024 -DVIRTIO_MASTER_ONLY -DNO_ATOMIC_64_SUPPORT -c -I../Core/Inc -I"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module" -I../LWIP/App -I../LWIP/Target -I../../Middlewares/Third_Party/LwIP/src/include -I../../Middlewares/Third_Party/LwIP/system -I../../Drivers/STM32H7xx_HAL_Driver/Inc -I../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../../Drivers/BSP/Components/lan8742 -I../../Middlewares/Third_Party/LwIP/src/include/netif/ppp -I../../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../../Middlewares/Third_Party/LwIP/src/include/lwip -I../../Middlewares/Third_Party/LwIP/src/include/lwip/apps -I../../Middlewares/Third_Party/LwIP/src/include/lwip/priv -I../../Middlewares/Third_Party/LwIP/src/include/lwip/prot -I../../Middlewares/Third_Party/LwIP/src/include/netif -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/net -I../../Middlewares/Third_Party/LwIP/src/include/compat/posix/sys -I../../Middlewares/Third_Party/LwIP/src/include/compat/stdc -I../../Middlewares/Third_Party/LwIP/system/arch -I../../Drivers/CMSIS/Include -I../FATFS/Target -I../FATFS/App -I../OPENAMP -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include -I../../Middlewares/Third_Party/OpenAMP/libmetal/lib/include/metal/compiler/gcc -I../../Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg -I../../Middlewares/Third_Party/FatFs/src -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+In file included from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/api_data_structure/include/api_data_structure/api_data_structure.h:14,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h:18,
+                 from /home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h:12,
+                 from ../Core/Src/main.cpp:22:
+/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/Core/Module/fatfs_h7/include/fatfs_h7/fatfs_h7.h:23:13: warning: 'void BSPInit()' declared 'static' but never defined [-Wunused-function]
+   23 | static void BSPInit();
+      |             ^~~~~~~
+arm-none-eabi-g++ -o "HSS_Test_CM7.elf" @"objects.list"   -mcpu=cortex-m7 -T"/home/studio3s/STM32CubeIDE/workspace_1.11.0/STM32H7_Modules/HSS_Test/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSS_Test_CM7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: HSS_Test_CM7.elf
+ 
+arm-none-eabi-size   HSS_Test_CM7.elf 
+arm-none-eabi-objdump -h -S  HSS_Test_CM7.elf  > "HSS_Test_CM7.list"
+   text	   data	    bss	    dec	    hex	filename
+ 349432	   1016	 332219	 682667	  a6aab	HSS_Test_CM7.elf
+Finished building: default.size.stdout
+ 
+Finished building: HSS_Test_CM7.list
  

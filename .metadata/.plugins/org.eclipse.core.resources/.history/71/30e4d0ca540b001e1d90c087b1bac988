@@ -1,0 +1,303 @@
+/*
+ * openAMP_RTOS_M7.c
+ *
+ *  Created on: Mar 8, 2023
+ *      Author: studio3s
+ */
+
+
+#include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
+#include <api_data_structure/include/api_data_structure/api_data_structure.h>
+
+/* Private variables ---------------------------------------------------------*/
+static openamp_data message_recv = {0,};
+
+static volatile int message_received = 0;
+static volatile int service_created;
+static openamp_data received_data;
+static struct rpmsg_endpoint rp_endpoint;
+
+
+/* static variables ---------------------------------------------------------*/
+static osSemaphoreId osSemaphore_ChannelCreation;
+static osSemaphoreId osSemaphore_MessageReception;
+/* Private function prototypes -----------------------------------------------*/
+
+
+/* Private functions ---------------------------------------------------------*/
+
+int OpenAMP_M7::OpenAMP_M7::rpmsg_recv_callback(struct rpmsg_endpoint *ept, void *data,
+                size_t len, uint32_t src, void *priv)
+{
+  received_data = *((openamp_data*) data);
+
+  osSemaphoreRelease(osSemaphore_MessageReception);
+
+  message_received = 1;
+
+  return 0;
+}
+
+openamp_data receive_message(void)
+{\
+	  received_data.cmd_= 0xff;
+	  uint32_t status = 0;
+
+	  while (received_data.cmd_ == 0xff)
+	  {
+	    status = osSemaphoreWait(osSemaphore_MessageReception , 0xffff);
+
+	   if (status != osOK) break;
+
+	    //OPENAMP_check_for_message();
+	  }
+	  return received_data;
+}
+
+void OpenAMP_M7::service_destroy_cb(struct rpmsg_endpoint *ept)
+{
+  /* this function is called while remote endpoint as been destroyed, the
+   * service is no more available
+   */
+	  service_created = 0 ;
+}
+
+void OpenAMP_M7::new_service_cb(struct rpmsg_device *rdev, const char *name, uint32_t dest)
+{
+	  /* create a endpoint for rmpsg communication */
+	  OPENAMP_create_endpoint(&rp_endpoint
+							  , name
+							  , dest
+							  , (rpmsg_ept_cb)&(OpenAMP_M7::rpmsg_recv_callback)
+							  , (rpmsg_ns_unbind_cb)&(OpenAMP_M7::service_destroy_cb));
+
+	  osSemaphoreRelease (osSemaphore_ChannelCreation);
+
+	  service_created = 1;
+}
+
+//------------------------------------------------------------------------------------------
+/*utility*/
+bool test_cmp(priority_data a, priority_data b) {
+  return a.priority < b.priority;
+}
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------
+
+
+
+void OpenAMP_M7::OpenAMPOperationTask(void const *argument)
+{
+	OpenAMP_M7* this_ = (OpenAMP_M7*)argument;
+
+	data_structure* Dst_ = this_->Dst_;
+
+	while(1)
+	{
+		//0. check the openamp queue (aync or sync)
+		if(!(Dst_->openamp_send_queue_.empty())) //async qeueu
+		{
+			//get queue data to main data qeueue
+			const cmd_queue_data queue_data_ = Dst_->openamp_send_queue_.front();
+
+			//convert send data type and push back
+			//this_->send_data_queue_.push_back(~converted data~)
+
+			//sorting
+			std::sort(this_->send_data_queue_.begin(), this_->send_data_queue_.end(), test_cmp);
+		}
+		else //sync queue
+		{
+			if(this_->send_data_queue_.empty())
+			{
+				//add read data601,602,603
+				//this_->send_data_queue_.push_back(~converted data~)
+				//this_->send_data_queue_.push_back(~converted data~)
+				//this_->send_data_queue_.push_back(~converted data~)
+
+
+			}
+		}
+		
+		openamp_data send_data_
+
+
+
+		//1. get cmd to convert to openamp protocol
+		//int ret = GetOpenAMPCmdFromQueue(structval)
+
+		//2. send data to slave(m4)
+		//OpenAMPSend(structval)
+
+		//3. wait for the msg
+		//get cmd to 1.
+		message_recv = receive_message();
+
+		//4. if got msg do next thing (making tcp cmd to rcs or things)
+
+		//5. delete queue(check aync or sync)
+
+
+
+	}
+		//}
+
+	return;
+}
+
+
+void OpenAMP_M7::OpenAMPChkMsgtask(void const *argument)
+{
+	while(1)
+	{
+		OPENAMP_check_for_message();
+
+		osDelay(1);
+	}
+	return;
+}
+
+
+//------------------------------------------------------------------------
+
+OpenAMP_M7::OpenAMP_M7()
+{
+
+}
+
+OpenAMP_M7::OpenAMP_M7(data_structure* Dst)
+{
+	this->Dst_ = Dst;
+
+}
+
+OpenAMP_M7::~OpenAMP_M7()
+{
+}
+
+OpenAMP_M7& OpenAMP_M7::SetData(data_structure* Dst)
+{
+	this->Dst_ = Dst;
+
+	return* this;
+}
+
+
+void OpenAMP_M7::Initialize()
+{
+
+	/* When system initialization is finished, Cortex-M7 will release Cortex-M4 by means of
+	HSEM notification */
+
+	/*HW semaphore Clock enable*/
+	__HAL_RCC_HSEM_CLK_ENABLE();
+	/*Take HSEM */
+	HAL_HSEM_FastTake(HSEM_ID_0);
+	/*Release HSEM in order to notify the CPU2(CM4)*/
+	HAL_HSEM_Release(HSEM_ID_0,0);
+	/* wait until CPU2 wakes up from stop mode */
+
+	uint32_t timeout = 0xFFFF;
+
+	while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) == RESET) && (timeout-- > 0));
+	if ( timeout < 0 ){}
+		//error
+
+	/* Define used semaphore */
+	osSemaphoreDef(CHN_CREAT);
+	osSemaphoreDef(MSG_RECPT);
+
+	/* Create the semaphore */
+	osSemaphore_ChannelCreation  = osSemaphoreCreate(osSemaphore(CHN_CREAT) , 1);
+	osSemaphore_MessageReception = osSemaphoreCreate(osSemaphore(MSG_RECPT) , 1);
+
+	/* Initialize the mailbox use notify the other core on new message */
+	MAILBOX_Init();
+
+	/* Initialize the rpmsg endpoint to set default addresses to RPMSG_ADDR_ANY */
+	rpmsg_init_ept(&rp_endpoint
+					, RPMSG_CHAN_NAME
+					, RPMSG_ADDR_ANY
+					, RPMSG_ADDR_ANY
+					, NULL, NULL);
+
+	/* Initialize OpenAmp and libmetal libraries */
+	if (MX_OPENAMP_Init(RPMSG_MASTER, (rpmsg_ns_bind_cb)&OpenAMP_M7::new_service_cb)!= HAL_OK)
+						//, static_cast<OpenAMP_M7*>(this->new_service_cb))!= HAL_OK)
+						//, static_cast<OpenAMP_M7*>this->new_service_cb)!= HAL_OK)
+	{
+		//error
+	}
+
+	/*
+	* The rpmsg service is initiate by the remote processor, on A7 new_service_cb
+	* callback is received on service creation. Wait for the callback
+	*/
+	OPENAMP_Wait_EndPointready(&rp_endpoint);
+
+	this->is_init_ = true;
+
+	/* Create the Thread */
+	startTask();
+
+	return;
+}
+
+void OpenAMP_M7::OpenAMPSend()
+{
+	openamp_data test;
+
+	test.cmd_ = 123;
+	test.reg1_ = 1;
+	test.reg2_ = 2;
+	test.reg3_ = 3;
+	test.reg4_ = 4;
+	test.reg5_ = 5;
+	test.reg6_ = 6;
+	test.reg7_ = 7;
+	test.reg8_ = 8;
+	test.reg9_ = 9;
+
+	size_t size = sizeof(test);
+
+	/* Send the massage to the remote CPU */
+	int status = OPENAMP_send(&rp_endpoint, &test, size);
+
+	if (status < 0){}
+		//error
+
+	return;
+}
+
+
+void OpenAMP_M7::startTask()
+{
+	osThreadDef(OpenAMP_OpTask
+				, (os_pthread)&OpenAMP_M7::OpenAMPOperationTask
+				, osPriorityNormal
+				, 0
+				, configMINIMAL_STACK_SIZE *2);
+
+	osThreadCreate(osThread(OpenAMP_OpTask), this);
+
+	osThreadDef(OpenAMP_ChkMsgTask
+				, (os_pthread)&OpenAMP_M7::OpenAMPChkMsgtask
+				, osPriorityNormal
+				, 0
+				, configMINIMAL_STACK_SIZE *2);
+
+	osThreadCreate(osThread(OpenAMP_ChkMsgTask), this);
+
+	return;
+}
+
+

@@ -29,9 +29,7 @@ typedef struct
 	volatile int data7_;
 	volatile int data8_;
 	volatile int data9_;
-	volatile char data_10;
-	volatile char data_11;
-	volatile char data_12;
+	volatile int data10_;
 
 //	volatile int data10_;
 //	volatile int data11_;

@@ -1,0 +1,126 @@
+/*
+ * api_cjson.h
+ *
+ *  Created on: Apr 28, 2023
+ *      Author: studio3s
+ */
+
+#ifndef MODULE_API_DATA_STRUCTURE_INCLUDE_API_DATA_STRUCTURE_API_DATA_STRUCTURE_H_
+#define MODULE_API_DATA_STRUCTURE_INCLUDE_API_DATA_STRUCTURE_API_DATA_STRUCTURE_H_
+
+#include <api_data_structure/include/api_data_structure/api_data_define.h>
+#include <api_data_structure/include/api_data_structure/cJSON.h>
+#include <api_data_structure/include/api_data_structure/cJSON_Utils.h>
+#include <fatfs_h7/include/fatfs_h7/fatfs_h7.h>
+
+
+#include "lwip/opt.h"
+#include "lwip/api.h"
+#include "lwip/sys.h"
+
+#include "netif.h"
+
+#include <cstring>
+#include <cstdio>
+#include <vector>
+#include <map>
+
+
+
+//-------------------------------------------------------------------------------main data
+//typedef struct
+//{
+//	struct netconn* conn_ = nullptr;
+//	struct netconn* buf_conn_ = nullptr;
+//	struct netconn* accept_conn_ = nullptr;
+//	err_t err;
+//	err_t accept_err;
+//
+//}netconn_data;
+
+typedef struct
+{
+	FATFS SDFatFs;  /* File system object for SD card logical drive */
+	FIL SDFile;
+	char SDPath[4]; /* SD card logical drive path */
+
+}fatfs_data;
+
+
+typedef struct
+{
+	uint64_t transactionid_;
+	uint16_t cmd_;
+
+	std::vector<int> parameter_;
+}cmd_queue_data;
+
+
+
+typedef struct
+{
+	//main data structure
+	std::map <int, int> main_data_;
+
+
+	//FATFS data
+	fatfs_data fatfs_data_;
+
+	//command queue
+	std::vector<cmd_queue_data> tcp_send_queue_;
+	std::vector<cmd_queue_data> openamp_send_queue_;
+	std::vector<cmd_queue_data> fatfs_write_queue_;
+
+}data_structure;
+
+
+
+//------------------------------------------------------------------------------open amp data structure
+typedef struct
+{
+	volatile uint32_t cmd_ = 0;
+	volatile uint32_t reg1_ = 0;
+	volatile uint32_t reg2_ = 0;
+	volatile uint32_t reg3_ = 0;
+	volatile uint32_t reg4_ = 0;
+	volatile uint32_t reg5_ = 0;
+	volatile uint32_t reg6_ = 0;
+	volatile uint32_t reg7_ = 0;
+	volatile uint32_t reg8_ = 0;
+	volatile uint32_t reg9_ = 0;
+	volatile uint32_t reg10_ = 0;
+
+}openamp_data;
+
+typedef struct
+{
+	int priority;
+	openamp_data data_;
+
+}priority_data;
+
+
+
+/*data init*/
+int InitializeDataStructure(data_structure* Dst);
+
+/*access the main data*/
+int WriteDataToMainData(int key, int value);
+const int ReadDataFromMainData(void const* argument, int key);
+
+/*to make own command from tcp recv*/
+int GetDataFromEthernet(void const* argument, const char * const msg, int const msg_leng);
+int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_string);
+
+char* GetHeaderFromQueue(cmd_queue_data data, char* json_string);
+
+/*to make own command from tcp recv*/
+int GetCommandFromEthernet(const char * const msg, int msg_leng);
+int ethernet_data_parser(const char * const msg, int msg_leng);
+const char* ethernet_create_message(void);
+
+void AddItemToObjectFromMainData(void const* argument, cJSON* object, const char* item_name, int main_data_index);
+
+
+
+#endif /* MODULE_API_DATA_STRUCTURE_INCLUDE_API_DATA_STRUCTURE_API_DATA_STRUCTURE_H_ */

@@ -1,0 +1,28 @@
+/*
+ * ShuttleMain.h
+ *
+ *  Created on: Jun 16, 2023
+ *      Author: studio3s
+ */
+
+#ifndef MODULE_SHUTTLE_MAIN_M7_INCLUDE_SHUTTLE_MAIN_M7_SHUTTLE_MAIN_M7_H_
+#define MODULE_SHUTTLE_MAIN_M7_INCLUDE_SHUTTLE_MAIN_M7_SHUTTLE_MAIN_M7_H_
+
+class ShuttleMain
+{
+	private:
+
+
+
+	public:
+
+	private:
+
+
+	public:
+		ShuttleMain();
+		ShuttleMain();
+		virtual ~ShuttleMain();
+};
+
+#endif /* MODULE_SHUTTLE_MAIN_M7_INCLUDE_SHUTTLE_MAIN_M7_SHUTTLE_MAIN_M7_H_ */

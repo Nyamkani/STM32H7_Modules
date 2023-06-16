@@ -17,17 +17,16 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include <api_data_structure/include/api_data_structure/api_data_structure.h>
 #include <initialize_peripheral/include/initialize_peripheral/initialize_peripheral.h>
 #include <main.h>
+#include <shuttle_main_m7/include/shuttle_main_m7/shuttle_main_m7.h>
+
 #include "cmsis_os.h"
 #include "lwip.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
 #include <fatfs_h7/include/fatfs_h7/fatfs_h7.h>
-#include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
 #include "api_debug/api_debug.h"
 
 /* USER CODE END Includes */
@@ -50,20 +49,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 
-//task handle
-osThreadId InitTaskHandle;
-osThreadId Task1Handle;
-osThreadId Task2Handle;
-
-//memory pool
-
-
-
-//eventflag
-//EventGroupHandle_t evtGrpHandle;
-//uint32_t evtFlag = 0x11;
-//uint32_t evtFlag2 = 0x02;
-
 /* USER CODE BEGIN PV */
 
 
@@ -71,7 +56,6 @@ osThreadId Task2Handle;
 
 /* Private function prototypes -----------------------------------------------*/
 
-void StartInitTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -102,75 +86,26 @@ int _write(int file, char *ptr, int len)
 
 /* USER CODE END 0 */
 
-
-
-
-
+/*Main Data Structure on data*/
+data_structure Dst_;
 
 /**
   * @brief  The application entry point.
   * @retval int
   */
+
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
+  MPU_setting();
 
-  /* USER CODE END 1 */
-/* USER CODE BEGIN Boot_Mode_Sequence_0 */
- // int32_t timeout;
-/* USER CODE END Boot_Mode_Sequence_0 */
-
-	MPU_setting();
-
-  /* USER CODE BEGIN SysInit */
   initialize_peripheral();
-  /* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
+  ShuttleMain main(&Dst_);
 
-  /* USER CODE BEGIN 2 */
+  main.Initialize();
 
-  //-----------------------------------------------------main data structure init;
-  data_structure* main_data_ = NULL;
-
-  main_data_ = new data_structure;
-
-  InitializeDataStructure(main_data_);
-
-
-  /* USER CODE END 2 */
-
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* definition and creation of InitTask */
-  osThreadDef(InitTask, StartInitTask, osPriorityNormal,0,  512);
-  InitTaskHandle = osThreadCreate(osThread(InitTask), (void*)main_data_);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
-  /* Start scheduler */
   osKernelStart();
 
-  /* We should never get here as control is now taken by the scheduler */
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
@@ -178,57 +113,6 @@ int main(void)
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-}
-
-OpenAMP_M7 testAmp_m7;
-
-/* USER CODE BEGIN Header_StartInitTask */
-/**
-  * @brief  Function implementing the InitTask thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_StartInitTask */
-void StartInitTask(void const * argument)
-{
-	data_structure* st = (data_structure*)argument;
-
-
-	/* init code for LWIP */
-	//this must be initialized after fatfs configuration is done
-	MX_LWIP_Init();
-	/* USER CODE BEGIN 5 */
-
-	//0. check printf alive
-	printf("Hello World!\n");
-
-	//1. TCP server initialize
-	TcpServerInit(st);
-
-	//2. FATfs Initialize
-	FatFsInit();
-	//FatFsTest("test.txt");
-
-	//3. openAMP_h7 initialize
-	//OpenAMPInit_M7(st);
-	testAmp_m7.Initialize();
-	testAmp_m7.startTask();
-	testAmp_m7.SetData(st);
-
-
-
-	/* definition and creation of Task1 */
-//	osThreadDef(Task1, StartTask1, osPriorityLow, 0, configMINIMAL_STACK_SIZE *2);
-//	Task1Handle = osThreadCreate(osThread(Task1), NULL);
-
-	/* definition and creation of Task2 */
-//	osThreadDef(Task2, StartTask2, osPriorityHigh, 0, configMINIMAL_STACK_SIZE *6);
-//	Task2Handle = osThreadCreate(osThread(Task2), NULL);
-
-	/*Delete Itself*/
-    vTaskDelete(NULL);
-
-  /* USER CODE END 5 */
 }
 
 

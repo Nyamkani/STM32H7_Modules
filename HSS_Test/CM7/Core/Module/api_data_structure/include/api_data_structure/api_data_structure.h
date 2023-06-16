@@ -14,6 +14,10 @@
 #include <fatfs_h7/include/fatfs_h7/fatfs_h7.h>
 
 
+#include <main.h>
+#include <map>
+
+
 #include "lwip/opt.h"
 #include "lwip/api.h"
 #include "lwip/sys.h"
@@ -26,145 +30,17 @@
 #include <map>
 
 
-typedef struct
-{
-	uint16_t robot_name_ = 1;
-	uint16_t fw_version_ = 100;
 
-}robot_info;
-
-typedef struct
-{
-	uint16_t configIP_ADDR0 = 192;
-	uint16_t configIP_ADDR1 = 168;
-	uint16_t configIP_ADDR2 = 17;
-	uint16_t configIP_ADDR3 = 11;
-
-	uint16_t configNET_MASK0 = 255;
-	uint16_t configNET_MASK1 = 255;
-	uint16_t configNET_MASK2 = 255;
-	uint16_t configNET_MASK3 = 0;
-
-	uint16_t configGW_ADDR0 = 192;
-	uint16_t configGW_ADDR1 = 168;
-	uint16_t configGW_ADDR2 = 17;
-	uint16_t configGW_ADDR3 = 1;
-
-}ipaddress_info;
-
-typedef struct
-{
-	unsigned long timestamp1_ = 0;
-	unsigned long timestamp2_ = 0;
-
-}timestamp_info;
-
-
-
-typedef struct
-{
-	uint16_t mode_ = 0;
-	uint16_t status_ = 0;
-	uint16_t position_ = 0;
-	uint16_t destination_ = 0;
-
-	uint16_t speed_ = 0;
-	uint16_t fork_stroke_ = 0;
-	uint16_t fork_width_ = 0;
-	uint16_t fork_on_load_ = 0;
-
-	uint16_t alarm_code_ = 0;
-	uint16_t error_code_ = 0;
-
-}status_page_1;
-
-typedef struct
-{
-	uint32_t sensor_input_ = 0;
-
-}status_page_2;
-
-typedef struct
-{
-	uint16_t task_type_ = 0;
-	uint16_t task_group_ = 0;/// added
-	uint16_t job_id_ = 0;
-	uint16_t task_id_ = 0;
-	uint16_t task_status_ = 0;
-	uint16_t pending_task_no_ = 0;
-	uint16_t inquire_option_ = 0; ///added
-	uint16_t callback_msg_ = 0;
-
-}status_page_3;
-
-typedef struct
-{
-	uint32_t move_limit_min_ = 0;
-	uint32_t move_limit_max_ = 0;
-	uint32_t elevator_entry_pos_ = 0;
-	uint32_t elevator_board_pos_ = 0;
-	uint32_t elevator_exit_pos_ = 0;
-	int16_t fwd_stop_calibration_ = 0;
-	int16_t bwd_stop_calibration_ = 0;
-	int16_t position_correction_constant_ = 0;
-
-}vehicle_config_page_1;
-
-typedef struct
-{
-	uint16_t move_speed1_ = 0;
-	uint16_t move_acc1_ = 0;
-	uint16_t move_speed2_ = 0;
-	uint16_t move_acc2_ = 0;
-
-}vehicle_config_page_2;
-
-
-typedef struct
-{
-	uint16_t stroke_speed1_ = 0;
-	uint16_t stroke_acc1_ = 0;
-	uint16_t stroke_speed2_ = 0;
-	uint16_t stroke_acc2_ = 0;
-	uint16_t width_speed1_ = 0;
-	uint16_t width_acc1_ = 0;
-	uint16_t width_speed2_ = 0;
-	uint16_t width_acc2_ = 0;
-
-}attach_config;
-
-typedef struct
-{
-	uint32_t systime1_ = 0;
-	uint32_t systime2_ = 0;
-
-}time_sync_config;
-
-typedef struct
-{
-	robot_info robot_info_;
-	ipaddress_info ipaddress_info_;
-	timestamp_info timestamp_info_;
-
-	status_page_1 status_page_1_;
-	status_page_2 status_page_2_;
-	status_page_3 status_page_3_;
-
-	vehicle_config_page_1 vehicle_config_page_1_;
-	vehicle_config_page_2 vehicle_config_page_2_;
-	attach_config attach_config_;
-
-}main_data;
-
-typedef struct
-{
-	struct netconn* conn_ = nullptr;
-	struct netconn* buf_conn_ = nullptr;
-	struct netconn* accept_conn_ = nullptr;
-	err_t err;
-	err_t accept_err;
-
-}netconn_data;
+//-------------------------------------------------------------------------------main data
+//typedef struct
+//{
+//	struct netconn* conn_ = nullptr;
+//	struct netconn* buf_conn_ = nullptr;
+//	struct netconn* accept_conn_ = nullptr;
+//	err_t err;
+//	err_t accept_err;
+//
+//}netconn_data;
 
 typedef struct
 {
@@ -190,8 +66,6 @@ typedef struct
 	//main data structure
 	std::map <int, int> main_data_;
 
-	//netconn(socket) data
-	netconn_data netconn_data_;
 
 	//FATFS data
 	fatfs_data fatfs_data_;
@@ -205,28 +79,48 @@ typedef struct
 
 
 
-
-//tcp messages
+//------------------------------------------------------------------------------open amp data structure
 typedef struct
 {
-	int id_;
-	char data_[10] = {0,};
-	int leng_;
-	int cmd_;
+	volatile uint32_t cmd_ = 0;
+	volatile uint32_t reg1_ = 0;
+	volatile uint32_t reg2_ = 0;
+	volatile uint32_t reg3_ = 0;
+	volatile uint32_t reg4_ = 0;
+	volatile uint32_t reg5_ = 0;
+	volatile uint32_t reg6_ = 0;
+	volatile uint32_t reg7_ = 0;
+	volatile uint32_t reg8_ = 0;
+	volatile uint32_t reg9_ = 0;
+	volatile uint32_t reg10_ = 0;
 
-}_Message;
+}openamp_data;
+
+typedef struct
+{
+	int priority;
+	openamp_data data_;
+
+}priority_data;
 
 
 
+
+
+
+
+
+/*data init*/
 int InitializeDataStructure(data_structure* Dst);
 
+/*access the main data*/
 int WriteDataToMainData(int key, int value);
-
 const int ReadDataFromMainData(void const* argument, int key);
 
+/*to make own command from tcp recv*/
 int GetDataFromEthernet(void const* argument, const char * const msg, int const msg_leng);
-int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_string);
 
+int GetStringFromMainData(void const* argument, cmd_queue_data data, char* json_string);
 char* GetHeaderFromQueue(cmd_queue_data data, char* json_string);
 
 
@@ -234,13 +128,12 @@ int GetCommandFromEthernet(const char * const msg, int msg_leng);
 int ethernet_data_parser(const char * const msg, int msg_leng);
 const char* ethernet_create_message(void);
 
-int supports_full_hd(const char * const msg, int msg_leng);
-const char* create_monitor();
-
-
-
-
 void AddItemToObjectFromMainData(void const* argument, cJSON* object, const char* item_name, int main_data_index);
+
+
+
+
+
 
 
 

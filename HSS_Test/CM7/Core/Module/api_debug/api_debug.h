@@ -16,7 +16,7 @@
 //use this below functions
 void Debug_Uart_Init();
 void Dprintf(const char *fmt, ...); // custom printf() function
-void DebugDrive(_Message* msg);
+//void DebugDrive(_Message* msg);
 
 #ifdef __cplusplus
 extern "C" {

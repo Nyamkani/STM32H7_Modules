@@ -1,0 +1,18 @@
+/*
+ * ShuttleMain.cpp
+ *
+ *  Created on: Jun 16, 2023
+ *      Author: studio3s
+ */
+
+#include <shuttle_main/ShuttleMain.h>
+
+ShuttleMain::ShuttleMain() {
+	// TODO Auto-generated constructor stub
+
+}
+
+ShuttleMain::~ShuttleMain() {
+	// TODO Auto-generated destructor stub
+}
+

@@ -444,8 +444,6 @@ static struct pbuf * low_level_input(struct netif *netif)
  *
  * @param netif the lwip network interface structure for this ethernetif
  */
-extern struct netif gnetif;
-
 static void ethernetif_input(void const * argument)
 {
 
@@ -477,15 +475,15 @@ static void ethernetif_input(void const * argument)
     else
     {
 
-	  if (netif_is_link_up(&gnetif))
+	  if (netif_is_link_up(netif))
 	  {
 	    /* When the netif is fully configured this function must be called */
-	    netif_set_up(&gnetif);
+	    netif_set_up(netif);
 	  }
 	  else
 	  {
 	    /* When the netif link is down this function must be called */
-	    netif_set_down(&gnetif);
+	    netif_set_down(netif);
 	  }
 
   	  PHYLinkState = LAN8742_GetLinkState(&LAN8742);

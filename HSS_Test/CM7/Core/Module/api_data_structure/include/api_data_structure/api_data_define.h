@@ -47,7 +47,9 @@ enum RobotDataId
 	CONFIGGW_ADDR0 = 19,
 	CONFIGGW_ADDR1 = 20,
 	CONFIGGW_ADDR2 = 21,
-	CONFIGGW_ADDR3 = 21,
+	CONFIGGW_ADDR3 = 22,
+
+	CONFIGIP_PORT = 30,
 
 	//status_page_1
 	MODE = 10001,      			//set mode param
@@ -65,6 +67,8 @@ enum RobotDataId
 
 	//status_page_2
 	SENSOR_INPUT = 10011,
+	odometer1 = 10012,
+	odometer2 = 10013,
 
 	//status_page_3
 	TASK_TYPE = 10025,
@@ -116,6 +120,9 @@ enum RobotDataId
 	systime2_ = 60001,
 
 };
+
+
+//------------------------------------------------------------tcp enum
 
 enum RequestCmdOffset
 {
@@ -357,9 +364,6 @@ enum RobotStrokeDirOffset
 };
 
 
-
-
-
 //-------------------------------------------------------json error enumerate
 
 enum JsonErrOffset
@@ -369,6 +373,16 @@ enum JsonErrOffset
 	JSON_WRONG_DATA_ERROR = -3,
 
 };
+
+
+
+//------------------------------------------------------------openamp enum
+
+
+
+
+
+
 
 
 

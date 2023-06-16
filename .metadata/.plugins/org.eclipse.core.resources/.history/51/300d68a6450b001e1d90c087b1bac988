@@ -1,0 +1,46 @@
+/*
+ * openAMP_RTOS_M7_define.h
+ *
+ *  Created on: Jun 15, 2023
+ *      Author: studio3s
+ */
+
+#ifndef MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_DEFINE_H_
+#define MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_DEFINE_H_
+
+
+
+/* Private macro -------------------------------------------------------------*/
+#define RPMSG_CHAN_NAME               "openamp"
+
+
+
+
+typedef struct
+{
+	volatile uint32_t cmd_;
+	volatile int reg1_;
+	volatile int reg2_;
+	volatile int reg3_;
+	volatile int reg4_;
+	volatile int reg5_;
+	volatile int reg6_;
+	volatile int reg7_;
+	volatile int reg8_;
+	volatile int reg9_;
+//	volatile int data10_;
+//	volatile int data11_;
+//	volatile int data12_;
+//	volatile int data13_;
+//	volatile int data14_;
+//	volatile int data15_;
+//	volatile int data16_;
+//	volatile int data17_;
+}openamp_type;
+
+/* Exported constants --------------------------------------------------------*/
+#define appliSTACK_SIZE configMINIMAL_STACK_SIZE *2
+
+
+
+#endif /* MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_DEFINE_H_ */

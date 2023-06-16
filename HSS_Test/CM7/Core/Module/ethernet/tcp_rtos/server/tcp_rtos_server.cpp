@@ -11,53 +11,27 @@
 #include <main.h>
 
 
-/*Rtos thread handle*/
-osThreadId TcpAcceptConnHandle;
-osThreadId TcpServerRecvHandle;
-osThreadId TcpServerSendHandle;
-
-/*netif*/
-extern struct netif gnetif;
-
-//port config
-#define ServerPort (int) 10
-
-//defines
-#define LWIP_MAX_LENGTH 1460
-#define MAX_BUFFER_LENGTH 4000
-
-#define STX 0x02
-#define STX_START_PONINTER 0
-#define LENGTH_DATA_START_POINTER 1
-#define LENGTH_DATA_END_POINTER 4
-#define DATA_START_POINTER 5
-
-static void TCPServerRecvTask(void const *argument);
-static void TCPServerSendTask(void const* argument);
 
 /*------------------------------------accept connection -----------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
 
 
 
-static void TCPAcceptConnTask(void const *argument)
+void TcpRtos::TCPAcceptConnTask(void const* argument)
 {
-	data_structure* Dst_ = (data_structure*)argument;
+	TcpRtos* this_ = (TcpRtos *)argument;
 
 	std::vector<netconn* > buf_conn_list_;
 
-	bool test_flag1_ = false;
-	bool test_flag2_ = false;
-
 	while (1)
 	{
-
 		struct netconn* buf_conn_ = nullptr;
 
-		netconn_listen(Dst_->netconn_data_.conn_);
+		/* Listening connection. */
+		netconn_listen(this_->conn_);
 
 		/* Grab new connection. */
-		while (netconn_accept(Dst_->netconn_data_.conn_, &(buf_conn_)) != ERR_OK );
+		while (netconn_accept(this_->conn_, &(buf_conn_)) != ERR_OK );
 
 		/*When the zombie socket available, delete them*/
 		if(!(buf_conn_list_.empty()))
@@ -68,42 +42,46 @@ static void TCPAcceptConnTask(void const *argument)
 				netconn_delete(range);
 			}
 			buf_conn_list_.clear();
-
 		}
 
 		/*When the conn is not nullptr, delete ptr*/
-		if(Dst_->netconn_data_.accept_conn_)
-			Dst_->netconn_data_.accept_conn_= nullptr;
+		if(this_->accept_conn_)
+			this_->accept_conn_= nullptr;
 
 		/*matching new ptr*/
-		Dst_->netconn_data_.accept_conn_ = buf_conn_;
+		this_->accept_conn_ = buf_conn_;
 
 		/*enqueue the ptr*/
 		buf_conn_list_.push_back(buf_conn_);
 
 
 		/*make thread only once*/
-		if(!test_flag1_)
+		if((this_->is_init_) && !(this_->is_run_))
 		{
-			/* definition and creation of TCPServerTask */
-			osThreadDef(TCPServerRecvTask_, TCPServerRecvTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
-			TcpServerRecvHandle = osThreadCreate(osThread(TCPServerRecvTask_), (void*)Dst_);
+			/* definition and creation of TCPServerRecvTask */
+			osThreadDef(TCPServerRecvTask_
+						, (os_pthread)&TcpRtos::TCPServerRecvTask
+						, osPriorityNormal
+						, 0
+						, configMINIMAL_STACK_SIZE *8);
 
-			test_flag1_ = true;
+			this_->TcpServerRecvHandle = osThreadCreate(osThread(TCPServerRecvTask_), this_);
+
+			/* definition and creation of TCPServerSendTask */
+			osThreadDef(TCPServerSendTask_
+						, (os_pthread)&TcpRtos::TCPServerSendTask
+						, osPriorityNormal
+						, 0
+						, configMINIMAL_STACK_SIZE *8);
+
+			this_->TcpServerSendHandle = osThreadCreate(osThread(TCPServerSendTask_), this_);
+
+			this_->is_run_ = true;
 		}
-
-		if(!test_flag2_)
-		{
-			/* definition and creation of TCPServerTask */
-			osThreadDef(TCPServerSendTask_, TCPServerSendTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE *8);
-					TcpServerSendHandle = osThreadCreate(osThread(TCPServerSendTask_), (void*)Dst_);
-
-			test_flag2_ = true;
-		}
-
 	}
+	osThreadTerminate(this_->TcpAcceptConnHandle);
 
-	vTaskDelete(NULL);
+	return;
 }
 
 
@@ -113,9 +91,9 @@ static void TCPAcceptConnTask(void const *argument)
 
 
 /**** Send RESPONSE every time the client sends some data ******/
-static void TCPServerRecvTask(void const *argument)
+void TcpRtos::TCPServerRecvTask(void const* argument)
 {
-	data_structure* Dst_ = (data_structure*)argument;
+	TcpRtos* this_ = (TcpRtos *)argument;
 
 	struct netbuf *buf;
 
@@ -125,23 +103,22 @@ static void TCPServerRecvTask(void const *argument)
 	{
 		/*wait for recv*/
 		/*notice : When socket is alive, Didnt get recv in 5 seconds, break socket*/
-
-		if(netconn_recv(Dst_->netconn_data_.accept_conn_, &buf) != ERR_OK)
+		if(netconn_recv(this_->accept_conn_, &buf) != ERR_OK)
 			continue;
 
 		do
 		{
-			char temp_data[LWIP_MAX_LENGTH] = {0,};
+			char temp_data[RecvDataLength::LWIP_MAX_LENGTH] = {0,};
 
 			memcpy((char*)(temp_data), (char*)((buf->p->payload)), buf->p->len);
 
-			if(recv_buffer.length() >= MAX_BUFFER_LENGTH)
+			if(recv_buffer.length() >= RecvDataLength::MAX_BUFFER_LENGTH)
 				recv_buffer.clear();
 
 			recv_buffer.append(temp_data);
 
 			//if(recv_buffer.front() != 0x32)
-			if(recv_buffer.front() != 0x02)
+			if(recv_buffer.front() != STX)
 			{
 				recv_buffer.clear();
 
@@ -150,22 +127,25 @@ static void TCPServerRecvTask(void const *argument)
 				continue;
 			}
 
-			int buf_leng = std::stoi(recv_buffer.substr(LENGTH_DATA_START_POINTER, LENGTH_DATA_END_POINTER));
+			uint16_t buf_leng
+				= std::stoi(recv_buffer.substr(RecvDataPointer::DATA_LENGTH_START_POINTER
+													, RecvDataPointer::DATA_LENGTH_END_POINTER));
 
 			if(recv_buffer.length() < buf_leng)
 				continue;
 
-			if(GetDataFromEthernet(Dst_
-					, recv_buffer.substr(DATA_START_POINTER, buf_leng + DATA_START_POINTER).c_str()
+			if(GetDataFromEthernet(this_->Dst_
+					, recv_buffer.substr(RecvDataPointer::DATA_START_POINTER
+										, buf_leng + RecvDataPointer::DATA_START_POINTER).c_str()
 					, buf_leng) < 0)
 				continue; //error
 
-			recv_buffer.erase(0, buf_leng + DATA_START_POINTER);
+			recv_buffer.erase(0, buf_leng + RecvDataPointer::DATA_START_POINTER);
 
 			recv_buffer.shrink_to_fit();
 
 			//if(recv_buffer.front() != 0x32)
-			if(recv_buffer.front() != 0x02)
+			if(recv_buffer.front() != STX)
 				recv_buffer.clear();
 
 		}
@@ -173,29 +153,30 @@ static void TCPServerRecvTask(void const *argument)
 
 		netbuf_delete(buf);
 	}
-	vTaskDelete(NULL);
+	osThreadTerminate(this_->TcpServerRecvHandle);
+
+	return;
 }
 
 
-static void TCPServerSendTask(void const* argument)
+void TcpRtos::TCPServerSendTask(void const* argument)
 {
-	data_structure* Dst_ = (data_structure*)argument;
+	TcpRtos* this_ = (TcpRtos *)argument;
 
 	//1. check the msg
 	while(1)
 	{
 		//0. Get all messages from eth (be notified type)
-		if(!(Dst_->tcp_send_queue_.empty()))
+		if(!(this_->Dst_->tcp_send_queue_.empty()))
 		{
 			std::string send_buffer;
 
-			cmd_queue_data cmd_queue_data_ = Dst_->tcp_send_queue_.front();
+			cmd_queue_data cmd_queue_data_ = this_->Dst_->tcp_send_queue_.front();
 
-			char json_data_[LWIP_MAX_LENGTH] = {0,};
+			char json_data_[RecvDataLength::LWIP_MAX_LENGTH] = {0,};
 
 
-
-			if(GetStringFromMainData(Dst_, cmd_queue_data_, json_data_) < 0)
+			if(GetStringFromMainData(this_->Dst_, cmd_queue_data_, json_data_) < 0)
 			{
 				//error occur
 			}
@@ -220,46 +201,19 @@ static void TCPServerSendTask(void const* argument)
 
 			send_buffer.append(json_data_);
 
-			netconn_write(Dst_->netconn_data_.accept_conn_
+			netconn_write(this_->accept_conn_
 					, send_buffer.c_str()
 					, send_buffer.length()
 					, NETCONN_COPY);
 
-			Dst_->tcp_send_queue_.erase(Dst_->tcp_send_queue_.begin());
+			this_->Dst_->tcp_send_queue_.erase(this_->Dst_->tcp_send_queue_.begin());
 		}
-
 		osDelay(10);
 	}
+	osThreadTerminate(this_->TcpServerSendHandle);
 
 	return;
 }
-
-void TcpServerInit(void const* argument)
-{
-	data_structure* Dst_ = (data_structure*)argument;
-
-	//must add the ip params
-	//MX_LWIP_Init();
-
-	/* Create a new connection identifier. */
-	Dst_->netconn_data_.conn_  = netconn_new(NETCONN_TCP);
-
-	/*failed init error check */
-	if (!(Dst_->netconn_data_.conn_))
-		Dst_->netconn_data_.err = -20; //error occur
-
-	/* Bind connection to the server port. */
-	Dst_->netconn_data_.err  = netconn_bind(Dst_->netconn_data_.conn_, IP_ADDR_ANY, ServerPort);
-
-	/*bind failed error check*/
-	if (Dst_->netconn_data_.err != ERR_OK)
-		printf("error\r\n");
-
-	/* definition and creation of TCPServerTask */
-	osThreadDef(TCPAcceptConnTask_, TCPAcceptConnTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-	TcpAcceptConnHandle = osThreadCreate(osThread(TCPAcceptConnTask_), (void*)Dst_);
-}
-
 
 //-----------------------------------------------------------------------class
 
@@ -281,58 +235,90 @@ TcpRtos::~TcpRtos()
 
 TcpRtos& TcpRtos::SetData(data_structure* Dst)
 {
+	this->Dst_ = Dst;
 
+	return *this;
 }
 
 
 void TcpRtos::LWIPInitialize()
 {
+	if(!(this->Dst_))
+	{
+		this->ip_address[0] = 192;
+		this->ip_address[1] = 168;
+		this->ip_address[2] = 1;
+		this->ip_address[3] = 30;
 
-	struct netif gnetif;
-	ip4_addr_t ipaddr;
-	ip4_addr_t netmask;
-	ip4_addr_t gw;
-	uint8_t IP_ADDRESS[4];
-	uint8_t NETMASK_ADDRESS[4];
-	uint8_t GATEWAY_ADDRESS[4];
+		this->netmask_address[0] = 255;
+		this->netmask_address[1] = 255;
+		this->netmask_address[2] = 255;
+		this->netmask_address[3] = 0;
 
-	/* IP addresses initialization */
-	IP_ADDRESS[0] = 192;
-	IP_ADDRESS[1] = 168;
-	IP_ADDRESS[2] = 1;
-	IP_ADDRESS[3] = 30;
-	NETMASK_ADDRESS[0] = 255;
-	NETMASK_ADDRESS[1] = 255;
-	NETMASK_ADDRESS[2] = 255;
-	NETMASK_ADDRESS[3] = 0;
-	GATEWAY_ADDRESS[0] = 0;
-	GATEWAY_ADDRESS[1] = 0;
-	GATEWAY_ADDRESS[2] = 0;
-	GATEWAY_ADDRESS[3] = 0;
+		this->gateway_address[0] = 0;
+		this->gateway_address[1] = 0;
+		this->gateway_address[2] = 0;
+		this->gateway_address[3] = 0;
+	}
+	else
+	{
+		this->ip_address[0] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGIP_ADDR0);
+		this->ip_address[1] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGIP_ADDR1);
+		this->ip_address[2] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGIP_ADDR2);
+		this->ip_address[3] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGIP_ADDR3);
+
+		this->netmask_address[0] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGNET_MASK0);
+		this->netmask_address[1] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGNET_MASK1);
+		this->netmask_address[2] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGNET_MASK2);
+		this->netmask_address[3] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGNET_MASK3);
+
+		this->gateway_address[0] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGGW_ADDR0);
+		this->gateway_address[1] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGGW_ADDR1);
+		this->gateway_address[2] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGGW_ADDR2);
+		this->gateway_address[3] = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGGW_ADDR3);
+
+		this->ip_port_ = ReadDataFromMainData(this->Dst_, RobotDataId::CONFIGIP_PORT);
+
+	}
 
 	/* Initilialize the LwIP stack with RTOS */
 	tcpip_init( NULL, NULL );
 
 	/* IP addresses initialization without DHCP (IPv4) */
-	IP4_ADDR(&ipaddr, IP_ADDRESS[0], IP_ADDRESS[1], IP_ADDRESS[2], IP_ADDRESS[3]);
-	IP4_ADDR(&netmask, NETMASK_ADDRESS[0], NETMASK_ADDRESS[1] , NETMASK_ADDRESS[2], NETMASK_ADDRESS[3]);
-	IP4_ADDR(&gw, GATEWAY_ADDRESS[0], GATEWAY_ADDRESS[1], GATEWAY_ADDRESS[2], GATEWAY_ADDRESS[3]);
+	IP4_ADDR(&(this->ipaddr)
+				, this->ip_address[0]
+				, this->ip_address[1]
+				, this->ip_address[2]
+				, this->ip_address[3]);
+
+	IP4_ADDR(&(this->netmask)
+				, this->netmask_address[0]
+				, this->netmask_address[1]
+				, this->netmask_address[2]
+				, this->netmask_address[3]);
+
+	IP4_ADDR(&(this->gateway)
+				, this->gateway_address[0]
+				, this->gateway_address[1]
+				, this->gateway_address[2]
+				, this->gateway_address[3]);
 
 	/* add the network interface (IPv4/IPv6) with RTOS */
-	netif_add(&gnetif, &ipaddr, &netmask, &gw, NULL, &ethernetif_init, &tcpip_input);
+	netif_add(&(this->gnetif)
+				, &(this->ipaddr)
+				, &(this->netmask)
+				, &(this->gateway)
+				, NULL
+				, &ethernetif_init
+				, &tcpip_input);
 
 	/* Registers the default network interface */
-	netif_set_default(&gnetif);
+	netif_set_default(&(this->gnetif));
 
-	netif_set_down(&gnetif);
+	netif_set_down(&(this->gnetif));
 
-	/* Set the link callback function, this function is called on change of link status*/
-	//netif_set_link_callback(&gnetif, ethernet_link_status_updated);
-
+	return;
 }
-
-
-
 
 
 void TcpRtos::Initialize()
@@ -340,26 +326,36 @@ void TcpRtos::Initialize()
 	//must add the ip params
 	LWIPInitialize();
 
-	MX_LWIP_Init();
-
 	/* Create a new connection identifier. */
-	this->Dst_->netconn_data_.conn_  = netconn_new(NETCONN_TCP);
+	this->conn_ = netconn_new(NETCONN_TCP);
 
 	/*failed init error check */
-	if (!(this->Dst_->netconn_data_.conn_))
-		this->Dst_->netconn_data_.err = -20; //error occur
+	if (!(this->conn_))
+		return; //error
 
 	/* Bind connection to the server port. */
-	this->Dst_->netconn_data_.err  = netconn_bind(Dst_->netconn_data_.conn_, IP_ADDR_ANY, ServerPort);
+	this->err = netconn_bind(this->conn_ , IP_ADDR_ANY, this->ip_port_);
 
 	/*bind failed error check*/
-	if (this->Dst_->netconn_data_.err != ERR_OK)
+	if (this->err != ERR_OK)
 		printf("error\r\n");
 
-	/* definition and creation of TCPServerTask */
-	osThreadDef(TCPAcceptConnTask_, TCPAcceptConnTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-	TcpAcceptConnHandle = osThreadCreate(osThread(TCPAcceptConnTask_), (void*)Dst_);
+	/* definition and creation of TCPAcceptConnTask*/
+	osThreadDef(TCPAcceptConnTask_
+				, (os_pthread)&TcpRtos::TCPAcceptConnTask
+				, osPriorityNormal
+				, 0
+				, configMINIMAL_STACK_SIZE);
 
+	this->TcpAcceptConnHandle = osThreadCreate(osThread(TCPAcceptConnTask_), this);
+
+	if(!(this->TcpAcceptConnHandle))
+		return; //error
+
+	/*init done*/
+	this->is_init_ = true;
+
+	return;
 }
 
 
