@@ -30,6 +30,19 @@ ShuttleMain::ShuttleMain(data_structure* data_structure_global
 	this->OpenAMP_M7_ = OpenAMP_M7_global;
 }
 
+ShuttleMain::ShuttleMain(data_structure* data_structure_global
+							, TcpRtos* TcpRtos_global
+							, OpenAMP_M7* OpenAMP_M7_global
+							, osMutexId* threadMutex_global)
+{
+	this->Dst_ = data_structure_global;
+
+	this->TcpRtos_ = TcpRtos_global;
+	this->OpenAMP_M7_ = OpenAMP_M7_global;
+	this->threadMutex = threadMutex_global;
+
+}
+
 
 
 ShuttleMain::~ShuttleMain()
@@ -49,13 +62,21 @@ void ShuttleMain::Initialize()
 	if(!(this->OpenAMP_M7_))
 		this->OpenAMP_M7_ = new OpenAMP_M7(this->Dst_);
 
+	// if(!(this->fatfs_))
+	// 	this->fatfs_ = new FATFS(this->Dst_);
+
+	if(!(this->threadMutex))
+		this->threadMutex = new osMutexId;
+
+
+
 	InitializeDataStructure(this->Dst_);
 
 	this->TcpRtos_->Initialize();
 
 	this->OpenAMP_M7_->Initialize();
 
-
+	//this->fatfs_->Initialize();
 }
 
 

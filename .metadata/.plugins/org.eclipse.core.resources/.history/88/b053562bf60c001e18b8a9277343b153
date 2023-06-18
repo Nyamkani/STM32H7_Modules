@@ -1,0 +1,163 @@
+/*
+ * api_cjson.cpp
+ *
+ *  Created on: Apr 28, 2023
+ *      Author: studio3s
+ */
+
+
+
+
+#include <api_data/include/api_data_structure/api_data.h>
+#include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------main data
+int InitializeDataStructure(data_structure* Dst)
+{
+	data_structure* Dst_ = Dst;
+
+	int status = -1;
+
+	//0. insert the data to main data structure
+
+	//robot_info
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ROBOT_NAME_, 11));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FW_VERSION, 102));
+
+	//ipaddress_info
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGIP_ADDR0, 192));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGIP_ADDR1, 168));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGIP_ADDR2, 1));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGIP_ADDR3, 30));
+
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGNET_MASK0, 255));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGNET_MASK1, 255));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGNET_MASK2, 255));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGNET_MASK3, 0));
+
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGGW_ADDR0, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGGW_ADDR1, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGGW_ADDR2, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGGW_ADDR3, 0));
+
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CONFIGIP_PORT, 10));
+
+	//status_page_1;
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::MODE, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::STATUS, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::POSITION, 123456));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::DESTINATION, 1));
+
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::SPEED, 100));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FORK_STROKE, 20));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FORK_WIDTH, 34));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FORK_ON_LOAD, 1));
+
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ALARM_CODE, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ERROR_CODE, 0));
+
+	//status_page_2
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::SENSOR_INPUT, 0));
+
+	//status_page_3
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::TASK_TYPE, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::TASK_GROUP, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::JOB_ID, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::TASK_ID, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::TASK_STATUS, 0));
+
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::PENDING_TASK_NO, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::INQUIRE_OPTION, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::CALLBACK_MSG, 0));
+
+	//vehicle_config_page_1
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::MOVE_LIMIT_MIN, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::MOVE_LIMIT_MAX, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ELEVATOR_ENTRY_POS, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ELEVATOR_BOARD_POS, 0));
+
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::ELEVATOR_EXIT_POS, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::FWD_STOP_CALIBRATION, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::BWD_STOP_CALIBRATION, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::POS_CRRECTION_CONSTANT, 0));
+
+	//vehicle_config_page_2
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::MOVE_SPEED1, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::MOVE_ACC1, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::MOVE_SPEED2, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::MOVE_ACC2, 0));
+
+	//attach_config
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::STROKE_SPEED1, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::STROKE_ACC1, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::STROKE_SPEED2, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::STROKE_ACC2, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::WIDTH_SPEED1, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::WIDTH_ACC1, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::WIDTH_SPEED2, 0));
+	Dst_->main_data_.insert(std::pair<int, int>(RobotDataId::WIDTH_ACC2, 0));
+
+
+	//1. success the allocate
+	status = 1;
+
+	return status;
+}
+
+
+
+//-------------------------------------------------------------write data to main data
+int WriteDataToMainData(void const* argument, int key, int value)
+{
+	data_structure* Dst_ = (data_structure*)argument;
+
+	int status = -1;
+
+	const int key_ = key, value_ = value;
+
+	//if key is available
+	if (Dst_->main_data_.find(key_) != Dst_->main_data_.end() )
+	{
+		Dst_->main_data_.at(key_) = value_;
+
+		status = 1;
+	}
+
+	return status;
+}
+
+
+
+//-------------------------------------------------------------read(get) data from main data
+
+
+
+
+const int ReadDataFromMainData(void const* argument, int key)
+{
+	const int key_ = key;
+
+	data_structure* Dst_ = (data_structure*)argument;
+
+	//if key is available
+	if (Dst_->main_data_.find(key_) != Dst_->main_data_.end() )
+		return Dst_->main_data_.at(key_);
+
+	return -1;
+
+}
+
+
+
+
+
+
+
+

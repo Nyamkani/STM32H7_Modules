@@ -4,11 +4,9 @@
  *  Created on: May 23, 2022
  *      Author: kss
  */
-#include <api_data_structure/include/api_data_structure/api_data_structure.h>
+
 #include <ethernet/tcp_rtos/server/tcp_rtos_server.h>
-#include <cstring>
-#include <vector>
-#include <main.h>
+
 
 
 

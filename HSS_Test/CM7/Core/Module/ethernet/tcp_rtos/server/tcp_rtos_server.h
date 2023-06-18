@@ -8,7 +8,15 @@
 #ifndef MODULE_ETHERNET_TCP_RTOS_TCP_RTOS_H_
 #define MODULE_ETHERNET_TCP_RTOS_TCP_RTOS_H_
 
+
+#include <api_data/include/api_data/api_data.h>
+#include <cstring>
+#include <vector>
 #include <string>
+
+
+#include <main.h>
+
 
 
 #ifdef __cplusplus
@@ -50,16 +58,6 @@ enum RecvDataPointer
 };
 
 
-
-
-
-
-
-
-
-void TcpServerSend(const char *data);
-void TcpServerDelete();
-void TcpServerRecvBuffer(const char *data);
 
 //-----------------------------------------------------------------------class
 

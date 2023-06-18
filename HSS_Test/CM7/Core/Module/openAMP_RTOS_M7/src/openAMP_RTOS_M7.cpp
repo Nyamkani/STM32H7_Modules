@@ -6,8 +6,8 @@
  */
 
 
+#include <api_data/include/api_data/api_data.h>
 #include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7.h>
-#include <api_data_structure/include/api_data_structure/api_data_structure.h>
 
 /* Private variables ---------------------------------------------------------*/
 static openamp_data message_recv = {0,};

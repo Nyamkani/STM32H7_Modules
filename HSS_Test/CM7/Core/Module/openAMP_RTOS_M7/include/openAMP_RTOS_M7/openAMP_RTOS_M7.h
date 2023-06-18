@@ -9,13 +9,12 @@
 #ifndef MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_H_
 #define MODULE_OPENAMP_RTOS_M7_INCLUDE_OPENAMP_RTOS_M7_OPENAMP_RTOS_M7_H_
 
+#include <api_data/include/api_data_structure/api_data.h>
 #include <iostream>
 #include <string>
 #include <functional>
 #include <algorithm>
 
-
-#include <api_data_structure/include/api_data_structure/api_data_structure.h>
 
 #include <openAMP_RTOS_M7/include/openAMP_RTOS_M7/openAMP_RTOS_M7_define.h>
 

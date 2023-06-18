@@ -723,3 +723,19 @@
 2023-06-13 09:30:24,185 [INFO] CADModel:113 - Register for checkConnection events
 2023-06-13 09:30:24,192 [INFO] RtosManager:615 - Active RTOS found at IOC load: FREERTOS_M7 [CortexM7]
 2023-06-13 09:30:24,317 [INFO] OpenFileManager:327 - Restore cursor
+2023-06-17 17:20:43,674 [INFO] Activator:176 - 
+
+
+2023-06-17 17:20:43,676 [INFO] Activator:177 - !SESSION log4j initialized
+2023-06-17 17:20:53,120 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2023-06-17 17:21:10,242 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+2023-06-17 17:21:10,243 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Defaulting to no-operation (NOP) logger implementation
+2023-06-17 17:21:10,243 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+2023-06-17 19:00:17,105 [INFO] Activator:176 - 
+
+
+2023-06-17 19:00:17,122 [INFO] Activator:177 - !SESSION log4j initialized
+2023-06-17 19:00:27,611 [INFO] LogOutputStream:77 - [STDOUT_REDIRECT] 
+2023-06-17 19:00:43,453 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+2023-06-17 19:00:43,454 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: Defaulting to no-operation (NOP) logger implementation
+2023-06-17 19:00:43,455 [ERROR] LogOutputStream:75 - [STDERR_REDIRECT] SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.

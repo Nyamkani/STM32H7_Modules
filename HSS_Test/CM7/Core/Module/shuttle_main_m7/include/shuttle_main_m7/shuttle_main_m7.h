@@ -19,7 +19,9 @@ class ShuttleMain
 
 		TcpRtos* TcpRtos_ = nullptr;
 		OpenAMP_M7* OpenAMP_M7_ = nullptr;
-		//FATF* fatfs = nullptr;
+		//FATFS* fatfs_ = nullptr;
+
+		osMutexId* threadMutex = nullptr;
 
 	public:
 
@@ -32,6 +34,11 @@ class ShuttleMain
 		ShuttleMain(data_structure* data_structure_global
 									, TcpRtos* TcpRtos_global
 									, OpenAMP_M7* OpenAMP_M7_global);
+
+		ShuttleMain(data_structure* data_structure_global
+									, TcpRtos* TcpRtos_global
+									, OpenAMP_M7* OpenAMP_M7_global
+									, osMutexId* threadMutex_global);
 
 		virtual ~ShuttleMain();
 
